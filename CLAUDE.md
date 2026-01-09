@@ -67,6 +67,61 @@ The `agent.yaml` is the core configuration defining an agent:
 - **vectorstore**: ChromaDB-backed semantic search over documents
 - **mcp**: Model Context Protocol servers for external capabilities
 
+### Vectorstore Configuration
+
+**For JSON data files**, use structured vector ingestion with these additional fields:
+
+```yaml
+tools:
+  - type: vectorstore
+    name: search_knowledge
+    description: Search the knowledge base
+    source: data/knowledge.json
+    embedding_model: nomic-embed-text:latest
+    database: chromadb
+    top_k: 5
+    chunk_size: 512
+    chunk_overlap: 64
+    min_similarity_score: 0.7
+    id_field: id              # Field for unique identifier
+    vector_field: content     # Field to vectorize for search
+    meta_fields:              # Additional fields returned in results
+      - category
+      - topic
+```
+
+**IMPORTANT: JSON data must be FLAT (no deeply nested objects)**. Each record should be a self-contained, independently searchable item.
+
+**Good (flat array):**
+```json
+[
+  {
+    "id": "item-001",
+    "category": "billing",
+    "topic": "Refund Policy",
+    "content": "Comprehensive searchable text with all relevant information..."
+  }
+]
+```
+
+**Bad (nested structure - NOT supported):**
+```json
+{
+  "categories": {
+    "billing": {
+      "items": [...]
+    }
+  }
+}
+```
+
+**Data Structure Guidelines:**
+1. **Flat structure**: No nested objects (simple string arrays are OK)
+2. **One concept per record**: Each object covers one topic/concept
+3. **Comprehensive content field**: The `vector_field` should contain all searchable text
+4. **Unique IDs**: Each record needs a unique identifier
+5. **Metadata for context**: Include category, topic, or other fields for filtering/display
+
 ### Evaluation Metrics
 - **GEval**: LLM-as-judge with custom criteria
 - **RAG**: faithfulness, answer_relevancy, contextual_relevancy
