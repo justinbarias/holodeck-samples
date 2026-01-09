@@ -41,6 +41,7 @@ holodeck --version
 - **Docker** - For running ChromaDB and Aspire Dashboard
 - **Node.js 18+** - For CopilotKit frontend
 - **LLM Provider** - API keys for OpenAI/Azure, or Ollama for local
+- **VS Code** (recommended) - Install the [YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) for schema validation and autocomplete in agent.yaml files
 
 ## Quick Start
 
