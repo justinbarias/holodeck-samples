@@ -1,163 +1,62 @@
-{
-  "contracts": [
-    {
-      "id": "nda-001",
-      "type": "Non-Disclosure Agreement",
-      "title": "Mutual Non-Disclosure Agreement",
-      "parties": {
-        "party_a": {
-          "name": "TechCorp Industries, Inc.",
-          "role": "Disclosing Party"
-        },
-        "party_b": {
-          "name": "Innovation Labs LLC",
-          "role": "Receiving Party"
-        }
-      },
-      "effective_date": "2024-01-15",
-      "key_terms": {
-        "purpose": "Evaluation of potential business partnership for AI development",
-        "confidentiality_period": "5 years from disclosure",
-        "governing_law": "Delaware",
-        "dispute_resolution": "Arbitration in Wilmington, DE"
-      },
-      "full_text": "MUTUAL NON-DISCLOSURE AGREEMENT\n\nThis Mutual Non-Disclosure Agreement ('Agreement') is entered into as of January 15, 2024 ('Effective Date') by and between TechCorp Industries, Inc., a Delaware corporation ('TechCorp'), and Innovation Labs LLC, a California limited liability company ('Innovation Labs').\n\n1. PURPOSE\nThe parties wish to explore a potential business partnership related to artificial intelligence development ('Purpose'). In connection with the Purpose, each party may disclose Confidential Information to the other.\n\n2. DEFINITION OF CONFIDENTIAL INFORMATION\n'Confidential Information' means any and all non-public information disclosed by one party to the other, whether orally, in writing, or by inspection, including but not limited to: technical data, trade secrets, know-how, research, product plans, products, services, customers, markets, software, developments, inventions, processes, formulas, technology, designs, drawings, engineering, hardware configuration, marketing, finances, and other business information.\n\n3. EXCLUSIONS\nConfidential Information does not include information that: (a) is or becomes publicly available without breach of this Agreement; (b) was known to the receiving party prior to disclosure; (c) is independently developed without use of Confidential Information; (d) is rightfully obtained from a third party without restriction.\n\n4. OBLIGATIONS\nEach party agrees to: (a) hold Confidential Information in strict confidence; (b) not disclose Confidential Information to third parties without prior written consent; (c) use Confidential Information solely for the Purpose; (d) limit access to employees with a need to know who are bound by confidentiality obligations.\n\n5. TERM\nThis Agreement shall remain in effect for three (3) years from the Effective Date. Confidentiality obligations shall survive for five (5) years from disclosure of any Confidential Information.\n\n6. RETURN OF MATERIALS\nUpon termination or request, each party shall return or destroy all Confidential Information and certify such destruction in writing.\n\n7. NO LICENSE\nNothing in this Agreement grants any license to any patent, copyright, trademark, or other intellectual property right.\n\n8. GOVERNING LAW\nThis Agreement shall be governed by the laws of the State of Delaware.\n\n9. DISPUTE RESOLUTION\nAny dispute shall be resolved by binding arbitration in Wilmington, Delaware under AAA Commercial Arbitration Rules.\n\n10. ENTIRE AGREEMENT\nThis Agreement constitutes the entire agreement between the parties regarding its subject matter.\n\nIN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.\n\nTECHCORP INDUSTRIES, INC.\nBy: ___________________\nName: John Smith\nTitle: Chief Legal Officer\n\nINNOVATION LABS LLC\nBy: ___________________\nName: Sarah Johnson\nTitle: Managing Director"
-    },
-    {
-      "id": "service-001",
-      "type": "Service Agreement",
-      "title": "Professional Services Agreement",
-      "parties": {
-        "party_a": {
-          "name": "GlobalTech Solutions Corp.",
-          "role": "Client"
-        },
-        "party_b": {
-          "name": "ConsultPro Advisors Inc.",
-          "role": "Service Provider"
-        }
-      },
-      "effective_date": "2024-02-01",
-      "key_terms": {
-        "services": "Strategic technology consulting and implementation",
-        "fees": "$250,000 fixed fee plus expenses",
-        "term": "12 months with optional renewal",
-        "termination_notice": "60 days written notice",
-        "liability_cap": "Total fees paid under agreement",
-        "governing_law": "New York"
-      },
-      "full_text": "PROFESSIONAL SERVICES AGREEMENT\n\nThis Professional Services Agreement ('Agreement') is made effective February 1, 2024 ('Effective Date') by and between GlobalTech Solutions Corp., a New York corporation ('Client'), and ConsultPro Advisors Inc., a Massachusetts corporation ('Provider').\n\n1. SERVICES\nProvider shall perform the strategic technology consulting and implementation services described in Exhibit A ('Services'). Provider shall perform Services professionally and in accordance with industry standards.\n\n2. FEES AND PAYMENT\n2.1 Client shall pay Provider a fixed fee of Two Hundred Fifty Thousand Dollars ($250,000), payable in four equal quarterly installments.\n2.2 Client shall reimburse Provider for pre-approved expenses within 30 days of invoice.\n2.3 Late payments accrue interest at 1.5% per month.\n\n3. TERM AND TERMINATION\n3.1 Initial Term: 12 months from Effective Date.\n3.2 Renewal: Automatic renewal for successive 12-month periods unless terminated.\n3.3 Termination for Convenience: Either party may terminate upon 60 days written notice.\n3.4 Termination for Cause: Either party may terminate upon 30 days notice if material breach remains uncured.\n3.5 Effect of Termination: Client shall pay for Services performed through termination date.\n\n4. INTELLECTUAL PROPERTY\n4.1 Pre-existing IP: Each party retains ownership of its pre-existing intellectual property.\n4.2 Work Product: All work product created specifically for Client shall be owned by Client upon payment.\n4.3 Provider Tools: Provider retains ownership of its tools, methodologies, and general know-how.\n\n5. CONFIDENTIALITY\nEach party shall maintain confidentiality of the other's proprietary information and shall not disclose such information without consent.\n\n6. REPRESENTATIONS AND WARRANTIES\n6.1 Provider warrants Services will be performed in a professional manner.\n6.2 Provider warrants it has the right to provide Services.\n6.3 EXCEPT AS EXPRESSLY SET FORTH HEREIN, PROVIDER MAKES NO OTHER WARRANTIES.\n\n7. LIMITATION OF LIABILITY\n7.1 NEITHER PARTY SHALL BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.\n7.2 PROVIDER'S TOTAL LIABILITY SHALL NOT EXCEED THE FEES PAID UNDER THIS AGREEMENT.\n7.3 These limitations shall not apply to breaches of confidentiality or intellectual property infringement.\n\n8. INDEMNIFICATION\nProvider shall indemnify Client against third-party claims arising from Provider's negligence or willful misconduct in performing Services.\n\n9. INSURANCE\nProvider shall maintain professional liability insurance of at least $2,000,000 per occurrence.\n\n10. GOVERNING LAW\nThis Agreement shall be governed by New York law. Disputes shall be resolved in New York state or federal courts.\n\n11. ENTIRE AGREEMENT\nThis Agreement, including Exhibits, constitutes the entire agreement between the parties.\n\nGLOBALTECH SOLUTIONS CORP.\nBy: ___________________\nName: Michael Chen\nTitle: VP of Operations\n\nCONSULTPRO ADVISORS INC.\nBy: ___________________\nName: Amanda Williams\nTitle: Partner"
-    },
-    {
-      "id": "employment-001",
-      "type": "Employment Agreement",
-      "title": "Executive Employment Agreement",
-      "parties": {
-        "party_a": {
-          "name": "StartupXYZ Inc.",
-          "role": "Employer"
-        },
-        "party_b": {
-          "name": "Jennifer Martinez",
-          "role": "Employee"
-        }
-      },
-      "effective_date": "2024-03-01",
-      "key_terms": {
-        "position": "Chief Technology Officer",
-        "base_salary": "$350,000 annually",
-        "bonus": "Up to 40% of base salary",
-        "equity": "150,000 stock options, 4-year vesting",
-        "non_compete": "12 months, technology sector, United States",
-        "severance": "6 months base salary",
-        "governing_law": "California"
-      },
-      "full_text": "EXECUTIVE EMPLOYMENT AGREEMENT\n\nThis Executive Employment Agreement ('Agreement') is entered into effective March 1, 2024 ('Start Date') by and between StartupXYZ Inc., a Delaware corporation ('Company'), and Jennifer Martinez ('Executive').\n\n1. POSITION AND DUTIES\n1.1 Position: Chief Technology Officer, reporting to the CEO.\n1.2 Duties: Executive shall oversee all technology strategy, development, and operations.\n1.3 Best Efforts: Executive shall devote full business time and best efforts to Company.\n1.4 Board Approval: Executive shall not engage in outside business activities without Board approval.\n\n2. COMPENSATION\n2.1 Base Salary: $350,000 per year, paid semi-monthly.\n2.2 Annual Bonus: Up to 40% of base salary based on Company and individual performance.\n2.3 Equity: 150,000 stock options at fair market value, vesting over 4 years (25% after year 1, monthly thereafter), subject to Stock Option Plan terms.\n2.4 Benefits: Participation in all Company benefit plans including health, dental, vision, and 401(k).\n\n3. TERM AND TERMINATION\n3.1 At-Will: Employment is at-will and may be terminated by either party.\n3.2 Termination by Company Without Cause: Company may terminate upon 30 days notice. Executive receives 6 months base salary severance, COBRA continuation for 6 months, and accelerated vesting of options scheduled to vest within 12 months.\n3.3 Termination by Company For Cause: No severance. 'Cause' includes material breach, fraud, conviction of felony, or willful misconduct.\n3.4 Voluntary Resignation: Executive may resign upon 30 days notice. No severance.\n3.5 Change of Control: If terminated within 12 months of Change of Control, Executive receives 12 months salary and full option acceleration.\n\n4. CONFIDENTIALITY\n4.1 Executive shall maintain strict confidentiality of all Company confidential information.\n4.2 Obligations survive termination indefinitely for trade secrets, 3 years for other confidential information.\n\n5. INTELLECTUAL PROPERTY\n5.1 Assignment: Executive assigns all inventions and work product created during employment to Company.\n5.2 Prior Inventions: Listed in Exhibit A are excluded from assignment.\n5.3 Cooperation: Executive shall assist Company in securing intellectual property rights.\n\n6. NON-COMPETE AND NON-SOLICITATION\n6.1 Non-Compete: For 12 months following termination, Executive shall not engage in competing business in the technology sector within the United States.\n6.2 Non-Solicitation: For 18 months following termination, Executive shall not solicit Company employees or customers.\n6.3 Consideration: Executive acknowledges equity grants provide adequate consideration for these restrictions.\n\n7. REPRESENTATIONS\nExecutive represents that: (a) employment does not violate any other agreement; (b) Executive will not use any third-party confidential information; (c) information provided to Company is accurate.\n\n8. GOVERNING LAW\nThis Agreement shall be governed by California law. Executive agrees that California courts have exclusive jurisdiction.\n\n9. ENTIRE AGREEMENT\nThis Agreement supersedes all prior agreements regarding Executive's employment.\n\nSTARTUPXYZ INC.\nBy: ___________________\nName: Robert Kim\nTitle: Chief Executive Officer\n\nEXECUTIVE\n___________________\nJennifer Martinez"
-    },
-    {
-      "id": "lease-001",
-      "type": "Commercial Lease",
-      "title": "Commercial Office Lease Agreement",
-      "parties": {
-        "party_a": {
-          "name": "Metropolitan Properties LLC",
-          "role": "Landlord"
-        },
-        "party_b": {
-          "name": "FinanceHub Corp.",
-          "role": "Tenant"
-        }
-      },
-      "effective_date": "2024-04-01",
-      "key_terms": {
-        "premises": "Suite 500, 123 Business Tower, New York, NY",
-        "square_footage": "10,000 sq ft",
-        "base_rent": "$75,000 per month ($90/sq ft annually)",
-        "lease_term": "5 years with two 3-year renewal options",
-        "security_deposit": "$225,000 (3 months rent)",
-        "annual_escalation": "3% per year",
-        "governing_law": "New York"
-      },
-      "full_text": "COMMERCIAL OFFICE LEASE AGREEMENT\n\nThis Commercial Lease Agreement ('Lease') is made effective April 1, 2024 ('Commencement Date') between Metropolitan Properties LLC, a New York limited liability company ('Landlord'), and FinanceHub Corp., a Delaware corporation ('Tenant').\n\n1. PREMISES\n1.1 Landlord leases to Tenant Suite 500 at 123 Business Tower, New York, NY 10001, consisting of approximately 10,000 rentable square feet ('Premises'), as depicted in Exhibit A.\n1.2 Tenant shall have access to common areas including lobby, elevators, and shared conference facilities.\n\n2. TERM\n2.1 Initial Term: Five (5) years from Commencement Date through March 31, 2029.\n2.2 Renewal Options: Two (2) successive options to renew for three (3) years each, upon 180 days written notice, at then-market rent.\n\n3. RENT\n3.1 Base Rent: $75,000 per month ($900,000 annually), due on the first of each month.\n3.2 Escalation: Base rent increases 3% annually on each anniversary.\n3.3 Additional Rent: Tenant's proportionate share (8.5%) of operating expenses exceeding base year 2024.\n3.4 Late Fee: 5% of overdue amount if payment is more than 10 days late.\n\n4. SECURITY DEPOSIT\n4.1 Deposit: $225,000, held by Landlord without interest.\n4.2 Application: May be applied to cure defaults. Tenant must replenish within 10 days.\n4.3 Return: Within 30 days of lease expiration, less amounts owed.\n\n5. USE\n5.1 Permitted Use: General office purposes for financial services business.\n5.2 Prohibited Uses: No hazardous materials, no uses violating building rules or applicable law.\n\n6. MAINTENANCE AND REPAIRS\n6.1 Landlord: Structural components, roof, building systems, common areas.\n6.2 Tenant: Interior maintenance, HVAC filters, and repairs caused by Tenant.\n6.3 Alterations: Tenant may make non-structural alterations with Landlord consent (not unreasonably withheld).\n\n7. INSURANCE\n7.1 Tenant Insurance: Commercial general liability ($2M per occurrence), property insurance for Tenant's property, workers' compensation.\n7.2 Landlord Insurance: Building property and liability insurance.\n7.3 Waiver of Subrogation: Both parties waive subrogation rights against the other.\n\n8. INDEMNIFICATION\nTenant indemnifies Landlord against claims arising from Tenant's use of Premises, except for Landlord's negligence or willful misconduct.\n\n9. DEFAULT AND REMEDIES\n9.1 Tenant Default: Includes failure to pay rent (10-day cure), breach of other terms (30-day cure), bankruptcy.\n9.2 Landlord Remedies: Terminate lease, recover possession, sue for damages including future rent.\n9.3 Landlord Default: If Landlord fails to perform obligations and does not cure within 30 days of notice, Tenant may cure and offset costs against rent.\n\n10. ASSIGNMENT AND SUBLETTING\n10.1 Consent Required: Tenant may not assign or sublet without Landlord consent, not unreasonably withheld.\n10.2 Recapture: Landlord may recapture Premises upon assignment request.\n10.3 Affiliate Transfer: Assignment to affiliate permitted without consent upon notice.\n\n11. SURRENDER\nUpon expiration, Tenant shall surrender Premises in good condition, remove Tenant's property, and repair any damage from removal.\n\n12. GOVERNING LAW\nThis Lease shall be governed by New York law. Disputes shall be resolved in New York courts.\n\n13. ENTIRE AGREEMENT\nThis Lease constitutes the entire agreement between the parties.\n\nMETROPOLITAN PROPERTIES LLC\nBy: ___________________\nName: David Thompson\nTitle: Managing Member\n\nFINANCEHUB CORP.\nBy: ___________________\nName: Lisa Wang\nTitle: Chief Financial Officer"
-    },
-    {
-      "id": "license-001",
-      "type": "Software License Agreement",
-      "title": "Enterprise Software License Agreement",
-      "parties": {
-        "party_a": {
-          "name": "CloudSoft Solutions Inc.",
-          "role": "Licensor"
-        },
-        "party_b": {
-          "name": "MegaCorp Enterprises",
-          "role": "Licensee"
-        }
-      },
-      "effective_date": "2024-05-01",
-      "key_terms": {
-        "software": "CloudSoft Enterprise Platform v5.0",
-        "license_type": "Enterprise site license, unlimited users",
-        "annual_fee": "$500,000",
-        "support": "24/7 premium support included",
-        "term": "3 years with automatic renewal",
-        "uptime_sla": "99.9% availability",
-        "liability_cap": "12 months of fees paid",
-        "governing_law": "California"
-      },
-      "full_text": "ENTERPRISE SOFTWARE LICENSE AGREEMENT\n\nThis Enterprise Software License Agreement ('Agreement') is entered into effective May 1, 2024 ('Effective Date') by and between CloudSoft Solutions Inc., a Delaware corporation ('Licensor'), and MegaCorp Enterprises, a New York corporation ('Licensee').\n\n1. LICENSE GRANT\n1.1 License: Licensor grants Licensee a non-exclusive, non-transferable license to use CloudSoft Enterprise Platform v5.0 ('Software') for Licensee's internal business purposes.\n1.2 Scope: Enterprise site license permitting unlimited users across all Licensee locations.\n1.3 Restrictions: Licensee shall not: (a) sublicense or transfer the Software; (b) modify, reverse engineer, or create derivative works; (c) use Software for service bureau or timesharing; (d) remove proprietary notices.\n\n2. FEES AND PAYMENT\n2.1 License Fee: $500,000 annually, due within 30 days of invoice.\n2.2 Support Fee: Included in license fee for first year; thereafter, 20% of license fee annually.\n2.3 Price Increase: Annual increases capped at 5%.\n2.4 Taxes: Licensee responsible for all taxes except Licensor's income taxes.\n\n3. SUPPORT AND MAINTENANCE\n3.1 Support Hours: 24/7 premium support via phone, email, and portal.\n3.2 Response Times: Critical issues: 1 hour; High: 4 hours; Medium: 8 hours; Low: 24 hours.\n3.3 Updates: All updates and patches included during active support period.\n3.4 Upgrades: Major version upgrades included at no additional cost.\n\n4. SERVICE LEVEL AGREEMENT\n4.1 Uptime Commitment: 99.9% availability measured monthly.\n4.2 Credits: For each 0.1% below 99.9%, Licensee receives 5% service credit, up to 30% maximum.\n4.3 Exclusions: Scheduled maintenance, force majeure, Licensee-caused issues.\n\n5. INTELLECTUAL PROPERTY\n5.1 Ownership: Licensor retains all rights in Software and documentation.\n5.2 Feedback: Licensee grants Licensor rights to use any feedback or suggestions.\n5.3 Customer Data: Licensee retains all rights in its data processed by Software.\n\n6. CONFIDENTIALITY\nEach party shall maintain confidentiality of the other's proprietary information for 5 years following disclosure.\n\n7. WARRANTIES\n7.1 Functionality: Licensor warrants Software will substantially perform as documented for 90 days.\n7.2 Non-Infringement: Licensor warrants Software does not infringe third-party intellectual property.\n7.3 Remedy: Licensor will repair, replace, or refund at its option.\n7.4 DISCLAIMER: EXCEPT AS EXPRESSLY STATED, LICENSOR DISCLAIMS ALL WARRANTIES INCLUDING MERCHANTABILITY AND FITNESS FOR PARTICULAR PURPOSE.\n\n8. LIMITATION OF LIABILITY\n8.1 EXCLUSION: NEITHER PARTY LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.\n8.2 CAP: TOTAL LIABILITY LIMITED TO FEES PAID IN 12 MONTHS PRECEDING CLAIM.\n8.3 EXCEPTIONS: Limitations do not apply to: (a) breach of license restrictions; (b) indemnification obligations; (c) gross negligence or willful misconduct.\n\n9. INDEMNIFICATION\n9.1 By Licensor: Licensor indemnifies Licensee against claims that Software infringes intellectual property rights.\n9.2 By Licensee: Licensee indemnifies Licensor against claims arising from Licensee's data or use of Software.\n\n10. TERM AND TERMINATION\n10.1 Term: 3 years from Effective Date, automatically renewing for 1-year periods.\n10.2 Termination for Convenience: Either party may terminate upon 90 days notice before renewal.\n10.3 Termination for Cause: Upon 30 days notice if material breach remains uncured.\n10.4 Effect: Upon termination, Licensee shall cease use and return or destroy all Software copies.\n\n11. GOVERNING LAW\nThis Agreement governed by California law. Exclusive jurisdiction in San Francisco courts.\n\n12. ENTIRE AGREEMENT\nThis Agreement constitutes the entire agreement between the parties.\n\nCLOUDSOFT SOLUTIONS INC.\nBy: ___________________\nName: James Wilson\nTitle: VP of Sales\n\nMEGACORP ENTERPRISES\nBy: ___________________\nName: Patricia Brown\nTitle: CIO"
-    }
-  ],
-  "document_types": [
-    {
-      "type": "nda",
-      "name": "Non-Disclosure Agreement",
-      "description": "Agreement protecting confidential information shared between parties",
-      "key_clauses": ["Definition of Confidential Information", "Obligations", "Term", "Return of Materials", "No License"]
-    },
-    {
-      "type": "service",
-      "name": "Service Agreement",
-      "description": "Agreement for provision of professional or consulting services",
-      "key_clauses": ["Scope of Services", "Fees and Payment", "Term and Termination", "Intellectual Property", "Limitation of Liability"]
-    },
-    {
-      "type": "employment",
-      "name": "Employment Agreement",
-      "description": "Contract between employer and employee defining terms of employment",
-      "key_clauses": ["Position and Duties", "Compensation", "Benefits", "Termination", "Non-Compete", "IP Assignment"]
-    },
-    {
-      "type": "lease",
-      "name": "Commercial Lease",
-      "description": "Agreement for rental of commercial real estate",
-      "key_clauses": ["Premises", "Rent", "Term", "Maintenance", "Insurance", "Default and Remedies"]
-    },
-    {
-      "type": "license",
-      "name": "Software License Agreement",
-      "description": "Agreement granting rights to use software",
-      "key_clauses": ["License Grant", "Restrictions", "Fees", "Support", "Warranties", "IP Rights"]
-    }
-  ]
-}
+[
+  {
+    "contract_id": "nda-001",
+    "type": "Non-Disclosure Agreement",
+    "title": "Mutual Non-Disclosure Agreement",
+    "party_a": "TechCorp Industries, Inc.",
+    "party_a_role": "Disclosing Party",
+    "party_b": "Innovation Labs LLC",
+    "party_b_role": "Receiving Party",
+    "effective_date": "2024-01-15",
+    "key_terms": "Purpose: Evaluation of potential business partnership for AI development; Confidentiality period: 5 years from disclosure; Governing law: Delaware; Dispute resolution: Arbitration in Wilmington, DE",
+    "full_text": "MUTUAL NON-DISCLOSURE AGREEMENT\n\nThis Mutual Non-Disclosure Agreement ('Agreement') is entered into as of January 15, 2024 ('Effective Date') by and between TechCorp Industries, Inc., a Delaware corporation ('TechCorp'), and Innovation Labs LLC, a California limited liability company ('Innovation Labs').\n\n1. PURPOSE\nThe parties wish to explore a potential business partnership related to artificial intelligence development ('Purpose'). In connection with the Purpose, each party may disclose Confidential Information to the other.\n\n2. DEFINITION OF CONFIDENTIAL INFORMATION\n'Confidential Information' means any and all non-public information disclosed by one party to the other, whether orally, in writing, or by inspection, including but not limited to: technical data, trade secrets, know-how, research, product plans, products, services, customers, markets, software, developments, inventions, processes, formulas, technology, designs, drawings, engineering, hardware configuration, marketing, finances, and other business information.\n\n3. EXCLUSIONS\nConfidential Information does not include information that: (a) is or becomes publicly available without breach of this Agreement; (b) was known to the receiving party prior to disclosure; (c) is independently developed without use of Confidential Information; (d) is rightfully obtained from a third party without restriction.\n\n4. OBLIGATIONS\nEach party agrees to: (a) hold Confidential Information in strict confidence; (b) not disclose Confidential Information to third parties without prior written consent; (c) use Confidential Information solely for the Purpose; (d) limit access to employees with a need to know who are bound by confidentiality obligations.\n\n5. TERM\nThis Agreement shall remain in effect for three (3) years from the Effective Date. Confidentiality obligations shall survive for five (5) years from disclosure of any Confidential Information.\n\n6. RETURN OF MATERIALS\nUpon termination or request, each party shall return or destroy all Confidential Information and certify such destruction in writing.\n\n7. NO LICENSE\nNothing in this Agreement grants any license to any patent, copyright, trademark, or other intellectual property right.\n\n8. GOVERNING LAW\nThis Agreement shall be governed by the laws of the State of Delaware.\n\n9. DISPUTE RESOLUTION\nAny dispute shall be resolved by binding arbitration in Wilmington, Delaware under AAA Commercial Arbitration Rules.\n\n10. ENTIRE AGREEMENT\nThis Agreement constitutes the entire agreement between the parties regarding its subject matter.\n\nIN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.\n\nTECHCORP INDUSTRIES, INC.\nBy: ___________________\nName: John Smith\nTitle: Chief Legal Officer\n\nINNOVATION LABS LLC\nBy: ___________________\nName: Sarah Johnson\nTitle: Managing Director"
+  },
+  {
+    "contract_id": "service-001",
+    "type": "Service Agreement",
+    "title": "Professional Services Agreement",
+    "party_a": "GlobalTech Solutions Corp.",
+    "party_a_role": "Client",
+    "party_b": "ConsultPro Advisors Inc.",
+    "party_b_role": "Service Provider",
+    "effective_date": "2024-02-01",
+    "key_terms": "Services: Strategic technology consulting and implementation; Fees: $250,000 fixed fee plus expenses; Term: 12 months with optional renewal; Termination notice: 60 days written notice; Liability cap: Total fees paid under agreement; Governing law: New York",
+    "full_text": "PROFESSIONAL SERVICES AGREEMENT\n\nThis Professional Services Agreement ('Agreement') is made effective February 1, 2024 ('Effective Date') by and between GlobalTech Solutions Corp., a New York corporation ('Client'), and ConsultPro Advisors Inc., a Massachusetts corporation ('Provider').\n\n1. SERVICES\nProvider shall perform the strategic technology consulting and implementation services described in Exhibit A ('Services'). Provider shall perform Services professionally and in accordance with industry standards.\n\n2. FEES AND PAYMENT\n2.1 Client shall pay Provider a fixed fee of Two Hundred Fifty Thousand Dollars ($250,000), payable in four equal quarterly installments.\n2.2 Client shall reimburse Provider for pre-approved expenses within 30 days of invoice.\n2.3 Late payments accrue interest at 1.5% per month.\n\n3. TERM AND TERMINATION\n3.1 Initial Term: 12 months from Effective Date.\n3.2 Renewal: Automatic renewal for successive 12-month periods unless terminated.\n3.3 Termination for Convenience: Either party may terminate upon 60 days written notice.\n3.4 Termination for Cause: Either party may terminate upon 30 days notice if material breach remains uncured.\n3.5 Effect of Termination: Client shall pay for Services performed through termination date.\n\n4. INTELLECTUAL PROPERTY\n4.1 Pre-existing IP: Each party retains ownership of its pre-existing intellectual property.\n4.2 Work Product: All work product created specifically for Client shall be owned by Client upon payment.\n4.3 Provider Tools: Provider retains ownership of its tools, methodologies, and general know-how.\n\n5. CONFIDENTIALITY\nEach party shall maintain confidentiality of the other's proprietary information and shall not disclose such information without consent.\n\n6. REPRESENTATIONS AND WARRANTIES\n6.1 Provider warrants Services will be performed in a professional manner.\n6.2 Provider warrants it has the right to provide Services.\n6.3 EXCEPT AS EXPRESSLY SET FORTH HEREIN, PROVIDER MAKES NO OTHER WARRANTIES.\n\n7. LIMITATION OF LIABILITY\n7.1 NEITHER PARTY SHALL BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.\n7.2 PROVIDER'S TOTAL LIABILITY SHALL NOT EXCEED THE FEES PAID UNDER THIS AGREEMENT.\n7.3 These limitations shall not apply to breaches of confidentiality or intellectual property infringement.\n\n8. INDEMNIFICATION\nProvider shall indemnify Client against third-party claims arising from Provider's negligence or willful misconduct in performing Services.\n\n9. INSURANCE\nProvider shall maintain professional liability insurance of at least $2,000,000 per occurrence.\n\n10. GOVERNING LAW\nThis Agreement shall be governed by New York law. Disputes shall be resolved in New York state or federal courts.\n\n11. ENTIRE AGREEMENT\nThis Agreement, including Exhibits, constitutes the entire agreement between the parties.\n\nGLOBALTECH SOLUTIONS CORP.\nBy: ___________________\nName: Michael Chen\nTitle: VP of Operations\n\nCONSULTPRO ADVISORS INC.\nBy: ___________________\nName: Amanda Williams\nTitle: Partner"
+  },
+  {
+    "contract_id": "employment-001",
+    "type": "Employment Agreement",
+    "title": "Executive Employment Agreement",
+    "party_a": "StartupXYZ Inc.",
+    "party_a_role": "Employer",
+    "party_b": "Jennifer Martinez",
+    "party_b_role": "Employee",
+    "effective_date": "2024-03-01",
+    "key_terms": "Position: Chief Technology Officer; Base salary: $350,000 annually; Bonus: Up to 40% of base salary; Equity: 150,000 stock options, 4-year vesting; Non-compete: 12 months, technology sector, United States; Severance: 6 months base salary; Governing law: California",
+    "full_text": "EXECUTIVE EMPLOYMENT AGREEMENT\n\nThis Executive Employment Agreement ('Agreement') is entered into effective March 1, 2024 ('Start Date') by and between StartupXYZ Inc., a Delaware corporation ('Company'), and Jennifer Martinez ('Executive').\n\n1. POSITION AND DUTIES\n1.1 Position: Chief Technology Officer, reporting to the CEO.\n1.2 Duties: Executive shall oversee all technology strategy, development, and operations.\n1.3 Best Efforts: Executive shall devote full business time and best efforts to Company.\n1.4 Board Approval: Executive shall not engage in outside business activities without Board approval.\n\n2. COMPENSATION\n2.1 Base Salary: $350,000 per year, paid semi-monthly.\n2.2 Annual Bonus: Up to 40% of base salary based on Company and individual performance.\n2.3 Equity: 150,000 stock options at fair market value, vesting over 4 years (25% after year 1, monthly thereafter), subject to Stock Option Plan terms.\n2.4 Benefits: Participation in all Company benefit plans including health, dental, vision, and 401(k).\n\n3. TERM AND TERMINATION\n3.1 At-Will: Employment is at-will and may be terminated by either party.\n3.2 Termination by Company Without Cause: Company may terminate upon 30 days notice. Executive receives 6 months base salary severance, COBRA continuation for 6 months, and accelerated vesting of options scheduled to vest within 12 months.\n3.3 Termination by Company For Cause: No severance. 'Cause' includes material breach, fraud, conviction of felony, or willful misconduct.\n3.4 Voluntary Resignation: Executive may resign upon 30 days notice. No severance.\n3.5 Change of Control: If terminated within 12 months of Change of Control, Executive receives 12 months salary and full option acceleration.\n\n4. CONFIDENTIALITY\n4.1 Executive shall maintain strict confidentiality of all Company confidential information.\n4.2 Obligations survive termination indefinitely for trade secrets, 3 years for other confidential information.\n\n5. INTELLECTUAL PROPERTY\n5.1 Assignment: Executive assigns all inventions and work product created during employment to Company.\n5.2 Prior Inventions: Listed in Exhibit A are excluded from assignment.\n5.3 Cooperation: Executive shall assist Company in securing intellectual property rights.\n\n6. NON-COMPETE AND NON-SOLICITATION\n6.1 Non-Compete: For 12 months following termination, Executive shall not engage in competing business in the technology sector within the United States.\n6.2 Non-Solicitation: For 18 months following termination, Executive shall not solicit Company employees or customers.\n6.3 Consideration: Executive acknowledges equity grants provide adequate consideration for these restrictions.\n\n7. REPRESENTATIONS\nExecutive represents that: (a) employment does not violate any other agreement; (b) Executive will not use any third-party confidential information; (c) information provided to Company is accurate.\n\n8. GOVERNING LAW\nThis Agreement shall be governed by California law. Executive agrees that California courts have exclusive jurisdiction.\n\n9. ENTIRE AGREEMENT\nThis Agreement supersedes all prior agreements regarding Executive's employment.\n\nSTARTUPXYZ INC.\nBy: ___________________\nName: Robert Kim\nTitle: Chief Executive Officer\n\nEXECUTIVE\n___________________\nJennifer Martinez"
+  },
+  {
+    "contract_id": "lease-001",
+    "type": "Commercial Lease",
+    "title": "Commercial Office Lease Agreement",
+    "party_a": "Metropolitan Properties LLC",
+    "party_a_role": "Landlord",
+    "party_b": "FinanceHub Corp.",
+    "party_b_role": "Tenant",
+    "effective_date": "2024-04-01",
+    "key_terms": "Premises: Suite 500, 123 Business Tower, New York, NY; Square footage: 10,000 sq ft; Base rent: $75,000 per month ($90/sq ft annually); Lease term: 5 years with two 3-year renewal options; Security deposit: $225,000 (3 months rent); Annual escalation: 3% per year; Governing law: New York",
+    "full_text": "COMMERCIAL OFFICE LEASE AGREEMENT\n\nThis Commercial Lease Agreement ('Lease') is made effective April 1, 2024 ('Commencement Date') between Metropolitan Properties LLC, a New York limited liability company ('Landlord'), and FinanceHub Corp., a Delaware corporation ('Tenant').\n\n1. PREMISES\n1.1 Landlord leases to Tenant Suite 500 at 123 Business Tower, New York, NY 10001, consisting of approximately 10,000 rentable square feet ('Premises'), as depicted in Exhibit A.\n1.2 Tenant shall have access to common areas including lobby, elevators, and shared conference facilities.\n\n2. TERM\n2.1 Initial Term: Five (5) years from Commencement Date through March 31, 2029.\n2.2 Renewal Options: Two (2) successive options to renew for three (3) years each, upon 180 days written notice, at then-market rent.\n\n3. RENT\n3.1 Base Rent: $75,000 per month ($900,000 annually), due on the first of each month.\n3.2 Escalation: Base rent increases 3% annually on each anniversary.\n3.3 Additional Rent: Tenant's proportionate share (8.5%) of operating expenses exceeding base year 2024.\n3.4 Late Fee: 5% of overdue amount if payment is more than 10 days late.\n\n4. SECURITY DEPOSIT\n4.1 Deposit: $225,000, held by Landlord without interest.\n4.2 Application: May be applied to cure defaults. Tenant must replenish within 10 days.\n4.3 Return: Within 30 days of lease expiration, less amounts owed.\n\n5. USE\n5.1 Permitted Use: General office purposes for financial services business.\n5.2 Prohibited Uses: No hazardous materials, no uses violating building rules or applicable law.\n\n6. MAINTENANCE AND REPAIRS\n6.1 Landlord: Structural components, roof, building systems, common areas.\n6.2 Tenant: Interior maintenance, HVAC filters, and repairs caused by Tenant.\n6.3 Alterations: Tenant may make non-structural alterations with Landlord consent (not unreasonably withheld).\n\n7. INSURANCE\n7.1 Tenant Insurance: Commercial general liability ($2M per occurrence), property insurance for Tenant's property, workers' compensation.\n7.2 Landlord Insurance: Building property and liability insurance.\n7.3 Waiver of Subrogation: Both parties waive subrogation rights against the other.\n\n8. INDEMNIFICATION\nTenant indemnifies Landlord against claims arising from Tenant's use of Premises, except for Landlord's negligence or willful misconduct.\n\n9. DEFAULT AND REMEDIES\n9.1 Tenant Default: Includes failure to pay rent (10-day cure), breach of other terms (30-day cure), bankruptcy.\n9.2 Landlord Remedies: Terminate lease, recover possession, sue for damages including future rent.\n9.3 Landlord Default: If Landlord fails to perform obligations and does not cure within 30 days of notice, Tenant may cure and offset costs against rent.\n\n10. ASSIGNMENT AND SUBLETTING\n10.1 Consent Required: Tenant may not assign or sublet without Landlord consent, not unreasonably withheld.\n10.2 Recapture: Landlord may recapture Premises upon assignment request.\n10.3 Affiliate Transfer: Assignment to affiliate permitted without consent upon notice.\n\n11. SURRENDER\nUpon expiration, Tenant shall surrender Premises in good condition, remove Tenant's property, and repair any damage from removal.\n\n12. GOVERNING LAW\nThis Lease shall be governed by New York law. Disputes shall be resolved in New York courts.\n\n13. ENTIRE AGREEMENT\nThis Lease constitutes the entire agreement between the parties.\n\nMETROPOLITAN PROPERTIES LLC\nBy: ___________________\nName: David Thompson\nTitle: Managing Member\n\nFINANCEHUB CORP.\nBy: ___________________\nName: Lisa Wang\nTitle: Chief Financial Officer"
+  },
+  {
+    "contract_id": "license-001",
+    "type": "Software License Agreement",
+    "title": "Enterprise Software License Agreement",
+    "party_a": "CloudSoft Solutions Inc.",
+    "party_a_role": "Licensor",
+    "party_b": "MegaCorp Enterprises",
+    "party_b_role": "Licensee",
+    "effective_date": "2024-05-01",
+    "key_terms": "Software: CloudSoft Enterprise Platform v5.0; License type: Enterprise site license, unlimited users; Annual fee: $500,000; Support: 24/7 premium support included; Term: 3 years with automatic renewal; Uptime SLA: 99.9% availability; Liability cap: 12 months of fees paid; Governing law: California",
+    "full_text": "ENTERPRISE SOFTWARE LICENSE AGREEMENT\n\nThis Enterprise Software License Agreement ('Agreement') is entered into effective May 1, 2024 ('Effective Date') by and between CloudSoft Solutions Inc., a Delaware corporation ('Licensor'), and MegaCorp Enterprises, a New York corporation ('Licensee').\n\n1. LICENSE GRANT\n1.1 License: Licensor grants Licensee a non-exclusive, non-transferable license to use CloudSoft Enterprise Platform v5.0 ('Software') for Licensee's internal business purposes.\n1.2 Scope: Enterprise site license permitting unlimited users across all Licensee locations.\n1.3 Restrictions: Licensee shall not: (a) sublicense or transfer the Software; (b) modify, reverse engineer, or create derivative works; (c) use Software for service bureau or timesharing; (d) remove proprietary notices.\n\n2. FEES AND PAYMENT\n2.1 License Fee: $500,000 annually, due within 30 days of invoice.\n2.2 Support Fee: Included in license fee for first year; thereafter, 20% of license fee annually.\n2.3 Price Increase: Annual increases capped at 5%.\n2.4 Taxes: Licensee responsible for all taxes except Licensor's income taxes.\n\n3. SUPPORT AND MAINTENANCE\n3.1 Support Hours: 24/7 premium support via phone, email, and portal.\n3.2 Response Times: Critical issues: 1 hour; High: 4 hours; Medium: 8 hours; Low: 24 hours.\n3.3 Updates: All updates and patches included during active support period.\n3.4 Upgrades: Major version upgrades included at no additional cost.\n\n4. SERVICE LEVEL AGREEMENT\n4.1 Uptime Commitment: 99.9% availability measured monthly.\n4.2 Credits: For each 0.1% below 99.9%, Licensee receives 5% service credit, up to 30% maximum.\n4.3 Exclusions: Scheduled maintenance, force majeure, Licensee-caused issues.\n\n5. INTELLECTUAL PROPERTY\n5.1 Ownership: Licensor retains all rights in Software and documentation.\n5.2 Feedback: Licensee grants Licensor rights to use any feedback or suggestions.\n5.3 Customer Data: Licensee retains all rights in its data processed by Software.\n\n6. CONFIDENTIALITY\nEach party shall maintain confidentiality of the other's proprietary information for 5 years following disclosure.\n\n7. WARRANTIES\n7.1 Functionality: Licensor warrants Software will substantially perform as documented for 90 days.\n7.2 Non-Infringement: Licensor warrants Software does not infringe third-party intellectual property.\n7.3 Remedy: Licensor will repair, replace, or refund at its option.\n7.4 DISCLAIMER: EXCEPT AS EXPRESSLY STATED, LICENSOR DISCLAIMS ALL WARRANTIES INCLUDING MERCHANTABILITY AND FITNESS FOR PARTICULAR PURPOSE.\n\n8. LIMITATION OF LIABILITY\n8.1 EXCLUSION: NEITHER PARTY LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.\n8.2 CAP: TOTAL LIABILITY LIMITED TO FEES PAID IN 12 MONTHS PRECEDING CLAIM.\n8.3 EXCEPTIONS: Limitations do not apply to: (a) breach of license restrictions; (b) indemnification obligations; (c) gross negligence or willful misconduct.\n\n9. INDEMNIFICATION\n9.1 By Licensor: Licensor indemnifies Licensee against claims that Software infringes intellectual property rights.\n9.2 By Licensee: Licensee indemnifies Licensor against claims arising from Licensee's data or use of Software.\n\n10. TERM AND TERMINATION\n10.1 Term: 3 years from Effective Date, automatically renewing for 1-year periods.\n10.2 Termination for Convenience: Either party may terminate upon 90 days notice before renewal.\n10.3 Termination for Cause: Upon 30 days notice if material breach remains uncured.\n10.4 Effect: Upon termination, Licensee shall cease use and return or destroy all Software copies.\n\n11. GOVERNING LAW\nThis Agreement governed by California law. Exclusive jurisdiction in San Francisco courts.\n\n12. ENTIRE AGREEMENT\nThis Agreement constitutes the entire agreement between the parties.\n\nCLOUDSOFT SOLUTIONS INC.\nBy: ___________________\nName: James Wilson\nTitle: VP of Sales\n\nMEGACORP ENTERPRISES\nBy: ___________________\nName: Patricia Brown\nTitle: CIO"
+  }
+]

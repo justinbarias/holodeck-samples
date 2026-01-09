@@ -112,6 +112,19 @@ tools:
     top_k: 3
     min_similarity_score: 0.75
     source: data/sample_contracts.json
+    id_field: contract_id
+    vector_field:
+      - key_terms
+      - full_text
+    meta_fields:
+      - type
+      - title
+      - party_a
+      - party_a_role
+      - party_b
+      - party_b_role
+      - effective_date
+      - key_terms
 
   # Document Access - MCP filesystem for document analysis
   - name: filesystem

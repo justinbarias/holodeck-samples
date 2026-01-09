@@ -76,6 +76,13 @@ tools:
     top_k: 3
     min_similarity_score: 0.75
     source: data/category_definitions.json
+    id_field: subcategory_id
+    vector_field: description
+    meta_fields:
+      - category_name
+      - subcategory_name
+      - examples
+      - description
 
 # Evaluation configuration
 evaluations:
