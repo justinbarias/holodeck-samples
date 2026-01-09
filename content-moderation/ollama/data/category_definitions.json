@@ -1,291 +1,213 @@
-{
-  "categories": [
-    {
-      "id": "hate_speech",
-      "name": "Hate Speech",
-      "description": "Content promoting hatred or discrimination against protected groups",
-      "severity": "high",
-      "auto_remove": true,
-      "keywords": ["slur", "racial", "discriminate", "supremacy"],
-      "subcategories": [
-        {
-          "id": "racial_discrimination",
-          "name": "Racial Discrimination",
-          "examples": [
-            "Racial slurs or derogatory terms",
-            "Claims of racial superiority",
-            "Calls for segregation or exclusion"
-          ]
-        },
-        {
-          "id": "religious_discrimination",
-          "name": "Religious Discrimination",
-          "examples": [
-            "Attacks on religious groups",
-            "Calls for violence against religious communities",
-            "Dehumanizing religious stereotypes"
-          ]
-        },
-        {
-          "id": "gender_discrimination",
-          "name": "Gender/LGBTQ+ Discrimination",
-          "examples": [
-            "Misgendering with malicious intent",
-            "Slurs targeting sexual orientation",
-            "Promoting conversion therapy"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "harassment",
-      "name": "Harassment and Bullying",
-      "description": "Content targeting individuals to intimidate, threaten, or humiliate",
-      "severity": "high",
-      "auto_remove": false,
-      "keywords": ["attack", "threat", "bully", "harass"],
-      "subcategories": [
-        {
-          "id": "direct_harassment",
-          "name": "Direct Harassment",
-          "examples": [
-            "Personal insults directed at an individual",
-            "Repeated negative mentions of someone",
-            "Creating content to mock a specific person"
-          ]
-        },
-        {
-          "id": "doxxing",
-          "name": "Doxxing",
-          "examples": [
-            "Sharing home addresses",
-            "Publishing phone numbers",
-            "Revealing workplace information"
-          ]
-        },
-        {
-          "id": "coordinated_harassment",
-          "name": "Coordinated Harassment",
-          "examples": [
-            "Organizing pile-ons against users",
-            "Creating harassment campaigns",
-            "Mass reporting to silence users"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "violence",
-      "name": "Violence and Threats",
-      "description": "Content promoting, glorifying, or threatening violence",
-      "severity": "critical",
-      "auto_remove": true,
-      "keywords": ["kill", "hurt", "attack", "weapon", "bomb"],
-      "subcategories": [
-        {
-          "id": "direct_threats",
-          "name": "Direct Threats",
-          "examples": [
-            "Threatening physical harm to an individual",
-            "Death threats",
-            "Threatening violence against groups"
-          ]
-        },
-        {
-          "id": "incitement",
-          "name": "Incitement to Violence",
-          "examples": [
-            "Calling for attacks on people",
-            "Promoting violent riots",
-            "Encouraging self-harm in others"
-          ]
-        },
-        {
-          "id": "glorification",
-          "name": "Violence Glorification",
-          "examples": [
-            "Celebrating violent attacks",
-            "Praising mass shooters",
-            "Promoting terrorism"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "misinformation",
-      "name": "Misinformation",
-      "description": "False information with potential to cause harm",
-      "severity": "medium",
-      "auto_remove": false,
-      "keywords": ["fake", "hoax", "conspiracy", "cure"],
-      "subcategories": [
-        {
-          "id": "health_misinfo",
-          "name": "Health Misinformation",
-          "examples": [
-            "False vaccine claims",
-            "Dangerous medical advice",
-            "Promoting unproven treatments as cures"
-          ]
-        },
-        {
-          "id": "election_misinfo",
-          "name": "Election Misinformation",
-          "examples": [
-            "False voting dates or locations",
-            "Claiming election fraud without evidence",
-            "Discouraging legitimate voting"
-          ]
-        },
-        {
-          "id": "crisis_misinfo",
-          "name": "Crisis Misinformation",
-          "examples": [
-            "False emergency alerts",
-            "Misinformation during disasters",
-            "Fake charity scams"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "adult_content",
-      "name": "Adult/Sexual Content",
-      "description": "Sexually explicit or inappropriate material",
-      "severity": "high",
-      "auto_remove": true,
-      "keywords": ["explicit", "nude", "sexual", "porn"],
-      "subcategories": [
-        {
-          "id": "explicit_material",
-          "name": "Explicit Material",
-          "examples": [
-            "Pornographic images or videos",
-            "Explicit sexual descriptions",
-            "Sexual content in non-adult spaces"
-          ]
-        },
-        {
-          "id": "non_consensual",
-          "name": "Non-Consensual Intimate Imagery",
-          "examples": [
-            "Revenge porn",
-            "Leaked intimate content",
-            "Deepfake pornography"
-          ]
-        },
-        {
-          "id": "csam",
-          "name": "Child Sexual Abuse Material",
-          "examples": [
-            "Any sexual content involving minors",
-            "Sexualized images of children",
-            "Grooming behavior"
-          ],
-          "severity_override": "critical",
-          "auto_report_authorities": true
-        }
-      ]
-    },
-    {
-      "id": "spam",
-      "name": "Spam and Manipulation",
-      "description": "Inauthentic or manipulative content behavior",
-      "severity": "low",
-      "auto_remove": false,
-      "keywords": ["giveaway", "click", "follow", "free money"],
-      "subcategories": [
-        {
-          "id": "mass_posting",
-          "name": "Mass Posting",
-          "examples": [
-            "Repetitive identical messages",
-            "Automated posting bots",
-            "Comment flooding"
-          ]
-        },
-        {
-          "id": "scams",
-          "name": "Scams",
-          "examples": [
-            "Fake giveaways",
-            "Phishing attempts",
-            "Cryptocurrency scams"
-          ]
-        },
-        {
-          "id": "impersonation",
-          "name": "Impersonation",
-          "examples": [
-            "Fake celebrity accounts",
-            "Brand impersonation",
-            "Pretending to be another user"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "illegal",
-      "name": "Illegal Activities",
-      "description": "Content promoting or facilitating illegal activities",
-      "severity": "critical",
-      "auto_remove": true,
-      "keywords": ["drugs", "weapons", "stolen", "fraud"],
-      "subcategories": [
-        {
-          "id": "drug_trafficking",
-          "name": "Drug Trafficking",
-          "examples": [
-            "Selling controlled substances",
-            "Providing drug manufacturing instructions",
-            "Promoting drug use"
-          ]
-        },
-        {
-          "id": "weapons",
-          "name": "Weapons Trafficking",
-          "examples": [
-            "Illegal weapon sales",
-            "Instructions for weapon manufacturing",
-            "Promoting armed violence"
-          ]
-        },
-        {
-          "id": "fraud",
-          "name": "Fraud and Financial Crimes",
-          "examples": [
-            "Credit card fraud",
-            "Identity theft schemes",
-            "Pyramid schemes"
-          ]
-        }
-      ]
-    }
-  ],
-  "severity_levels": {
-    "low": {
-      "label": "Low",
-      "description": "Minor violations with limited harm potential",
-      "action": "warning",
-      "review_priority": 3
-    },
-    "medium": {
-      "label": "Medium",
-      "description": "Moderate violations requiring attention",
-      "action": "content_removal",
-      "review_priority": 2
-    },
-    "high": {
-      "label": "High",
-      "description": "Serious violations causing significant harm",
-      "action": "removal_and_warning",
-      "review_priority": 1
-    },
-    "critical": {
-      "label": "Critical",
-      "description": "Severe violations requiring immediate action",
-      "action": "immediate_removal_and_suspension",
-      "review_priority": 0
-    }
+[
+  {
+    "category_id": "hate_speech",
+    "subcategory_id": "racial_discrimination",
+    "category_name": "Hate Speech",
+    "subcategory_name": "Racial Discrimination",
+    "description": "Content promoting hatred or discrimination against protected groups based on race",
+    "severity": "high",
+    "auto_remove": true,
+    "examples": "Racial slurs or derogatory terms; Claims of racial superiority; Calls for segregation or exclusion"
+  },
+  {
+    "category_id": "hate_speech",
+    "subcategory_id": "religious_discrimination",
+    "category_name": "Hate Speech",
+    "subcategory_name": "Religious Discrimination",
+    "description": "Content promoting hatred or discrimination against protected groups based on religion",
+    "severity": "high",
+    "auto_remove": true,
+    "examples": "Attacks on religious groups; Calls for violence against religious communities; Dehumanizing religious stereotypes"
+  },
+  {
+    "category_id": "hate_speech",
+    "subcategory_id": "gender_discrimination",
+    "category_name": "Hate Speech",
+    "subcategory_name": "Gender/LGBTQ+ Discrimination",
+    "description": "Content promoting hatred or discrimination against protected groups based on gender or sexual orientation",
+    "severity": "high",
+    "auto_remove": true,
+    "examples": "Misgendering with malicious intent; Slurs targeting sexual orientation; Promoting conversion therapy"
+  },
+  {
+    "category_id": "harassment",
+    "subcategory_id": "direct_harassment",
+    "category_name": "Harassment and Bullying",
+    "subcategory_name": "Direct Harassment",
+    "description": "Content targeting individuals to intimidate, threaten, or humiliate through direct attacks",
+    "severity": "high",
+    "auto_remove": false,
+    "examples": "Personal insults directed at an individual; Repeated negative mentions of someone; Creating content to mock a specific person"
+  },
+  {
+    "category_id": "harassment",
+    "subcategory_id": "doxxing",
+    "category_name": "Harassment and Bullying",
+    "subcategory_name": "Doxxing",
+    "description": "Publishing private information to enable harassment",
+    "severity": "high",
+    "auto_remove": false,
+    "examples": "Sharing home addresses; Publishing phone numbers; Revealing workplace information"
+  },
+  {
+    "category_id": "harassment",
+    "subcategory_id": "coordinated_harassment",
+    "category_name": "Harassment and Bullying",
+    "subcategory_name": "Coordinated Harassment",
+    "description": "Organized campaigns targeting individuals",
+    "severity": "high",
+    "auto_remove": false,
+    "examples": "Organizing pile-ons against users; Creating harassment campaigns; Mass reporting to silence users"
+  },
+  {
+    "category_id": "violence",
+    "subcategory_id": "direct_threats",
+    "category_name": "Violence and Threats",
+    "subcategory_name": "Direct Threats",
+    "description": "Content promoting, glorifying, or threatening violence through direct threats",
+    "severity": "critical",
+    "auto_remove": true,
+    "examples": "Threatening physical harm to an individual; Death threats; Threatening violence against groups"
+  },
+  {
+    "category_id": "violence",
+    "subcategory_id": "incitement",
+    "category_name": "Violence and Threats",
+    "subcategory_name": "Incitement to Violence",
+    "description": "Content calling for or encouraging violent acts",
+    "severity": "critical",
+    "auto_remove": true,
+    "examples": "Calling for attacks on people; Promoting violent riots; Encouraging self-harm in others"
+  },
+  {
+    "category_id": "violence",
+    "subcategory_id": "glorification",
+    "category_name": "Violence and Threats",
+    "subcategory_name": "Violence Glorification",
+    "description": "Content celebrating or praising violent acts",
+    "severity": "critical",
+    "auto_remove": true,
+    "examples": "Celebrating violent attacks; Praising mass shooters; Promoting terrorism"
+  },
+  {
+    "category_id": "misinformation",
+    "subcategory_id": "health_misinfo",
+    "category_name": "Misinformation",
+    "subcategory_name": "Health Misinformation",
+    "description": "False health information with potential to cause physical harm",
+    "severity": "high",
+    "auto_remove": false,
+    "examples": "False vaccine claims; Dangerous medical advice; Promoting unproven treatments as cures"
+  },
+  {
+    "category_id": "misinformation",
+    "subcategory_id": "election_misinfo",
+    "category_name": "Misinformation",
+    "subcategory_name": "Election Misinformation",
+    "description": "False information about elections and voting",
+    "severity": "medium",
+    "auto_remove": false,
+    "examples": "False voting dates or locations; Claiming election fraud without evidence; Discouraging legitimate voting"
+  },
+  {
+    "category_id": "misinformation",
+    "subcategory_id": "crisis_misinfo",
+    "category_name": "Misinformation",
+    "subcategory_name": "Crisis Misinformation",
+    "description": "False information during emergencies or disasters",
+    "severity": "medium",
+    "auto_remove": false,
+    "examples": "False emergency alerts; Misinformation during disasters; Fake charity scams"
+  },
+  {
+    "category_id": "adult_content",
+    "subcategory_id": "explicit_material",
+    "category_name": "Adult/Sexual Content",
+    "subcategory_name": "Explicit Material",
+    "description": "Sexually explicit or inappropriate material",
+    "severity": "high",
+    "auto_remove": true,
+    "examples": "Pornographic images or videos; Explicit sexual descriptions; Sexual content in non-adult spaces"
+  },
+  {
+    "category_id": "adult_content",
+    "subcategory_id": "non_consensual",
+    "category_name": "Adult/Sexual Content",
+    "subcategory_name": "Non-Consensual Intimate Imagery",
+    "description": "Intimate imagery shared without consent",
+    "severity": "high",
+    "auto_remove": true,
+    "examples": "Revenge porn; Leaked intimate content; Deepfake pornography"
+  },
+  {
+    "category_id": "adult_content",
+    "subcategory_id": "csam",
+    "category_name": "Adult/Sexual Content",
+    "subcategory_name": "Child Sexual Abuse Material",
+    "description": "Any sexual content involving minors - highest priority violation",
+    "severity": "critical",
+    "auto_remove": true,
+    "auto_report_authorities": true,
+    "examples": "Any sexual content involving minors; Sexualized images of children; Grooming behavior"
+  },
+  {
+    "category_id": "spam",
+    "subcategory_id": "mass_posting",
+    "category_name": "Spam and Manipulation",
+    "subcategory_name": "Mass Posting",
+    "description": "Inauthentic or manipulative content through repetitive posting",
+    "severity": "low",
+    "auto_remove": false,
+    "examples": "Repetitive identical messages; Automated posting bots; Comment flooding"
+  },
+  {
+    "category_id": "spam",
+    "subcategory_id": "scams",
+    "category_name": "Spam and Manipulation",
+    "subcategory_name": "Scams",
+    "description": "Fraudulent schemes to deceive users",
+    "severity": "medium",
+    "auto_remove": false,
+    "examples": "Fake giveaways; Phishing attempts; Cryptocurrency scams"
+  },
+  {
+    "category_id": "spam",
+    "subcategory_id": "impersonation",
+    "category_name": "Spam and Manipulation",
+    "subcategory_name": "Impersonation",
+    "description": "Pretending to be someone else to deceive users",
+    "severity": "medium",
+    "auto_remove": false,
+    "examples": "Fake celebrity accounts; Brand impersonation; Pretending to be another user"
+  },
+  {
+    "category_id": "illegal",
+    "subcategory_id": "drug_trafficking",
+    "category_name": "Illegal Activities",
+    "subcategory_name": "Drug Trafficking",
+    "description": "Content promoting or facilitating illegal drug sales",
+    "severity": "critical",
+    "auto_remove": true,
+    "examples": "Selling controlled substances; Providing drug manufacturing instructions; Promoting drug use"
+  },
+  {
+    "category_id": "illegal",
+    "subcategory_id": "weapons",
+    "category_name": "Illegal Activities",
+    "subcategory_name": "Weapons Trafficking",
+    "description": "Content promoting or facilitating illegal weapons sales",
+    "severity": "critical",
+    "auto_remove": true,
+    "examples": "Illegal weapon sales; Instructions for weapon manufacturing; Promoting armed violence"
+  },
+  {
+    "category_id": "illegal",
+    "subcategory_id": "fraud",
+    "category_name": "Illegal Activities",
+    "subcategory_name": "Fraud and Financial Crimes",
+    "description": "Content promoting or facilitating financial fraud",
+    "severity": "critical",
+    "auto_remove": true,
+    "examples": "Credit card fraud; Identity theft schemes; Pyramid schemes"
   }
-}
+]

@@ -13,17 +13,3 @@ vectorstores:
   chromadb:
     provider: chromadb
     connection_string: http://localhost:8000
-
-# OpenAI embedding model
-embedding_model: text-embedding-3-small
-
-# Observability - Aspire Dashboard
-observability:
-  enabled: true
-  service_name: holodeck-content-moderation
-  exporters:
-    otlp:
-      enabled: true
-      endpoint: http://localhost:4317
-      protocol: grpc
-      insecure: true

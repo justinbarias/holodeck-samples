@@ -54,7 +54,6 @@ tools:
     chunk_overlap: 64
     min_similarity_score: 0.6
     database: chromadb
-    id_field: category_id
 
 evaluations:
   model:

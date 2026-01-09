@@ -11,13 +11,9 @@ model:
   max_tokens: 2048
   endpoint: ${AZURE_OPENAI_ENDPOINT}
   api_key: ${AZURE_OPENAI_API_KEY}
-  api_version: "2024-02-15-preview"
 
 instructions:
   file: instructions/system-prompt.md
-
-# Embedding model for vector stores
-embedding_model: text-embedding-ada-002
 
 # Structured response format for moderation decisions
 response_format:
@@ -65,64 +61,33 @@ tools:
   - name: moderation_rules
     type: vectorstore
     description: Search community guidelines and moderation rules for policy information
-    vectorstore: chromadb
-    collection: content_moderation_rules
+    database: chromadb
+    embedding_model: text-embedding-ada-002
     top_k: 5
-    score_threshold: 0.7
-    data_source: data/moderation_rules.md
+    min_similarity_score: 0.7
+    source: data/moderation_rules.md
 
   # Category Definitions - Violation categories and examples
   - name: category_definitions
     type: vectorstore
     description: Search violation categories, subcategories, and examples
-    vectorstore: chromadb
-    collection: content_moderation_categories
+    database: chromadb
+    embedding_model: text-embedding-ada-002
     top_k: 3
-    score_threshold: 0.75
-    data_source: data/category_definitions.json
-
-  # Deep Analysis Prompt - For nuanced content
-  - name: analyze_content
-    type: prompt
-    description: Perform deep analysis of ambiguous or nuanced content
-    template: |
-      ## Deep Content Analysis
-
-      **Content to Analyze:**
-      {{content}}
-
-      **Initial Assessment:**
-      {{initial_assessment}}
-
-      **Context Provided:**
-      {{context}}
-
-      **Analysis Focus Areas:**
-      1. Intent Assessment: What appears to be the poster's intent?
-      2. Harm Potential: What harm could this content cause if left up?
-      3. Context Factors: Are there mitigating contextual factors?
-      4. Precedent: How have similar cases been handled?
-
-      **Provide detailed analysis for each area.**
-
-# Vector store configuration
-vectorstores:
-  chromadb:
-    provider: chromadb
-    connection_string: http://localhost:8000
+    min_similarity_score: 0.75
+    source: data/category_definitions.json
 
 # Evaluation configuration
 evaluations:
-  default_model:
+  model:
     provider: azure_openai
     name: gpt-4o
     endpoint: ${AZURE_OPENAI_ENDPOINT}
     api_key: ${AZURE_OPENAI_API_KEY}
-    api_version: "2024-02-15-preview"
 
   metrics:
     # Accuracy Metrics - Correct classification
-    - metric: geval
+    - type: geval
       name: ModerationAccuracy
       threshold: 0.85
       criteria: |
@@ -138,7 +103,7 @@ evaluations:
         - Ensure the decision follows community guidelines
 
     # Reasoning Quality - Clear explanations
-    - metric: geval
+    - type: geval
       name: ReasoningQuality
       threshold: 0.75
       criteria: |
@@ -154,12 +119,12 @@ evaluations:
         - Assess if reasoning would help users understand the decision
 
     # Policy Faithfulness - Grounded in guidelines
-    - metric: faithfulness
+    - type: rag
+      metric_type: faithfulness
       threshold: 0.8
-      description: Decisions must be grounded in retrieved community guidelines
 
     # Consistency - Same content gets same decision
-    - metric: geval
+    - type: geval
       name: Consistency
       threshold: 0.8
       criteria: |
@@ -184,9 +149,6 @@ test_cases:
         "reasoning": "Common expression of frustration, not a policy violation",
         "confidence_score": 0.95
       }
-    tags:
-      - safe
-      - colloquial
 
   - input: "Check out this amazing crypto opportunity! Send me $100 and I'll double your money in 24 hours! DM me now!"
     ground_truth: |
@@ -196,9 +158,6 @@ test_cases:
         "reasoning": "Clear financial scam attempting to deceive users",
         "confidence_score": 0.9
       }
-    tags:
-      - spam
-      - scam
 
   - input: "The government doesn't want you to know that drinking bleach cures all diseases. Big pharma is hiding the truth!"
     ground_truth: |
@@ -208,9 +167,6 @@ test_cases:
         "reasoning": "Dangerous health misinformation promoting harmful behavior",
         "confidence_score": 0.95
       }
-    tags:
-      - misinformation
-      - health
 
   - input: "This documentary about the 1940s war crimes is hard to watch but important for education."
     ground_truth: |
@@ -220,9 +176,6 @@ test_cases:
         "reasoning": "Educational content about historical events with appropriate framing",
         "confidence_score": 0.85
       }
-    tags:
-      - safe
-      - educational
 
   - input: "You're so stupid, why do you even post? Nobody wants to hear from you. Delete your account already."
     ground_truth: |
@@ -232,9 +185,6 @@ test_cases:
         "reasoning": "Direct personal attacks targeting an individual user",
         "confidence_score": 0.88
       }
-    tags:
-      - harassment
-      - bullying
 
   - input: "I'm selling prescription medications without a prescription. DM for prices and delivery."
     ground_truth: |
@@ -244,9 +194,6 @@ test_cases:
         "reasoning": "Illegal activity - selling controlled substances",
         "confidence_score": 0.95
       }
-    tags:
-      - illegal
-      - drugs
 
 # Observability configuration
 observability:

@@ -6,7 +6,7 @@ description: AI-powered ticket classification and routing system
 
 model:
   provider: ollama
-  name: llama3.1:8b
+  name: gpt-oss:20b
   endpoint: http://localhost:11434
   temperature: 0.1
   max_tokens: 1000
@@ -55,12 +55,11 @@ tools:
     chunk_overlap: 64
     min_similarity_score: 0.6
     database: chromadb
-    id_field: category_id
 
 evaluations:
   model:
     provider: ollama
-    name: llama3.1:8b
+    name: gpt-oss:20b
     endpoint: http://localhost:11434
     temperature: 0.0
   metrics:

@@ -15,17 +15,3 @@ vectorstores:
   chromadb:
     provider: chromadb
     connection_string: http://localhost:8000
-
-# Azure OpenAI embedding model
-embedding_model: text-embedding-ada-002
-
-# Observability - Aspire Dashboard
-observability:
-  enabled: true
-  service_name: holodeck-legal-summarization
-  exporters:
-    otlp:
-      enabled: true
-      endpoint: http://localhost:4317
-      protocol: grpc
-      insecure: true

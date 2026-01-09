@@ -6,7 +6,7 @@ description: Context-aware customer support agent with knowledge base integratio
 
 model:
   provider: ollama
-  name: llama3.1:8b
+  name: gpt-oss:20b
   temperature: 0.3
   max_tokens: 4096
   endpoint: http://localhost:11434
@@ -14,87 +14,60 @@ model:
 instructions:
   file: instructions/system-prompt.md
 
-# Embedding model for vector stores
-embedding_model: nomic-embed-text:latest
-
 tools:
   # Knowledge Base - Product documentation and support articles
   - name: knowledge_base
     type: vectorstore
     description: Search product documentation and support articles for accurate answers
-    vectorstore: chromadb
-    collection: customer_support_kb
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
     top_k: 5
-    score_threshold: 0.7
-    data_source: data/knowledge_base.md
+    min_similarity_score: 0.7
+    source: data/knowledge_base.md
 
   # FAQ Database - Frequently asked questions
   - name: faq
     type: vectorstore
     description: Search frequently asked questions for quick answers
-    vectorstore: chromadb
-    collection: customer_support_faq
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
     top_k: 3
-    score_threshold: 0.8
-    data_source: data/faq.json
+    min_similarity_score: 0.8
+    source: data/faq.json
 
   # Memory - Conversation persistence via MCP
   - name: memory
     type: mcp
     description: Store and retrieve conversation context and user preferences
-    server: memory-server
     command: npx
     args:
       - "-y"
       - "@modelcontextprotocol/server-memory"
 
-  # Escalation Template
-  - name: escalate_to_human
-    type: prompt
-    description: Generate escalation summary for human agent handoff
-    template: |
-      ## Escalation Summary
-
-      **Customer Issue:** {{issue_summary}}
-
-      **Troubleshooting Attempted:**
-      {{troubleshooting_steps}}
-
-      **Recommended Next Steps:**
-      {{recommendations}}
-
-      **Priority:** {{priority}}
-
-# Vector store configuration
-vectorstores:
-  chromadb:
-    provider: chromadb
-    connection_string: http://localhost:8000
-
 # Evaluation configuration
 # Note: Ollama uses local models for evaluation - results may vary from cloud models
 evaluations:
-  default_model:
+  model:
     provider: ollama
-    name: llama3.1:8b
+    name: gpt-oss:20b
     endpoint: http://localhost:11434
 
   metrics:
     # RAG Metrics - Verify knowledge base usage
-    - metric: faithfulness
+    - type: rag
+      metric_type: faithfulness
       threshold: 0.75  # Slightly lower for local model
-      description: Responses must be grounded in retrieved knowledge
 
-    - metric: answer_relevancy
+    - type: rag
+      metric_type: answer_relevancy
       threshold: 0.7  # Slightly lower for local model
-      description: Responses must directly address the question
 
-    - metric: contextual_relevancy
+    - type: rag
+      metric_type: contextual_relevancy
       threshold: 0.65  # Slightly lower for local model
-      description: Retrieved context must be relevant to the query
 
     # Quality Metrics - Assess response quality
-    - metric: geval
+    - type: geval
       name: Helpfulness
       threshold: 0.75  # Slightly lower for local model
       criteria: |
@@ -107,7 +80,7 @@ evaluations:
         - Assess if the response anticipates common follow-up questions
         - Evaluate if the tone is supportive and professional
 
-    - metric: geval
+    - type: geval
       name: Professionalism
       threshold: 0.65  # Slightly lower for local model
       criteria: |
@@ -126,43 +99,28 @@ test_cases:
     ground_truth: "Password reset instructions with step-by-step guidance"
     expected_tools:
       - faq
-    tags:
-      - account
-      - common
 
   - input: "My order hasn't arrived yet. Order number is #12345"
     ground_truth: "Order status check with tracking information and estimated delivery"
     expected_tools:
       - knowledge_base
-    tags:
-      - orders
-      - tracking
 
   - input: "What's your return policy for electronics?"
     ground_truth: "Return policy details including timeframe, conditions, and process"
     expected_tools:
       - knowledge_base
       - faq
-    tags:
-      - returns
-      - policy
 
   - input: "I'm having trouble connecting my device to WiFi"
     ground_truth: "WiFi troubleshooting steps including reset, reconnection, and common fixes"
     expected_tools:
       - knowledge_base
-    tags:
-      - technical
-      - troubleshooting
 
   - input: "Can I upgrade my subscription plan?"
     ground_truth: "Subscription upgrade options, pricing, and how to proceed"
     expected_tools:
       - knowledge_base
       - faq
-    tags:
-      - billing
-      - subscription
 
 # Observability configuration
 observability:

@@ -4,7 +4,7 @@
 providers:
   ollama:
     provider: ollama
-    name: llama3.1:8b
+    name: gpt-oss:20b
     temperature: 0.3
     max_tokens: 4096
     endpoint: http://localhost:11434
@@ -13,17 +13,3 @@ vectorstores:
   chromadb:
     provider: chromadb
     connection_string: http://localhost:8000
-
-# Ollama uses nomic-embed-text for embeddings
-embedding_model: nomic-embed-text:latest
-
-# Observability - Aspire Dashboard
-observability:
-  enabled: true
-  service_name: holodeck-customer-support
-  exporters:
-    otlp:
-      enabled: true
-      endpoint: http://localhost:4317
-      protocol: grpc
-      insecure: true

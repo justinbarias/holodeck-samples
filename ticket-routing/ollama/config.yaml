@@ -3,7 +3,7 @@
 providers:
   ollama:
     provider: ollama
-    name: llama3.1:8b
+    name: gpt-oss:20b
     endpoint: http://localhost:11434
     temperature: 0.1
     max_tokens: 1000

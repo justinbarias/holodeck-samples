@@ -6,16 +6,13 @@ description: AI legal analyst for summarizing contracts and extracting key infor
 
 model:
   provider: ollama
-  name: llama3.1:8b
+  name: gpt-oss:20b
   temperature: 0.2  # Low temperature for accurate extraction
   max_tokens: 4096
   endpoint: http://localhost:11434
 
 instructions:
   file: instructions/system-prompt.md
-
-# Embedding model for vector stores
-embedding_model: nomic-embed-text:latest
 
 # Structured response format for legal analysis
 response_format:
@@ -100,84 +97,53 @@ tools:
   - name: legal_templates
     type: vectorstore
     description: Search standard legal clause definitions and templates for comparison
-    vectorstore: chromadb
-    collection: legal_templates
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
     top_k: 5
-    score_threshold: 0.7
-    data_source: data/legal_templates.md
+    min_similarity_score: 0.7
+    source: data/legal_templates.md
 
   # Sample Contracts - Reference contracts for context
   - name: sample_contracts
     type: vectorstore
     description: Search sample contracts for similar provisions and context
-    vectorstore: chromadb
-    collection: sample_contracts
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
     top_k: 3
-    score_threshold: 0.75
-    data_source: data/sample_contracts.json
+    min_similarity_score: 0.75
+    source: data/sample_contracts.json
 
   # Document Access - MCP filesystem for document analysis
   - name: filesystem
     type: mcp
     description: Access and read document files for analysis
-    server: filesystem-server
     command: npx
     args:
       - "-y"
       - "@modelcontextprotocol/server-filesystem"
       - "./documents"
 
-  # Clause Extraction Prompt
-  - name: extract_clauses
-    type: prompt
-    description: Extract specific clause information from document text
-    template: |
-      ## Clause Extraction
-
-      **Document Section:**
-      {{document_text}}
-
-      **Clause Type to Extract:**
-      {{clause_type}}
-
-      **Extract the following information:**
-      1. Exact clause language (quote relevant portions)
-      2. Key terms and definitions used
-      3. Obligations created
-      4. Rights granted
-      5. Conditions or limitations
-      6. Duration or termination provisions
-      7. Remedies for breach
-
-      **Provide structured extraction for each element found.**
-
-# Vector store configuration
-vectorstores:
-  chromadb:
-    provider: chromadb
-    connection_string: http://localhost:8000
-
 # Evaluation configuration
 # Note: Ollama uses local models for evaluation - results may vary from cloud models
 evaluations:
-  default_model:
+  model:
     provider: ollama
-    name: llama3.1:8b
+    name: gpt-oss:20b
     endpoint: http://localhost:11434
 
   metrics:
     # Summary Quality - ROUGE score for summarization
-    - metric: rouge
+    - type: standard
+      metric: rouge
       threshold: 0.55  # Slightly lower for local model
-      description: Summary captures key information from document
 
     # Extraction Quality - BLEU for exact extraction
-    - metric: bleu
+    - type: standard
+      metric: bleu
       threshold: 0.45  # Slightly lower for local model
-      description: Extracted terms match document language
 
     # Completeness - Did we capture all key information?
-    - metric: geval
+    - type: geval
       name: Completeness
       threshold: 0.75  # Slightly lower for local model
       criteria: |
@@ -196,7 +162,7 @@ evaluations:
         - Verify termination and renewal provisions are covered
 
     # Legal Accuracy - Are terms correctly interpreted?
-    - metric: geval
+    - type: geval
       name: LegalAccuracy
       threshold: 0.7  # Slightly lower for local model
       criteria: |
@@ -214,14 +180,14 @@ evaluations:
         - Check if recommendations are legally sound
 
     # Context Precision - Retrieved context relevance
-    - metric: contextual_precision
+    - type: rag
+      metric_type: contextual_precision
       threshold: 0.65  # Slightly lower for local model
-      description: Retrieved legal templates are relevant to the document
 
     # Faithfulness - Analysis grounded in document
-    - metric: faithfulness
+    - type: rag
+      metric_type: faithfulness
       threshold: 0.8  # Slightly lower for local model
-      description: Analysis must be grounded in actual document content
 
 # Test cases
 test_cases:
@@ -247,9 +213,6 @@ test_cases:
       Summary should identify: mutual NDA between TechCorp Inc. and StartupXYZ LLC,
       effective January 15, 2024, 2-year term with 5-year confidentiality survival,
       Delaware law, standard confidentiality obligations.
-    tags:
-      - nda
-      - summary
 
   - input: |
       What are the key risks in this employment agreement excerpt?
@@ -264,9 +227,6 @@ test_cases:
       Should identify risks: overly broad non-compete (24 months, nationwide + international),
       overly broad IP assignment (all inventions regardless of relation to business),
       moral rights waiver. Recommendations should suggest negotiating narrower terms.
-    tags:
-      - employment
-      - risk_analysis
 
   - input: "What standard clauses should I look for in a software license agreement?"
     ground_truth: |
@@ -276,9 +236,6 @@ test_cases:
       term and termination, confidentiality.
     expected_tools:
       - legal_templates
-    tags:
-      - license
-      - guidance
 
 # Observability configuration
 observability:
