@@ -1,0 +1,29 @@
+# HoloDeck Configuration - Ollama Provider
+# Legal Summarization Agent
+
+providers:
+  ollama:
+    provider: ollama
+    name: llama3.1:8b
+    temperature: 0.2  # Low temperature for accurate extraction
+    max_tokens: 4096
+    endpoint: http://localhost:11434
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
+
+# Ollama embedding model
+embedding_model: nomic-embed-text:latest
+
+# Observability - Aspire Dashboard
+observability:
+  enabled: true
+  service_name: holodeck-legal-summarization
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

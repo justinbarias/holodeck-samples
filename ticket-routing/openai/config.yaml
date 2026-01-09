@@ -1,0 +1,20 @@
+# OpenAI Provider Configuration for Ticket Routing Sample
+
+providers:
+  openai:
+    provider: openai
+    name: gpt-4o
+    temperature: 0.1
+    max_tokens: 1000
+    api_key: ${OPENAI_API_KEY}
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
+
+execution:
+  llm_timeout: 120
+  file_timeout: 60
+  cache_enabled: true
+  cache_directory: .holodeck_cache

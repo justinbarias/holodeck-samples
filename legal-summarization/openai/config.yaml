@@ -1,0 +1,29 @@
+# HoloDeck Configuration - OpenAI Provider
+# Legal Summarization Agent
+
+providers:
+  openai:
+    provider: openai
+    name: gpt-4o
+    temperature: 0.2  # Low temperature for accurate extraction
+    max_tokens: 4096
+    api_key: ${OPENAI_API_KEY}
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
+
+# OpenAI embedding model
+embedding_model: text-embedding-3-small
+
+# Observability - Aspire Dashboard
+observability:
+  enabled: true
+  service_name: holodeck-legal-summarization
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

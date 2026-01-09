@@ -1,0 +1,86 @@
+[
+  {
+    "id": "faq_001",
+    "question": "How do I reset my password?",
+    "answer": "To reset your password: 1) Go to the login page and click 'Forgot Password', 2) Enter your email address, 3) Check your email for the reset link, 4) Click the link and create a new password. If you don't receive the email within 5 minutes, check your spam folder.",
+    "category": "account",
+    "keywords": ["password", "reset", "forgot", "login"]
+  },
+  {
+    "id": "faq_002",
+    "question": "What payment methods do you accept?",
+    "answer": "We accept all major credit cards (Visa, MasterCard, American Express, Discover), PayPal, and bank transfers for annual Enterprise plans. All payments are processed securely through Stripe.",
+    "category": "billing",
+    "keywords": ["payment", "credit card", "paypal", "billing"]
+  },
+  {
+    "id": "faq_003",
+    "question": "How do I cancel my subscription?",
+    "answer": "To cancel: 1) Go to Settings > Billing, 2) Click 'Cancel Subscription', 3) Follow the prompts to complete cancellation. You'll retain access until the end of your current billing period. No refunds are issued for partial months.",
+    "category": "billing",
+    "keywords": ["cancel", "subscription", "stop", "end"]
+  },
+  {
+    "id": "faq_004",
+    "question": "How do I add team members?",
+    "answer": "To invite team members: 1) Go to Settings > Team, 2) Click 'Invite Member', 3) Enter their email address, 4) Select their role (Admin, Editor, or Viewer), 5) Click 'Send Invitation'. They'll receive an email to join your team.",
+    "category": "team",
+    "keywords": ["team", "invite", "member", "add", "user"]
+  },
+  {
+    "id": "faq_005",
+    "question": "What are the API rate limits?",
+    "answer": "API rate limits depend on your plan: Free: 100 calls/day, Starter: 1,000 calls/day, Pro: 10,000 calls/day, Enterprise: Custom limits. Rate limits reset at midnight UTC. You can view your current usage in Settings > API.",
+    "category": "technical",
+    "keywords": ["API", "rate limit", "calls", "requests"]
+  },
+  {
+    "id": "faq_006",
+    "question": "How do I connect Slack integration?",
+    "answer": "To connect Slack: 1) Go to Settings > Integrations, 2) Find Slack and click 'Connect', 3) Authorize access in the Slack popup, 4) Select which channel to receive notifications, 5) Click 'Save'. You can manage notification settings anytime.",
+    "category": "integration",
+    "keywords": ["slack", "integration", "connect", "notification"]
+  },
+  {
+    "id": "faq_007",
+    "question": "Is my data secure?",
+    "answer": "Yes, we take security seriously. We use: AES-256 encryption for data at rest, TLS 1.3 for data in transit, SOC 2 Type II compliance, regular security audits, and optional SSO/SAML for Enterprise. Read our full security practices at acme.com/security.",
+    "category": "security",
+    "keywords": ["security", "encryption", "safe", "data", "privacy"]
+  },
+  {
+    "id": "faq_008",
+    "question": "Can I export my data?",
+    "answer": "Yes, you can export your data anytime: 1) Go to Settings > Data, 2) Click 'Export Data', 3) Select the data types to export, 4) Choose format (JSON or CSV), 5) Click 'Generate Export'. You'll receive a download link via email within 24 hours.",
+    "category": "data",
+    "keywords": ["export", "download", "data", "backup"]
+  },
+  {
+    "id": "faq_009",
+    "question": "Do you offer refunds?",
+    "answer": "We offer: Full refund within 7 days of purchase, pro-rated refund for annual plans cancelled within 30 days. No refunds after 30 days. To request a refund, email support@acme.com with your account email and reason for cancellation.",
+    "category": "billing",
+    "keywords": ["refund", "money back", "cancellation", "return"]
+  },
+  {
+    "id": "faq_010",
+    "question": "How do I enable two-factor authentication?",
+    "answer": "To enable 2FA: 1) Go to Settings > Security, 2) Click 'Enable Two-Factor Authentication', 3) Scan the QR code with an authenticator app (Google Authenticator, Authy, etc.), 4) Enter the verification code, 5) Save your backup codes securely.",
+    "category": "security",
+    "keywords": ["2FA", "two-factor", "authentication", "security", "MFA"]
+  },
+  {
+    "id": "faq_011",
+    "question": "What browsers are supported?",
+    "answer": "We support the latest versions of: Chrome, Firefox, Safari, and Edge. Internet Explorer is not supported. For best performance, we recommend Chrome or Firefox with JavaScript enabled.",
+    "category": "technical",
+    "keywords": ["browser", "chrome", "firefox", "safari", "supported"]
+  },
+  {
+    "id": "faq_012",
+    "question": "How do I upgrade my plan?",
+    "answer": "To upgrade: 1) Go to Settings > Billing, 2) Click 'Upgrade Plan', 3) Select your new plan, 4) Confirm payment details, 5) Click 'Confirm Upgrade'. The upgrade takes effect immediately, and you'll be charged a prorated amount.",
+    "category": "billing",
+    "keywords": ["upgrade", "plan", "subscription", "pricing"]
+  }
+]

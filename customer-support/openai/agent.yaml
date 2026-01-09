@@ -1,0 +1,151 @@
+# Customer Support Agent - OpenAI Variant
+# Context-aware chatbot for customer support interactions
+
+name: customer-support
+description: AI-powered customer support agent with knowledge base integration
+
+model:
+  provider: openai
+  name: gpt-4o
+  temperature: 0.7  # More conversational
+  max_tokens: 1500
+
+instructions:
+  file: instructions/system-prompt.md
+
+tools:
+  - type: vectorstore
+    name: knowledge_base
+    description: Search product documentation and support articles
+    source: data/knowledge_base.md
+    embedding_model: text-embedding-3-small
+    top_k: 5
+    chunk_size: 512
+    chunk_overlap: 128
+    min_similarity_score: 0.7
+    database: chromadb
+
+  - type: vectorstore
+    name: faq
+    description: Search frequently asked questions and answers
+    source: data/faq.json
+    embedding_model: text-embedding-3-small
+    top_k: 3
+    chunk_size: 256
+    chunk_overlap: 32
+    min_similarity_score: 0.65
+    database: chromadb
+    id_field: id
+
+  - type: mcp
+    name: memory
+    description: Persistent conversation memory for context retention
+    command: npx
+    args:
+      - -y
+      - '@modelcontextprotocol/server-memory'
+    request_timeout: 30
+
+evaluations:
+  model:
+    provider: openai
+    name: gpt-4o
+    temperature: 0.0
+  metrics:
+    - type: rag
+      metric_type: faithfulness
+      threshold: 0.8
+
+    - type: rag
+      metric_type: answer_relevancy
+      threshold: 0.75
+
+    - type: rag
+      metric_type: contextual_relevancy
+      threshold: 0.7
+
+    - type: geval
+      name: Helpfulness
+      criteria: |
+        Evaluate if the response addresses the customer's question and provides actionable guidance.
+        A helpful response should:
+        1. Directly answer the question asked
+        2. Provide clear next steps or instructions
+        3. Be accurate based on the available information
+        4. Offer additional relevant assistance
+      evaluation_steps:
+        - Does the response directly answer the question?
+        - Are instructions clear and actionable?
+        - Is the tone appropriate for customer service?
+      evaluation_params:
+        - input
+        - actual_output
+      threshold: 0.8
+
+    - type: geval
+      name: Professionalism
+      criteria: |
+        Evaluate the professional quality and empathy in the response.
+        A professional response should:
+        1. Use appropriate, friendly language
+        2. Show empathy for customer concerns
+        3. Maintain a helpful, positive tone
+        4. Avoid jargon or overly technical language
+      evaluation_params:
+        - actual_output
+      threshold: 0.7
+
+test_cases:
+  - name: FAQ - Password reset
+    input: "How do I reset my password?"
+    ground_truth: "Go to login page, click Forgot Password, enter email, check for reset link"
+    expected_tools:
+      - faq
+      - knowledge_base
+
+  - name: Billing - Cancellation
+    input: "I want to cancel my subscription"
+    ground_truth: "Go to Settings > Billing, click Cancel Subscription, retain access until end of period"
+    expected_tools:
+      - faq
+      - knowledge_base
+
+  - name: Technical - API limits
+    input: "What are the API rate limits for the Pro plan?"
+    ground_truth: "Pro plan: 10,000 API calls per day"
+    expected_tools:
+      - faq
+      - knowledge_base
+
+  - name: General - Support hours
+    input: "What are your support hours?"
+    ground_truth: "Email 24/7, Chat Mon-Fri 9-6 EST"
+    expected_tools:
+      - knowledge_base
+
+  - name: Integration - Slack setup
+    input: "How do I connect Slack to my account?"
+    ground_truth: "Settings > Integrations, Find Slack, Connect, Authorize, Select channel"
+    expected_tools:
+      - faq
+      - knowledge_base
+
+observability:
+  enabled: true
+  service_name: holodeck-customer-support
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

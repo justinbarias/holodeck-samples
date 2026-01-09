@@ -1,0 +1,142 @@
+[
+  {
+    "id": "TKT-001",
+    "subject": "Double charged for subscription",
+    "content": "I was charged twice for my monthly subscription last month. Order #12345. Please refund the duplicate charge immediately.",
+    "expected_category": "billing",
+    "expected_urgency": "high"
+  },
+  {
+    "id": "TKT-002",
+    "subject": "API returns 500 error",
+    "content": "Our production system is getting 500 errors from your API since this morning. Authentication endpoint is completely down. This is blocking our entire business.",
+    "expected_category": "technical",
+    "expected_urgency": "critical"
+  },
+  {
+    "id": "TKT-003",
+    "subject": "Enterprise pricing inquiry",
+    "content": "We're evaluating your platform for our 500+ employee company. Can we schedule a demo and discuss enterprise pricing? We need to make a decision by end of month.",
+    "expected_category": "sales",
+    "expected_urgency": "high"
+  },
+  {
+    "id": "TKT-004",
+    "subject": "Cannot reset password",
+    "content": "I've tried resetting my password 5 times but never receive the reset email. I'm locked out of my account and have an important presentation tomorrow.",
+    "expected_category": "account",
+    "expected_urgency": "high"
+  },
+  {
+    "id": "TKT-005",
+    "subject": "What are your business hours?",
+    "content": "Hi, I was wondering what your customer support hours are. Also, do you have phone support available?",
+    "expected_category": "general",
+    "expected_urgency": "low"
+  },
+  {
+    "id": "TKT-006",
+    "subject": "Subscription cancellation request",
+    "content": "I'd like to cancel my subscription at the end of this billing period. How do I do that?",
+    "expected_category": "billing",
+    "expected_urgency": "medium"
+  },
+  {
+    "id": "TKT-007",
+    "subject": "Dashboard loading slowly",
+    "content": "The analytics dashboard has been very slow to load for the past week. Sometimes it takes over 30 seconds. Other pages work fine.",
+    "expected_category": "technical",
+    "expected_urgency": "medium"
+  },
+  {
+    "id": "TKT-008",
+    "subject": "Feature comparison with competitor",
+    "content": "How does your product compare to CompetitorX? We're trying to decide between the two. Do you have a comparison sheet?",
+    "expected_category": "sales",
+    "expected_urgency": "medium"
+  },
+  {
+    "id": "TKT-009",
+    "subject": "2FA not working on new phone",
+    "content": "I got a new phone and now my 2FA codes aren't working. I can't log in to my account. Can you help me reset 2FA?",
+    "expected_category": "account",
+    "expected_urgency": "high"
+  },
+  {
+    "id": "TKT-010",
+    "subject": "Great product, one suggestion",
+    "content": "Love your product! Been using it for 6 months. One suggestion - it would be great to have dark mode in the mobile app.",
+    "expected_category": "general",
+    "expected_urgency": "low"
+  },
+  {
+    "id": "TKT-011",
+    "subject": "URGENT: Data export not working",
+    "content": "We need to export our data for an audit that's happening tomorrow. The export feature keeps timing out. This is extremely urgent!",
+    "expected_category": "technical",
+    "expected_urgency": "critical"
+  },
+  {
+    "id": "TKT-012",
+    "subject": "Request for invoice copy",
+    "content": "Could you please send me a copy of my invoice from January 2024 for my expense report? Account email: john@company.com",
+    "expected_category": "billing",
+    "expected_urgency": "low"
+  },
+  {
+    "id": "TKT-013",
+    "subject": "Account ownership transfer",
+    "content": "I'm leaving the company and need to transfer ownership of our team account to my colleague Sarah (sarah@company.com). How do we do this?",
+    "expected_category": "account",
+    "expected_urgency": "medium"
+  },
+  {
+    "id": "TKT-014",
+    "subject": "Integration with Salesforce",
+    "content": "We're trying to set up the Salesforce integration but getting authentication errors. We've followed the documentation but it's not working.",
+    "expected_category": "technical",
+    "expected_urgency": "medium"
+  },
+  {
+    "id": "TKT-015",
+    "subject": "Bulk discount for annual plan",
+    "content": "We have 50 team members. Is there a bulk discount if we commit to an annual plan? What would the total cost be?",
+    "expected_category": "sales",
+    "expected_urgency": "medium"
+  },
+  {
+    "id": "TKT-016",
+    "subject": "Fraudulent charges on my card",
+    "content": "I see charges from your company on my credit card but I never signed up for anything. This looks like fraud. Please investigate immediately!",
+    "expected_category": "billing",
+    "expected_urgency": "critical"
+  },
+  {
+    "id": "TKT-017",
+    "subject": "Where can I find API docs?",
+    "content": "I'm a developer looking to integrate with your platform. Where can I find the API documentation?",
+    "expected_category": "technical",
+    "expected_urgency": "low"
+  },
+  {
+    "id": "TKT-018",
+    "subject": "Complaint about support response time",
+    "content": "I submitted a ticket 5 days ago and haven't heard back. This is unacceptable. I'm considering switching to a competitor if this isn't resolved.",
+    "expected_category": "general",
+    "expected_urgency": "high"
+  },
+  {
+    "id": "TKT-019",
+    "subject": "Upgrade to Pro plan",
+    "content": "I'd like to upgrade from Basic to Pro plan. Can you walk me through the process and any migration steps needed?",
+    "expected_category": "sales",
+    "expected_urgency": "medium"
+  },
+  {
+    "id": "TKT-020",
+    "subject": "Security audit questionnaire",
+    "content": "Our security team needs you to fill out a security questionnaire for vendor assessment. Who should I send this to?",
+    "expected_category": "general",
+    "expected_urgency": "medium"
+  }
+]

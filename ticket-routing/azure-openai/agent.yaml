@@ -1,0 +1,138 @@
+# Ticket Routing Agent - Azure OpenAI Variant
+# Classifies and routes customer support tickets to appropriate departments
+
+name: ticket-routing
+description: AI-powered ticket classification and routing system
+
+model:
+  provider: azure_openai
+  name: gpt-4o
+  endpoint: ${AZURE_OPENAI_ENDPOINT}
+  api_key: ${AZURE_OPENAI_API_KEY}
+  temperature: 0.1
+  max_tokens: 1000
+
+response_format:
+  type: object
+  properties:
+    category:
+      type: string
+      enum: [billing, technical, sales, account, general]
+      description: The category of the support ticket
+    urgency:
+      type: string
+      enum: [critical, high, medium, low]
+      description: How urgently the ticket needs attention
+    routing_department:
+      type: string
+      description: The department that should handle this ticket
+    confidence_score:
+      type: number
+      minimum: 0
+      maximum: 1
+      description: Confidence level in the classification (0.0-1.0)
+    reasoning:
+      type: string
+      description: Brief explanation of the classification decision
+  required:
+    - category
+    - urgency
+    - routing_department
+    - confidence_score
+    - reasoning
+  additionalProperties: false
+
+instructions:
+  file: instructions/system-prompt.md
+
+tools:
+  - type: vectorstore
+    name: ticket_categories
+    description: Search ticket category definitions and routing rules
+    source: data/ticket_categories.json
+    embedding_model: text-embedding-ada-002
+    top_k: 3
+    chunk_size: 512
+    chunk_overlap: 64
+    min_similarity_score: 0.6
+    database: chromadb
+    id_field: category_id
+
+evaluations:
+  model:
+    provider: azure_openai
+    name: gpt-4o
+    endpoint: ${AZURE_OPENAI_ENDPOINT}
+    api_key: ${AZURE_OPENAI_API_KEY}
+    temperature: 0.0
+  metrics:
+    - type: geval
+      name: ClassificationAccuracy
+      criteria: |
+        Evaluate if the ticket was correctly classified into the appropriate category.
+        Consider whether the category matches the ticket content and issue type.
+      evaluation_steps:
+        - Identify the main issue in the ticket
+        - Check if the assigned category matches the issue type
+        - Verify the category aligns with standard support categorization
+      evaluation_params:
+        - actual_output
+        - expected_output
+      threshold: 0.8
+
+    - type: geval
+      name: UrgencyAssessment
+      criteria: |
+        Evaluate if the urgency level appropriately reflects the ticket's priority.
+        Consider business impact, customer language, and issue severity.
+      evaluation_steps:
+        - Analyze the customer's language for urgency indicators
+        - Assess the potential business impact
+        - Verify urgency matches standard escalation guidelines
+      evaluation_params:
+        - actual_output
+        - expected_output
+      threshold: 0.75
+
+    - type: rag
+      metric_type: faithfulness
+      threshold: 0.7
+
+test_cases:
+  - name: Billing - High urgency double charge
+    input: "I was charged twice for my subscription last month. Order #12345. Please refund immediately."
+    ground_truth: '{"category": "billing", "urgency": "high"}'
+    expected_tools:
+      - ticket_categories
+
+  - name: Technical - Critical API outage
+    input: "Our production system is getting 500 errors from your API. Authentication endpoint is completely down."
+    ground_truth: '{"category": "technical", "urgency": "critical"}'
+    expected_tools:
+      - ticket_categories
+
+  - name: General - Low priority question
+    input: "What are your business hours? Do you have phone support available?"
+    ground_truth: '{"category": "general", "urgency": "low"}'
+    expected_tools:
+      - ticket_categories
+
+observability:
+  enabled: true
+  service_name: holodeck-ticket-routing
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

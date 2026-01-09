@@ -1,0 +1,106 @@
+{
+  "products": [
+    {
+      "id": "plan_free",
+      "name": "Free Plan",
+      "price": 0,
+      "billing_period": "month",
+      "features": [
+        "1 project",
+        "100 API calls/day",
+        "Basic analytics",
+        "Email support",
+        "Community access"
+      ],
+      "limitations": [
+        "No team members",
+        "No integrations",
+        "7-day data retention"
+      ]
+    },
+    {
+      "id": "plan_starter",
+      "name": "Starter Plan",
+      "price": 29,
+      "billing_period": "month",
+      "annual_price": 290,
+      "features": [
+        "5 projects",
+        "1,000 API calls/day",
+        "Advanced analytics",
+        "3 team members",
+        "Slack integration",
+        "Email support",
+        "30-day data retention"
+      ],
+      "limitations": [
+        "No priority support",
+        "No SSO"
+      ]
+    },
+    {
+      "id": "plan_pro",
+      "name": "Pro Plan",
+      "price": 99,
+      "billing_period": "month",
+      "annual_price": 990,
+      "features": [
+        "Unlimited projects",
+        "10,000 API calls/day",
+        "Full analytics suite",
+        "10 team members",
+        "All integrations",
+        "Priority email support",
+        "Chat support",
+        "90-day data retention",
+        "Custom branding"
+      ],
+      "limitations": [
+        "No dedicated support",
+        "No SLA guarantee"
+      ]
+    },
+    {
+      "id": "plan_enterprise",
+      "name": "Enterprise Plan",
+      "price": "Custom",
+      "billing_period": "annual",
+      "features": [
+        "Unlimited everything",
+        "Custom API limits",
+        "Dedicated success manager",
+        "Phone support",
+        "99.9% SLA guarantee",
+        "SSO/SAML",
+        "Custom integrations",
+        "Unlimited data retention",
+        "On-premise deployment option",
+        "Security audit reports"
+      ],
+      "contact": "sales@acme.com"
+    }
+  ],
+  "add_ons": [
+    {
+      "id": "addon_extra_api",
+      "name": "Extra API Calls",
+      "price": 10,
+      "unit": "per 1,000 calls",
+      "description": "Additional API calls beyond your plan limit"
+    },
+    {
+      "id": "addon_extra_storage",
+      "name": "Extra Storage",
+      "price": 5,
+      "unit": "per 10GB/month",
+      "description": "Additional storage for files and data"
+    },
+    {
+      "id": "addon_priority_support",
+      "name": "Priority Support",
+      "price": 49,
+      "unit": "per month",
+      "description": "Guaranteed 4-hour response time, dedicated support queue"
+    }
+  ]
+}

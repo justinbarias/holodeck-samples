@@ -1,0 +1,68 @@
+[
+  {
+    "category_id": "billing",
+    "name": "Billing & Payments",
+    "description": "Issues related to invoices, payments, refunds, subscription changes, pricing questions, and payment method updates. Includes disputes about charges, failed transactions, and billing cycle inquiries.",
+    "keywords": ["invoice", "payment", "charge", "refund", "subscription", "billing", "price", "cost", "fee", "credit card", "renewal"],
+    "routing_department": "Finance Support",
+    "sla_hours": 24,
+    "priority_indicators": {
+      "high": ["overcharged", "fraudulent", "urgent refund", "account suspended"],
+      "medium": ["billing question", "update payment", "cancel subscription"],
+      "low": ["pricing info", "invoice copy", "payment history"]
+    }
+  },
+  {
+    "category_id": "technical",
+    "name": "Technical Support",
+    "description": "Product bugs, errors, system crashes, integration issues, API problems, performance degradation, and technical troubleshooting. Includes connectivity issues and software malfunctions.",
+    "keywords": ["error", "bug", "crash", "API", "integration", "broken", "not working", "slow", "timeout", "500", "404", "exception"],
+    "routing_department": "Technical Support",
+    "sla_hours": 4,
+    "priority_indicators": {
+      "critical": ["system down", "data loss", "security breach", "production outage"],
+      "high": ["cannot login", "API failure", "integration broken"],
+      "medium": ["slow performance", "intermittent issue", "minor bug"],
+      "low": ["feature question", "documentation", "how to"]
+    }
+  },
+  {
+    "category_id": "sales",
+    "name": "Sales & Pricing",
+    "description": "Pre-sales inquiries, pricing negotiations, enterprise deals, contract discussions, and upgrade requests. Includes demo requests and partnership opportunities.",
+    "keywords": ["pricing", "enterprise", "demo", "quote", "discount", "contract", "upgrade", "plan", "features", "comparison", "partnership"],
+    "routing_department": "Sales Team",
+    "sla_hours": 8,
+    "priority_indicators": {
+      "high": ["enterprise deal", "large contract", "urgent demo", "competitor evaluation"],
+      "medium": ["upgrade inquiry", "pricing question", "feature comparison"],
+      "low": ["general inquiry", "newsletter", "webinar"]
+    }
+  },
+  {
+    "category_id": "account",
+    "name": "Account Management",
+    "description": "Account access issues, password resets, profile updates, security concerns, two-factor authentication, and account settings. Includes account verification and ownership transfers.",
+    "keywords": ["password", "login", "account", "profile", "settings", "2FA", "security", "access", "locked", "verify", "ownership"],
+    "routing_department": "Account Support",
+    "sla_hours": 2,
+    "priority_indicators": {
+      "high": ["account hacked", "locked out", "security concern", "urgent access"],
+      "medium": ["password reset", "2FA issue", "profile update"],
+      "low": ["settings question", "notification preferences"]
+    }
+  },
+  {
+    "category_id": "general",
+    "name": "General Inquiries",
+    "description": "General questions, feedback, feature requests, company information, and non-categorizable inquiries. Includes compliments, complaints, and miscellaneous requests.",
+    "keywords": ["question", "feedback", "suggestion", "information", "help", "general", "other", "compliment", "complaint"],
+    "routing_department": "General Support",
+    "sla_hours": 48,
+    "priority_indicators": {
+      "high": ["complaint", "escalation request", "legal concern"],
+      "medium": ["feature request", "general feedback"],
+      "low": ["information request", "compliment", "general question"]
+    }
+  }
+]

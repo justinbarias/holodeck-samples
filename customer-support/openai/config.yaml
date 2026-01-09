@@ -1,0 +1,20 @@
+# OpenAI Provider Configuration for Customer Support Sample
+
+providers:
+  openai:
+    provider: openai
+    name: gpt-4o
+    temperature: 0.7
+    max_tokens: 1500
+    api_key: ${OPENAI_API_KEY}
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
+
+execution:
+  llm_timeout: 120
+  file_timeout: 60
+  cache_enabled: true
+  cache_directory: .holodeck_cache

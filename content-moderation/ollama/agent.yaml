@@ -1,0 +1,267 @@
+# HoloDeck Content Moderation Agent - Ollama
+# An AI-powered content moderation system for filtering user-generated content
+
+name: content-moderation
+description: AI content moderator for classifying and filtering user-generated content
+
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.1  # Low temperature for consistent moderation decisions
+  max_tokens: 2048
+  endpoint: http://localhost:11434
+
+instructions:
+  file: instructions/system-prompt.md
+
+# Embedding model for vector stores
+embedding_model: nomic-embed-text:latest
+
+# Structured response format for moderation decisions
+response_format:
+  type: object
+  properties:
+    decision:
+      type: string
+      enum: [approve, warning, remove, suspend, escalate]
+      description: The moderation decision
+    violations:
+      type: array
+      items:
+        type: object
+        properties:
+          category:
+            type: string
+            description: Violation category ID
+          subcategory:
+            type: string
+            description: Violation subcategory ID
+          severity:
+            type: string
+            enum: [low, medium, high, critical]
+          evidence:
+            type: string
+            description: Specific content that violates policy
+      description: List of detected violations
+    reasoning:
+      type: string
+      description: Explanation of the moderation decision
+    recommended_action:
+      type: string
+      description: Specific action to take
+    confidence_score:
+      type: number
+      description: Confidence in the decision (0.0-1.0)
+  required:
+    - decision
+    - violations
+    - reasoning
+    - confidence_score
+
+tools:
+  # Community Guidelines - Full moderation rules
+  - name: moderation_rules
+    type: vectorstore
+    description: Search community guidelines and moderation rules for policy information
+    vectorstore: chromadb
+    collection: content_moderation_rules
+    top_k: 5
+    score_threshold: 0.7
+    data_source: data/moderation_rules.md
+
+  # Category Definitions - Violation categories and examples
+  - name: category_definitions
+    type: vectorstore
+    description: Search violation categories, subcategories, and examples
+    vectorstore: chromadb
+    collection: content_moderation_categories
+    top_k: 3
+    score_threshold: 0.75
+    data_source: data/category_definitions.json
+
+  # Deep Analysis Prompt - For nuanced content
+  - name: analyze_content
+    type: prompt
+    description: Perform deep analysis of ambiguous or nuanced content
+    template: |
+      ## Deep Content Analysis
+
+      **Content to Analyze:**
+      {{content}}
+
+      **Initial Assessment:**
+      {{initial_assessment}}
+
+      **Context Provided:**
+      {{context}}
+
+      **Analysis Focus Areas:**
+      1. Intent Assessment: What appears to be the poster's intent?
+      2. Harm Potential: What harm could this content cause if left up?
+      3. Context Factors: Are there mitigating contextual factors?
+      4. Precedent: How have similar cases been handled?
+
+      **Provide detailed analysis for each area.**
+
+# Vector store configuration
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
+
+# Evaluation configuration
+# Note: Ollama uses local models for evaluation - results may vary from cloud models
+evaluations:
+  default_model:
+    provider: ollama
+    name: llama3.1:8b
+    endpoint: http://localhost:11434
+
+  metrics:
+    # Accuracy Metrics - Correct classification
+    - metric: geval
+      name: ModerationAccuracy
+      threshold: 0.8  # Slightly lower for local model
+      criteria: |
+        Evaluate whether the content moderation decision is correct.
+        Consider:
+        - Is the violation category correctly identified?
+        - Is the severity level appropriate?
+        - Does the decision align with the community guidelines?
+      evaluation_steps:
+        - Check if obvious violations are correctly identified
+        - Verify the violation category matches the content
+        - Confirm severity level is appropriate for the violation
+        - Ensure the decision follows community guidelines
+
+    # Reasoning Quality - Clear explanations
+    - metric: geval
+      name: ReasoningQuality
+      threshold: 0.7  # Slightly lower for local model
+      criteria: |
+        Evaluate the quality and clarity of the moderation reasoning.
+        Consider:
+        - Is the reasoning clear and understandable?
+        - Does it cite specific policy sections?
+        - Would this explanation be useful in an appeal?
+      evaluation_steps:
+        - Check if reasoning is clear and well-structured
+        - Verify specific evidence is cited
+        - Confirm policy references are accurate
+        - Assess if reasoning would help users understand the decision
+
+    # Policy Faithfulness - Grounded in guidelines
+    - metric: faithfulness
+      threshold: 0.75  # Slightly lower for local model
+      description: Decisions must be grounded in retrieved community guidelines
+
+    # Consistency - Same content gets same decision
+    - metric: geval
+      name: Consistency
+      threshold: 0.75  # Slightly lower for local model
+      criteria: |
+        Evaluate whether the moderation decision is consistent with similar cases.
+        Consider:
+        - Would similar content receive the same decision?
+        - Is the severity consistent with the violation type?
+        - Are there any apparent biases in the decision?
+      evaluation_steps:
+        - Compare decision to how similar violations are typically handled
+        - Check for consistency in severity assignment
+        - Look for any signs of bias or inconsistency
+        - Verify the decision follows established precedent
+
+# Test cases
+test_cases:
+  - input: "I absolutely hate Mondays. This meeting is killing me."
+    ground_truth: |
+      {
+        "decision": "approve",
+        "violations": [],
+        "reasoning": "Common expression of frustration, not a policy violation",
+        "confidence_score": 0.95
+      }
+    tags:
+      - safe
+      - colloquial
+
+  - input: "Check out this amazing crypto opportunity! Send me $100 and I'll double your money in 24 hours! DM me now!"
+    ground_truth: |
+      {
+        "decision": "remove",
+        "violations": [{"category": "spam", "subcategory": "scams", "severity": "medium"}],
+        "reasoning": "Clear financial scam attempting to deceive users",
+        "confidence_score": 0.9
+      }
+    tags:
+      - spam
+      - scam
+
+  - input: "The government doesn't want you to know that drinking bleach cures all diseases. Big pharma is hiding the truth!"
+    ground_truth: |
+      {
+        "decision": "remove",
+        "violations": [{"category": "misinformation", "subcategory": "health_misinfo", "severity": "high"}],
+        "reasoning": "Dangerous health misinformation promoting harmful behavior",
+        "confidence_score": 0.95
+      }
+    tags:
+      - misinformation
+      - health
+
+  - input: "This documentary about the 1940s war crimes is hard to watch but important for education."
+    ground_truth: |
+      {
+        "decision": "approve",
+        "violations": [],
+        "reasoning": "Educational content about historical events with appropriate framing",
+        "confidence_score": 0.85
+      }
+    tags:
+      - safe
+      - educational
+
+  - input: "You're so stupid, why do you even post? Nobody wants to hear from you. Delete your account already."
+    ground_truth: |
+      {
+        "decision": "warning",
+        "violations": [{"category": "harassment", "subcategory": "direct_harassment", "severity": "medium"}],
+        "reasoning": "Direct personal attacks targeting an individual user",
+        "confidence_score": 0.88
+      }
+    tags:
+      - harassment
+      - bullying
+
+  - input: "I'm selling prescription medications without a prescription. DM for prices and delivery."
+    ground_truth: |
+      {
+        "decision": "remove",
+        "violations": [{"category": "illegal", "subcategory": "drug_trafficking", "severity": "critical"}],
+        "reasoning": "Illegal activity - selling controlled substances",
+        "confidence_score": 0.95
+      }
+    tags:
+      - illegal
+      - drugs
+
+# Observability configuration
+observability:
+  enabled: true
+  service_name: holodeck-content-moderation
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false  # Important: Don't log potentially harmful content
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

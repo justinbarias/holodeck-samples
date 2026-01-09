@@ -1,0 +1,302 @@
+# HoloDeck Legal Summarization Agent - Ollama
+# An AI-powered legal document summarization and analysis system
+
+name: legal-summarization
+description: AI legal analyst for summarizing contracts and extracting key information
+
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.2  # Low temperature for accurate extraction
+  max_tokens: 4096
+  endpoint: http://localhost:11434
+
+instructions:
+  file: instructions/system-prompt.md
+
+# Embedding model for vector stores
+embedding_model: nomic-embed-text:latest
+
+# Structured response format for legal analysis
+response_format:
+  type: object
+  properties:
+    summary:
+      type: string
+      description: Executive summary of the document (2-3 paragraphs)
+    document_type:
+      type: string
+      description: Type of legal document (NDA, Service Agreement, Employment, Lease, License)
+    parties:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Legal name of the party
+          role:
+            type: string
+            description: Role in the agreement (e.g., Licensor, Employee, Landlord)
+          obligations:
+            type: array
+            items:
+              type: string
+            description: Key obligations of this party
+      description: Parties to the agreement
+    key_clauses:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Name of the clause
+          summary:
+            type: string
+            description: What this clause does
+          assessment:
+            type: string
+            enum: [standard, non_standard, missing]
+          risk_level:
+            type: string
+            enum: [high, medium, low, none]
+      description: Key clauses analyzed
+    key_dates:
+      type: array
+      items:
+        type: object
+        properties:
+          description:
+            type: string
+          date:
+            type: string
+      description: Important dates and deadlines
+    risks_identified:
+      type: array
+      items:
+        type: object
+        properties:
+          description:
+            type: string
+          severity:
+            type: string
+            enum: [high, medium, low]
+          clause_reference:
+            type: string
+          recommendation:
+            type: string
+      description: Identified risks and recommendations
+  required:
+    - summary
+    - document_type
+    - parties
+    - key_clauses
+    - key_dates
+    - risks_identified
+
+tools:
+  # Legal Templates - Standard clause definitions and examples
+  - name: legal_templates
+    type: vectorstore
+    description: Search standard legal clause definitions and templates for comparison
+    vectorstore: chromadb
+    collection: legal_templates
+    top_k: 5
+    score_threshold: 0.7
+    data_source: data/legal_templates.md
+
+  # Sample Contracts - Reference contracts for context
+  - name: sample_contracts
+    type: vectorstore
+    description: Search sample contracts for similar provisions and context
+    vectorstore: chromadb
+    collection: sample_contracts
+    top_k: 3
+    score_threshold: 0.75
+    data_source: data/sample_contracts.json
+
+  # Document Access - MCP filesystem for document analysis
+  - name: filesystem
+    type: mcp
+    description: Access and read document files for analysis
+    server: filesystem-server
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-filesystem"
+      - "./documents"
+
+  # Clause Extraction Prompt
+  - name: extract_clauses
+    type: prompt
+    description: Extract specific clause information from document text
+    template: |
+      ## Clause Extraction
+
+      **Document Section:**
+      {{document_text}}
+
+      **Clause Type to Extract:**
+      {{clause_type}}
+
+      **Extract the following information:**
+      1. Exact clause language (quote relevant portions)
+      2. Key terms and definitions used
+      3. Obligations created
+      4. Rights granted
+      5. Conditions or limitations
+      6. Duration or termination provisions
+      7. Remedies for breach
+
+      **Provide structured extraction for each element found.**
+
+# Vector store configuration
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
+
+# Evaluation configuration
+# Note: Ollama uses local models for evaluation - results may vary from cloud models
+evaluations:
+  default_model:
+    provider: ollama
+    name: llama3.1:8b
+    endpoint: http://localhost:11434
+
+  metrics:
+    # Summary Quality - ROUGE score for summarization
+    - metric: rouge
+      threshold: 0.55  # Slightly lower for local model
+      description: Summary captures key information from document
+
+    # Extraction Quality - BLEU for exact extraction
+    - metric: bleu
+      threshold: 0.45  # Slightly lower for local model
+      description: Extracted terms match document language
+
+    # Completeness - Did we capture all key information?
+    - metric: geval
+      name: Completeness
+      threshold: 0.75  # Slightly lower for local model
+      criteria: |
+        Evaluate whether the legal document summary is complete.
+        Consider:
+        - Are all parties identified?
+        - Are all key dates captured?
+        - Are all major obligations noted?
+        - Are financial terms extracted?
+        - Are termination provisions covered?
+      evaluation_steps:
+        - Check if all parties are identified with their roles
+        - Verify key dates and deadlines are captured
+        - Confirm major obligations for each party are noted
+        - Check if financial terms are accurately extracted
+        - Verify termination and renewal provisions are covered
+
+    # Legal Accuracy - Are terms correctly interpreted?
+    - metric: geval
+      name: LegalAccuracy
+      threshold: 0.7  # Slightly lower for local model
+      criteria: |
+        Evaluate the legal accuracy of the document analysis.
+        Consider:
+        - Are legal terms used correctly?
+        - Is the document type correctly identified?
+        - Are clause interpretations accurate?
+        - Are risk assessments reasonable?
+      evaluation_steps:
+        - Check if document type is correctly identified
+        - Verify legal terminology is used accurately
+        - Confirm clause summaries are legally accurate
+        - Assess if risk levels are appropriately assigned
+        - Check if recommendations are legally sound
+
+    # Context Precision - Retrieved context relevance
+    - metric: contextual_precision
+      threshold: 0.65  # Slightly lower for local model
+      description: Retrieved legal templates are relevant to the document
+
+    # Faithfulness - Analysis grounded in document
+    - metric: faithfulness
+      threshold: 0.8  # Slightly lower for local model
+      description: Analysis must be grounded in actual document content
+
+# Test cases
+test_cases:
+  - input: |
+      Summarize the following NDA:
+
+      MUTUAL NON-DISCLOSURE AGREEMENT
+
+      This Agreement is entered into as of January 15, 2024 by TechCorp Inc. ("Disclosing Party")
+      and StartupXYZ LLC ("Receiving Party").
+
+      1. CONFIDENTIAL INFORMATION includes all technical data, trade secrets, and business
+      information disclosed by either party.
+
+      2. The Receiving Party agrees to: (a) hold information in confidence; (b) not disclose
+      to third parties; (c) use only for evaluation purposes.
+
+      3. This Agreement remains in effect for 2 years. Confidentiality obligations survive
+      for 5 years after disclosure.
+
+      4. Governing Law: Delaware
+    ground_truth: |
+      Summary should identify: mutual NDA between TechCorp Inc. and StartupXYZ LLC,
+      effective January 15, 2024, 2-year term with 5-year confidentiality survival,
+      Delaware law, standard confidentiality obligations.
+    tags:
+      - nda
+      - summary
+
+  - input: |
+      What are the key risks in this employment agreement excerpt?
+
+      NON-COMPETE: For 24 months following termination for any reason, Employee shall not
+      engage in any business competitive with Company anywhere in the United States or
+      any country where Company has operations.
+
+      INTELLECTUAL PROPERTY: All inventions, whether or not related to Company's business,
+      created during employment belong to Company. Employee waives all moral rights.
+    ground_truth: |
+      Should identify risks: overly broad non-compete (24 months, nationwide + international),
+      overly broad IP assignment (all inventions regardless of relation to business),
+      moral rights waiver. Recommendations should suggest negotiating narrower terms.
+    tags:
+      - employment
+      - risk_analysis
+
+  - input: "What standard clauses should I look for in a software license agreement?"
+    ground_truth: |
+      Should identify: license grant and restrictions, fees and payment terms,
+      support and maintenance, SLA/uptime commitments, IP ownership,
+      warranties and disclaimers, limitation of liability, indemnification,
+      term and termination, confidentiality.
+    expected_tools:
+      - legal_templates
+    tags:
+      - license
+      - guidance
+
+# Observability configuration
+observability:
+  enabled: true
+  service_name: holodeck-legal-summarization
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false  # Legal documents may be confidential
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true
