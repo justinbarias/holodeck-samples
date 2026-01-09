@@ -351,6 +351,60 @@ The slash commands are defined in:
 └── holodeck.tune.md      # Agent tuning assistant
 ```
 
+## GitHub Copilot Integration
+
+This repository also includes prompt files for [GitHub Copilot](https://github.com/features/copilot) in VS Code, Visual Studio, and JetBrains IDEs. These prompts provide the same guided workflows as the Claude Code commands.
+
+### Available Prompts
+
+| Prompt | Description |
+|--------|-------------|
+| `holodeck-create` | Conversational wizard to scaffold and configure a new agent |
+| `holodeck-tune` | Iteratively tune an existing agent to improve test performance |
+
+### How to Use
+
+1. Open the repository in VS Code (or supported IDE) with GitHub Copilot Chat
+2. Type `/` in the chat input to see available prompts
+3. Select `holodeck-create` or `holodeck-tune`
+4. Follow the conversational wizard
+
+Alternatively, type `#prompt:` and select the prompt from the dropdown.
+
+### holodeck-create
+
+A step-by-step wizard that guides you through creating a new HoloDeck agent:
+
+1. **Basic Information** - Agent name, description, use case category, LLM provider
+2. **Model Configuration** - Temperature, max tokens based on use case
+3. **System Prompt Design** - Role, guidelines, process, output format
+4. **Response Format** - JSON schema for structured output (if needed)
+5. **Tools Configuration** - Vectorstore (RAG), MCP servers
+6. **Evaluation Metrics** - RAG metrics, GEval custom criteria
+7. **Test Cases** - Comprehensive test scenarios
+8. **Observability** - OpenTelemetry configuration
+9. **Finalization** - Validation and next steps
+
+### holodeck-tune
+
+An iterative tuning assistant that improves agent test performance:
+
+1. **Initial Assessment** - Analyzes baseline test results
+2. **Diagnosis** - Identifies failure patterns and root causes
+3. **Tuning Loop** - Proposes changes, guides you through applying them
+4. **Changelog Tracking** - Helps maintain `changelog.md` with all modifications
+
+### Prompt Files Location
+
+The GitHub Copilot prompts are defined in:
+```
+.github/prompts/
+├── holodeck-create.prompt.md    # Agent creation wizard
+└── holodeck-tune.prompt.md      # Agent tuning assistant
+```
+
+> **Note:** GitHub Copilot prompts provide guidance-focused workflows. Unlike Claude Code commands which can execute tools directly, Copilot prompts suggest commands for you to run manually.
+
 ## Resources
 
 - [Installation Guide](https://docs.useholodeck.ai/getting-started/installation)
