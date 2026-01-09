@@ -30,11 +30,36 @@ tools:
     description: Search frequently asked questions and answers
     source: data/faq.json
     embedding_model: text-embedding-3-small
-    top_k: 3
-    chunk_size: 256
-    chunk_overlap: 32
-    min_similarity_score: 0.65
     database: chromadb
+    top_k: 3
+    chunk_size: 512
+    chunk_overlap: 64
+    min_similarity_score: 0.65
+    id_field: id
+    vector_field:
+      - question
+      - answer
+    meta_fields:
+      - category
+      - question
+
+  - type: vectorstore
+    name: product_catalog
+    description: Search product catalog for subscription plans, pricing, features, and add-ons
+    source: data/product_catalog.json
+    embedding_model: text-embedding-3-small
+    database: chromadb
+    top_k: 5
+    chunk_size: 512
+    chunk_overlap: 64
+    min_similarity_score: 0.7
+    id_field: id
+    vector_field: content
+    meta_fields:
+      - type
+      - name
+      - category
+      - price
 
   - type: mcp
     name: memory
