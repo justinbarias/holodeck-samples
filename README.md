@@ -284,6 +284,73 @@ curl http://localhost:11434/api/version  # Verify connection
 3. **Build your own** - Use these samples as templates for new use cases
 4. **Deploy** - Use `holodeck deploy` for production deployment
 
+## Claude Code Integration
+
+This repository includes slash commands for [Claude Code](https://claude.ai/code) to streamline agent development. These commands provide guided, conversational workflows for creating and optimizing HoloDeck agents.
+
+### Available Slash Commands
+
+| Command | Description |
+|---------|-------------|
+| `/holodeck.create` | Conversational wizard to scaffold and configure a new agent |
+| `/holodeck.tune` | Iteratively tune an existing agent to improve test performance |
+
+### /holodeck.create
+
+A step-by-step wizard that guides you through creating a new HoloDeck agent:
+
+1. **Basic Information** - Agent name, description, use case category, LLM provider
+2. **Model Configuration** - Temperature, max tokens based on use case
+3. **System Prompt Design** - Role, guidelines, process, output format
+4. **Response Format** - JSON schema for structured output (if needed)
+5. **Tools Configuration** - Vectorstore (RAG), MCP servers
+6. **Evaluation Metrics** - RAG metrics, GEval custom criteria
+7. **Test Cases** - Comprehensive test scenarios
+8. **Observability** - OpenTelemetry configuration
+9. **Finalization** - Validation and next steps
+
+**Usage:**
+```
+/holodeck.create
+```
+
+The wizard will ask clarifying questions at each phase before proceeding.
+
+### /holodeck.tune
+
+An iterative tuning assistant that improves agent test performance:
+
+1. **Initial Assessment** - Runs baseline tests, records pass/fail rates
+2. **Diagnosis** - Analyzes failures and identifies root causes
+3. **Tuning Loop** - Proposes changes, applies them, measures improvement
+4. **Changelog Tracking** - Records all modifications in `changelog.md`
+
+**What it CAN modify:**
+- System prompt content
+- Model settings (temperature, max_tokens)
+- Tool configuration (top_k, chunk_size, min_similarity_score)
+- Evaluation thresholds
+
+**What it CANNOT modify:**
+- Test cases (inputs, ground_truth, expected_tools)
+- Agent name and description
+
+**Usage:**
+```
+/holodeck.tune path/to/agent.yaml
+```
+
+The tuner will ask for maximum iterations and priority tests before starting.
+
+### Command Files Location
+
+The slash commands are defined in:
+```
+.claude/commands/
+├── holodeck.create.md    # Agent creation wizard
+└── holodeck.tune.md      # Agent tuning assistant
+```
+
 ## Resources
 
 - [Installation Guide](https://docs.useholodeck.ai/getting-started/installation)
