@@ -198,6 +198,10 @@
               "minLength": 1,
               "description": "Path to data file/directory"
             },
+            "id_field": {
+              "type": "string",
+              "description": "Field to use as unique identifier for records"
+            },
             "vector_field": {
               "oneOf": [
                 { "type": "string" },

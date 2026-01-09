@@ -51,6 +51,8 @@ npm run dev    # Starts at http://localhost:3000
 
 ## Agent YAML Configuration
 
+**IMPORTANT:** When writing or modifying any HoloDeck YAML files (`agent.yaml`, `config.yaml`), always reference the schema at `@schemas/agent.schema.json` for validation and autocomplete support. This schema defines all valid properties, types, and constraints.
+
 The `agent.yaml` is the core configuration defining an agent:
 
 - **model**: LLM provider, model name, temperature, max_tokens
@@ -80,6 +82,7 @@ The `agent.yaml` is the core configuration defining an agent:
 
 ## When Modifying Samples
 
-1. Changes should be consistent across all three provider variants of a sample
-2. Update `.env.example` if new environment variables are needed
-3. Run `holodeck test agent.yaml` to verify evaluations pass
+1. **Always use `@schemas/agent.schema.json`** when writing or editing YAML files for schema validation
+2. Changes should be consistent across all three provider variants of a sample
+3. Update `.env.example` if new environment variables are needed
+4. Run `holodeck test agent.yaml` to verify evaluations pass
