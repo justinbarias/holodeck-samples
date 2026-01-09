@@ -134,7 +134,7 @@ tools:
     args:
       - "-y"
       - "@modelcontextprotocol/server-filesystem"
-      - "./documents"
+      - "./data"
 
 # Evaluation configuration
 evaluations:

@@ -134,7 +134,7 @@ tools:
     args:
       - "-y"
       - "@modelcontextprotocol/server-filesystem"
-      - "./documents"
+      - "./data"
 
 # Evaluation configuration
 # Note: Ollama uses local models for evaluation - results may vary from cloud models
