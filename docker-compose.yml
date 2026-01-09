@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  # ChromaDB - Vector Store for RAG
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: holodeck-chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma-data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma
+      - ANONYMIZED_TELEMETRY=FALSE
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # .NET Aspire Dashboard - OpenTelemetry UI
+  aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    container_name: holodeck-aspire
+    ports:
+      - "18888:18888"   # Dashboard UI
+      - "4317:18889"    # OTLP gRPC endpoint
+    restart: unless-stopped
+
+volumes:
+  chroma-data:

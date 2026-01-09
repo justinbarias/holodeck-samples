@@ -1,0 +1,144 @@
+# HoloDeck Customer Support Agent - Ollama
+# A context-aware support chatbot with knowledge base and FAQ lookup
+
+name: customer-support
+description: Context-aware customer support agent with knowledge base integration
+
+model:
+  provider: ollama
+  name: gpt-oss:20b
+  temperature: 0.3
+  max_tokens: 4096
+  endpoint: http://localhost:11434
+
+instructions:
+  file: instructions/system-prompt.md
+
+tools:
+  # Knowledge Base - Product documentation and support articles
+  - name: knowledge_base
+    type: vectorstore
+    description: Search product documentation and support articles for accurate answers
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
+    top_k: 5
+    min_similarity_score: 0.7
+    source: data/knowledge_base.md
+
+  # FAQ Database - Frequently asked questions
+  - name: faq
+    type: vectorstore
+    description: Search frequently asked questions for quick answers
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
+    top_k: 3
+    min_similarity_score: 0.8
+    source: data/faq.json
+
+  # Memory - Conversation persistence via MCP
+  - name: memory
+    type: mcp
+    description: Store and retrieve conversation context and user preferences
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-memory"
+
+# Evaluation configuration
+# Note: Ollama uses local models for evaluation - results may vary from cloud models
+evaluations:
+  model:
+    provider: ollama
+    name: gpt-oss:20b
+    endpoint: http://localhost:11434
+
+  metrics:
+    # RAG Metrics - Verify knowledge base usage
+    - type: rag
+      metric_type: faithfulness
+      threshold: 0.75  # Slightly lower for local model
+
+    - type: rag
+      metric_type: answer_relevancy
+      threshold: 0.7  # Slightly lower for local model
+
+    - type: rag
+      metric_type: contextual_relevancy
+      threshold: 0.65  # Slightly lower for local model
+
+    # Quality Metrics - Assess response quality
+    - type: geval
+      name: Helpfulness
+      threshold: 0.75  # Slightly lower for local model
+      criteria: |
+        Evaluate how helpful the response is in solving the customer's problem.
+        Consider: Does it provide actionable steps? Does it address the root cause?
+        Does it anticipate follow-up questions?
+      evaluation_steps:
+        - Check if the response directly addresses the customer's issue
+        - Verify actionable steps or solutions are provided
+        - Assess if the response anticipates common follow-up questions
+        - Evaluate if the tone is supportive and professional
+
+    - type: geval
+      name: Professionalism
+      threshold: 0.65  # Slightly lower for local model
+      criteria: |
+        Evaluate the professionalism and tone of the customer support response.
+        Consider: Is the language appropriate? Is empathy shown? Is the brand
+        voice maintained?
+      evaluation_steps:
+        - Check for appropriate and professional language
+        - Verify empathy is shown when addressing frustrations
+        - Assess if brand voice guidelines are followed
+        - Evaluate overall communication quality
+
+# Test cases
+test_cases:
+  - input: "How do I reset my password?"
+    ground_truth: "Password reset instructions with step-by-step guidance"
+    expected_tools:
+      - faq
+
+  - input: "My order hasn't arrived yet. Order number is #12345"
+    ground_truth: "Order status check with tracking information and estimated delivery"
+    expected_tools:
+      - knowledge_base
+
+  - input: "What's your return policy for electronics?"
+    ground_truth: "Return policy details including timeframe, conditions, and process"
+    expected_tools:
+      - knowledge_base
+      - faq
+
+  - input: "I'm having trouble connecting my device to WiFi"
+    ground_truth: "WiFi troubleshooting steps including reset, reconnection, and common fixes"
+    expected_tools:
+      - knowledge_base
+
+  - input: "Can I upgrade my subscription plan?"
+    ground_truth: "Subscription upgrade options, pricing, and how to proceed"
+    expected_tools:
+      - knowledge_base
+      - faq
+
+# Observability configuration
+observability:
+  enabled: true
+  service_name: holodeck-customer-support
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

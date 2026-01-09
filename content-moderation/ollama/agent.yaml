@@ -1,0 +1,223 @@
+# HoloDeck Content Moderation Agent - Ollama
+# An AI-powered content moderation system for filtering user-generated content
+
+name: content-moderation
+description: AI content moderator for classifying and filtering user-generated content
+
+model:
+  provider: ollama
+  name: gpt-oss:20b
+  temperature: 0.1  # Low temperature for consistent moderation decisions
+  max_tokens: 2048
+  endpoint: http://localhost:11434
+
+instructions:
+  file: instructions/system-prompt.md
+
+# Structured response format for moderation decisions
+response_format:
+  type: object
+  properties:
+    decision:
+      type: string
+      enum: [approve, warning, remove, suspend, escalate]
+      description: The moderation decision
+    violations:
+      type: array
+      items:
+        type: object
+        properties:
+          category:
+            type: string
+            description: Violation category ID
+          subcategory:
+            type: string
+            description: Violation subcategory ID
+          severity:
+            type: string
+            enum: [low, medium, high, critical]
+          evidence:
+            type: string
+            description: Specific content that violates policy
+      description: List of detected violations
+    reasoning:
+      type: string
+      description: Explanation of the moderation decision
+    recommended_action:
+      type: string
+      description: Specific action to take
+    confidence_score:
+      type: number
+      description: Confidence in the decision (0.0-1.0)
+  required:
+    - decision
+    - violations
+    - reasoning
+    - confidence_score
+
+tools:
+  # Community Guidelines - Full moderation rules
+  - name: moderation_rules
+    type: vectorstore
+    description: Search community guidelines and moderation rules for policy information
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
+    top_k: 5
+    min_similarity_score: 0.7
+    source: data/moderation_rules.md
+
+  # Category Definitions - Violation categories and examples
+  - name: category_definitions
+    type: vectorstore
+    description: Search violation categories, subcategories, and examples
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
+    top_k: 3
+    min_similarity_score: 0.75
+    source: data/category_definitions.json
+    id_field: subcategory_id
+    vector_field: description
+    meta_fields:
+    - category_name
+    - subcategory_name
+    - examples
+    - description
+
+# Evaluation configuration
+# Note: Ollama uses local models for evaluation - results may vary from cloud models
+evaluations:
+  model:
+    provider: ollama
+    name: gpt-oss:20b
+    endpoint: http://localhost:11434
+
+  metrics:
+    # Accuracy Metrics - Correct classification
+    - type: geval
+      name: ModerationAccuracy
+      threshold: 0.8  # Slightly lower for local model
+      criteria: |
+        Evaluate whether the content moderation decision is correct.
+        Consider:
+        - Is the violation category correctly identified?
+        - Is the severity level appropriate?
+        - Does the decision align with the community guidelines?
+      evaluation_steps:
+        - Check if obvious violations are correctly identified
+        - Verify the violation category matches the content
+        - Confirm severity level is appropriate for the violation
+        - Ensure the decision follows community guidelines
+
+    # Reasoning Quality - Clear explanations
+    - type: geval
+      name: ReasoningQuality
+      threshold: 0.7  # Slightly lower for local model
+      criteria: |
+        Evaluate the quality and clarity of the moderation reasoning.
+        Consider:
+        - Is the reasoning clear and understandable?
+        - Does it cite specific policy sections?
+        - Would this explanation be useful in an appeal?
+      evaluation_steps:
+        - Check if reasoning is clear and well-structured
+        - Verify specific evidence is cited
+        - Confirm policy references are accurate
+        - Assess if reasoning would help users understand the decision
+
+    # Policy Faithfulness - Grounded in guidelines
+    - type: rag
+      metric_type: faithfulness
+      threshold: 0.75  # Slightly lower for local model
+
+    # Consistency - Same content gets same decision
+    - type: geval
+      name: Consistency
+      threshold: 0.75  # Slightly lower for local model
+      criteria: |
+        Evaluate whether the moderation decision is consistent with similar cases.
+        Consider:
+        - Would similar content receive the same decision?
+        - Is the severity consistent with the violation type?
+        - Are there any apparent biases in the decision?
+      evaluation_steps:
+        - Compare decision to how similar violations are typically handled
+        - Check for consistency in severity assignment
+        - Look for any signs of bias or inconsistency
+        - Verify the decision follows established precedent
+
+# Test cases
+test_cases:
+  - input: "I absolutely hate Mondays. This meeting is killing me."
+    ground_truth: |
+      {
+        "decision": "approve",
+        "violations": [],
+        "reasoning": "Common expression of frustration, not a policy violation",
+        "confidence_score": 0.95
+      }
+
+  - input: "Check out this amazing crypto opportunity! Send me $100 and I'll double your money in 24 hours! DM me now!"
+    ground_truth: |
+      {
+        "decision": "remove",
+        "violations": [{"category": "spam", "subcategory": "scams", "severity": "medium"}],
+        "reasoning": "Clear financial scam attempting to deceive users",
+        "confidence_score": 0.9
+      }
+
+  - input: "The government doesn't want you to know that drinking bleach cures all diseases. Big pharma is hiding the truth!"
+    ground_truth: |
+      {
+        "decision": "remove",
+        "violations": [{"category": "misinformation", "subcategory": "health_misinfo", "severity": "high"}],
+        "reasoning": "Dangerous health misinformation promoting harmful behavior",
+        "confidence_score": 0.95
+      }
+
+  - input: "This documentary about the 1940s war crimes is hard to watch but important for education."
+    ground_truth: |
+      {
+        "decision": "approve",
+        "violations": [],
+        "reasoning": "Educational content about historical events with appropriate framing",
+        "confidence_score": 0.85
+      }
+
+  - input: "You're so stupid, why do you even post? Nobody wants to hear from you. Delete your account already."
+    ground_truth: |
+      {
+        "decision": "warning",
+        "violations": [{"category": "harassment", "subcategory": "direct_harassment", "severity": "medium"}],
+        "reasoning": "Direct personal attacks targeting an individual user",
+        "confidence_score": 0.88
+      }
+
+  - input: "I'm selling prescription medications without a prescription. DM for prices and delivery."
+    ground_truth: |
+      {
+        "decision": "remove",
+        "violations": [{"category": "illegal", "subcategory": "drug_trafficking", "severity": "critical"}],
+        "reasoning": "Illegal activity - selling controlled substances",
+        "confidence_score": 0.95
+      }
+
+# Observability configuration
+observability:
+  enabled: true
+  service_name: holodeck-content-moderation
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false  # Important: Don't log potentially harmful content
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

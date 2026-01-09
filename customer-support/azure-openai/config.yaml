@@ -1,0 +1,17 @@
+# HoloDeck Configuration - Azure OpenAI Provider
+# Customer Support Agent
+
+providers:
+  azure_openai:
+    provider: azure_openai
+    name: gpt-4o
+    temperature: 0.3
+    max_tokens: 4096
+    endpoint: ${AZURE_OPENAI_ENDPOINT}
+    api_key: ${AZURE_OPENAI_API_KEY}
+    api_version: "2024-02-15-preview"
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000

@@ -1,0 +1,15 @@
+# HoloDeck Configuration - OpenAI Provider
+# Content Moderation Agent
+
+providers:
+  openai:
+    provider: openai
+    name: gpt-4o
+    temperature: 0.1  # Low temperature for consistent decisions
+    max_tokens: 2048
+    api_key: ${OPENAI_API_KEY}
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000

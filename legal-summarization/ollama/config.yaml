@@ -1,0 +1,15 @@
+# HoloDeck Configuration - Ollama Provider
+# Legal Summarization Agent
+
+providers:
+  ollama:
+    provider: ollama
+    name: gpt-oss:20b
+    temperature: 0.2  # Low temperature for accurate extraction
+    max_tokens: 4096
+    endpoint: http://localhost:11434
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000

@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* CopilotKit Theme Variables */
+  --copilot-kit-primary-color: #6366f1;
+  --copilot-kit-contrast-color: #ffffff;
+  --copilot-kit-secondary-color: #f3f4f6;
+  --copilot-kit-secondary-contrast-color: #1f2937;
+  --copilot-kit-background-color: #ffffff;
+  --copilot-kit-muted-color: #9ca3af;
+  --copilot-kit-separator-color: #e5e7eb;
+  --copilot-kit-scrollbar-thumb-color: #d1d5db;
+  --copilot-kit-response-button-background-color: #f9fafb;
+  --copilot-kit-response-button-color: #374151;
+  --copilot-kit-border-radius: 0.75rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+
+    /* CopilotKit Dark Theme */
+    --copilot-kit-primary-color: #818cf8;
+    --copilot-kit-contrast-color: #ffffff;
+    --copilot-kit-secondary-color: #1f2937;
+    --copilot-kit-secondary-contrast-color: #f9fafb;
+    --copilot-kit-background-color: #111827;
+    --copilot-kit-muted-color: #6b7280;
+    --copilot-kit-separator-color: #374151;
+    --copilot-kit-scrollbar-thumb-color: #4b5563;
+    --copilot-kit-response-button-background-color: #1f2937;
+    --copilot-kit-response-button-color: #e5e7eb;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CopilotKit Chat Customization */
+.copilotKitChat {
+  border: none;
+  box-shadow: none;
+}
+
+.copilotKitMessages {
+  padding: 1rem;
+}
+
+.copilotKitMessage {
+  max-width: 85%;
+}
+
+.copilotKitUserMessage {
+  background: var(--copilot-kit-primary-color);
+  color: var(--copilot-kit-contrast-color);
+  border-radius: var(--copilot-kit-border-radius);
+  padding: 0.75rem 1rem;
+}
+
+.copilotKitAssistantMessage {
+  background: var(--copilot-kit-secondary-color);
+  color: var(--copilot-kit-secondary-contrast-color);
+  border-radius: var(--copilot-kit-border-radius);
+  padding: 0.75rem 1rem;
+}
+
+.copilotKitInput {
+  border-top: 1px solid var(--copilot-kit-separator-color);
+  padding: 1rem;
+  background: var(--copilot-kit-background-color);
+}
+
+.copilotKitInputTextarea,
+[class*="copilotKit"] textarea,
+[class*="copilotKit"] input {
+  border-radius: var(--copilot-kit-border-radius);
+  border: 1px solid var(--copilot-kit-separator-color);
+  padding: 0.75rem 1rem;
+  background: var(--copilot-kit-background-color) !important;
+  color: var(--copilot-kit-secondary-contrast-color) !important;
+}
+
+[class*="copilotKit"] textarea::placeholder,
+[class*="copilotKit"] input::placeholder {
+  color: var(--copilot-kit-muted-color) !important;
+}

@@ -1,0 +1,15 @@
+# HoloDeck Configuration - Ollama Provider
+# Customer Support Agent
+
+providers:
+  ollama:
+    provider: ollama
+    name: gpt-oss:20b
+    temperature: 0.3
+    max_tokens: 4096
+    endpoint: http://localhost:11434
+
+vectorstores:
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
