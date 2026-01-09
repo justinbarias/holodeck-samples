@@ -51,11 +51,18 @@ tools:
     description: Search ticket category definitions and routing rules
     source: data/ticket_categories.json
     embedding_model: text-embedding-ada-002
+    database: chromadb
     top_k: 3
     chunk_size: 512
     chunk_overlap: 64
     min_similarity_score: 0.6
-    database: chromadb
+    id_field: id
+    vector_field: content
+    meta_fields:
+      - name
+      - routing_department
+      - sla_hours
+      - keywords
 
 evaluations:
   model:

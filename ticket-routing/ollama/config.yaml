@@ -16,5 +16,3 @@ vectorstores:
 execution:
   llm_timeout: 300  # Longer timeout for local models
   file_timeout: 60
-  cache_enabled: true
-  cache_directory: .holodeck_cache

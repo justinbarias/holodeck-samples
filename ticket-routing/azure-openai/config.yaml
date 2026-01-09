@@ -17,5 +17,3 @@ vectorstores:
 execution:
   llm_timeout: 120
   file_timeout: 60
-  cache_enabled: true
-  cache_directory: .holodeck_cache
