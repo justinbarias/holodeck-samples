@@ -21,9 +21,15 @@ You are an AI agent tuning assistant. Your goal is to improve an agent's test pe
 
 - `instructions` - System prompt content (in the referenced .md file)
 - `model` settings - temperature, max_tokens
-- `tools` configuration - top_k, chunk_size, chunk_overlap, min_similarity_score
+- `tools` configuration - top_k, chunk_size, chunk_overlap, min_similarity_score, id_field, vector_field, meta_fields
 - `evaluations` thresholds - If too strict or too lenient
 - `response_format` - Structure improvements
+- `data/` files - Restructure JSON to be flat, improve content field quality, add missing metadata
+
+**Note on data files:** If JSON vectorstore data is deeply nested, you may need to flatten it into an array of flat objects. Each object should have:
+- A unique `id` field
+- A comprehensive `content` field for vectorization
+- Metadata fields for context (category, topic, etc.)
 
 ## What You CANNOT Modify
 
@@ -259,6 +265,30 @@ When issues relate to response quality or behavior:
 | Irrelevant context | Increase min_similarity_score (e.g., 0.6 → 0.75) |
 | Poor chunk quality | Adjust chunk_size (smaller for precision, larger for context) |
 | Chunking artifacts | Increase chunk_overlap |
+| Wrong records retrieved | Review data structure and `vector_field` content |
+
+**For JSON vectorstores, also check:**
+- **id_field**: Ensure unique identifier field is specified
+- **vector_field**: The field being vectorized should contain comprehensive, searchable text
+- **meta_fields**: Include relevant metadata fields for context in responses
+
+**Data Structure Requirements:**
+- JSON must be **flat** (no deeply nested objects)
+- Each record should be a self-contained, independently searchable item
+- The `vector_field` content should include all relevant keywords and context
+
+Example of proper structured vectorstore config:
+```yaml
+- type: vectorstore
+  name: search_knowledge
+  source: data/knowledge.json
+  id_field: id
+  vector_field: content
+  meta_fields:
+    - category
+    - topic
+    - metadata
+```
 
 ### Strategy D: Evaluation Threshold Adjustment
 

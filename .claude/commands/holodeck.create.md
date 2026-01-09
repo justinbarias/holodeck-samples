@@ -240,6 +240,11 @@ Help the user configure knowledge base search.
    - Markdown documentation
    - Mixed content
 3. Do you have the data files ready, or should we create templates?
+4. Should we collect data for you?
+   - **Internet search** - Search the web and compile information into structured data
+   - **File system** - Read and process existing files from your local system
+   - **Other sources** - APIs, databases, or other data sources
+   - **No** - I'll provide the data myself
 
 #### For Each Vectorstore
 
@@ -252,6 +257,11 @@ Collect:
 - **chunk_overlap**: Overlap between chunks (default: 64)
 - **min_similarity_score**: Relevance threshold (default: 0.7)
 
+**For JSON files, also collect structured vector fields:**
+- **id_field**: Field name for unique identifier (e.g., `id`)
+- **vector_field**: Field name for content to vectorize (e.g., `content`, `description`)
+- **meta_fields**: List of additional fields to return in search results
+
 #### Embedding Models by Provider
 
 | Provider | Embedding Model |
@@ -262,6 +272,22 @@ Collect:
 
 #### Vectorstore Configuration Template
 
+**For Markdown files:**
+```yaml
+tools:
+  - type: vectorstore
+    name: <tool_name>
+    description: <what it searches>
+    source: data/<filename>.md
+    embedding_model: <embedding-model>
+    database: chromadb
+    top_k: 5
+    chunk_size: 512
+    chunk_overlap: 64
+    min_similarity_score: 0.7
+```
+
+**For JSON files (with structured vector fields):**
 ```yaml
 tools:
   - type: vectorstore
@@ -274,22 +300,63 @@ tools:
     chunk_size: 512
     chunk_overlap: 64
     min_similarity_score: 0.7
+    id_field: id
+    vector_field: content
+    meta_fields:
+      - category
+      - topic
+      - <other_fields>
 ```
 
 #### Help Create Data Files
 
-If user needs help creating data, provide templates:
+If user needs help creating data, provide templates.
+
+**IMPORTANT: JSON data must be FLAT (no nested objects)**. Each record should be a self-contained, independently searchable item. Deeply nested JSON is NOT supported.
 
 **JSON Data Template** (`data/knowledge_base.json`):
 ```json
 [
   {
     "id": "item-001",
-    "title": "Item Title",
-    "content": "Detailed content that will be searched...",
     "category": "category-name",
-    "metadata": "additional info"
+    "topic": "Topic Title",
+    "content": "Detailed searchable content. This field will be vectorized for semantic search. Include all relevant information in a single paragraph or block of text.",
+    "metadata_field": "additional info returned in search results"
+  },
+  {
+    "id": "item-002",
+    "category": "another-category",
+    "topic": "Another Topic",
+    "content": "More searchable content. Keep each record focused on a single topic or concept for better retrieval quality.",
+    "metadata_field": "more metadata"
   }
+]
+```
+
+**Data Structure Guidelines:**
+1. **Flat structure**: No nested objects or arrays (except simple string arrays)
+2. **One concept per record**: Each JSON object should cover one topic/concept
+3. **Descriptive content field**: The `vector_field` should contain comprehensive, searchable text
+4. **Unique IDs**: Each record needs a unique identifier
+5. **Metadata for context**: Include category, topic, or other fields for filtering/display
+
+**Bad (nested):**
+```json
+{
+  "categories": {
+    "billing": {
+      "items": [...]
+    }
+  }
+}
+```
+
+**Good (flat):**
+```json
+[
+  {"id": "billing-001", "category": "billing", "content": "..."},
+  {"id": "billing-002", "category": "billing", "content": "..."}
 ]
 ```
 
