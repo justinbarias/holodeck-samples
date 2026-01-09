@@ -45,30 +45,25 @@ This sample demonstrates:
    # Edit if using non-default Ollama endpoint
    ```
 
-2. **Initialize vector stores** (first run):
-   ```bash
-   holodeck init-vectors agent.yaml
-   ```
-
-3. **Create documents directory**:
+2. **Create documents directory**:
    ```bash
    mkdir -p documents
    # Place documents to analyze in this directory
    ```
 
-4. **Start the agent**:
+3. **Start the agent**:
    ```bash
    holodeck serve agent.yaml --port 8001
    ```
 
-5. **Start the frontend**:
+4. **Start the frontend**:
    ```bash
    cd copilotkit
    npm install
    npm run dev
    ```
 
-6. **Open the UI**: http://localhost:3000
+5. **Open the UI**: http://localhost:3000
 
 ## Supported Document Types
 

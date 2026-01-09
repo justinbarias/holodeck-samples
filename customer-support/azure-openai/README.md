@@ -32,24 +32,19 @@ This sample demonstrates:
    # Edit .env with your Azure OpenAI credentials
    ```
 
-2. **Initialize vector stores** (first run):
-   ```bash
-   holodeck init-vectors agent.yaml
-   ```
-
-3. **Start the agent**:
+2. **Start the agent**:
    ```bash
    holodeck serve agent.yaml --port 8001
    ```
 
-4. **Start the frontend**:
+3. **Start the frontend**:
    ```bash
    cd copilotkit
    npm install
    npm run dev
    ```
 
-5. **Open the UI**: http://localhost:3000
+4. **Open the UI**: http://localhost:3000
 
 ## Tools
 

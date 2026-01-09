@@ -70,19 +70,13 @@ cp .env.example .env
 # Edit .env with your API keys (not needed for Ollama)
 ```
 
-### 4. Initialize Vector Stores
-
-```bash
-holodeck init-vectors agent.yaml
-```
-
-### 5. Start the Agent
+### 4. Start the Agent
 
 ```bash
 holodeck serve agent.yaml --port 8001
 ```
 
-### 6. Start the Frontend
+### 5. Start the Frontend
 
 ```bash
 cd copilotkit
