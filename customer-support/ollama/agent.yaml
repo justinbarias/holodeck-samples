@@ -22,7 +22,7 @@ tools:
     database: chromadb
     embedding_model: nomic-embed-text:latest
     top_k: 5
-    min_similarity_score: 0.7
+    min_similarity_score: 0.3
     source: data/knowledge_base.md
 
   # FAQ Database - Frequently asked questions
@@ -31,9 +31,37 @@ tools:
     description: Search frequently asked questions for quick answers
     database: chromadb
     embedding_model: nomic-embed-text:latest
-    top_k: 3
-    min_similarity_score: 0.8
     source: data/faq.json
+    top_k: 3
+    chunk_size: 512
+    chunk_overlap: 64
+    min_similarity_score: 0.3
+    id_field: id
+    vector_field:
+      - question
+      - answer
+    meta_fields:
+      - category
+      - question
+
+  # Product Catalog - Subscription plans and add-ons
+  - name: product_catalog
+    type: vectorstore
+    description: Search product catalog for subscription plans, pricing, features, and add-ons
+    database: chromadb
+    embedding_model: nomic-embed-text:latest
+    source: data/product_catalog.json
+    top_k: 5
+    chunk_size: 512
+    chunk_overlap: 64
+    min_similarity_score: 0.5
+    id_field: id
+    vector_field: content
+    meta_fields:
+      - type
+      - name
+      - category
+      - price
 
   # Memory - Conversation persistence via MCP
   - name: memory
