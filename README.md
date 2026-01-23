@@ -161,7 +161,6 @@ Each sample follows this structure:
 ### Testing
 ```bash
 holodeck test agent.yaml --verbose
-holodeck test agent.yaml --tags <tag>
 holodeck test agent.yaml --output results.md
 ```
 
