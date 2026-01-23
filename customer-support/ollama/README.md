@@ -85,9 +85,6 @@ Note: Thresholds are slightly lower for local models compared to cloud providers
 # Run all test cases
 holodeck test agent.yaml --verbose
 
-# Run specific tags
-holodeck test agent.yaml --tags technical
-
 # Output results to file
 holodeck test agent.yaml --output results.md
 ```

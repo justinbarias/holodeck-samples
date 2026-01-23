@@ -20,7 +20,6 @@ This is the **holodeck-samples** repository - a collection of production-ready s
 
 holodeck serve agent.yaml --port 8001   # Start agent API server
 holodeck test agent.yaml --verbose      # Run test cases with evaluations
-holodeck test agent.yaml --tags <tag>   # Run specific test cases by tag
 holodeck chat agent.yaml                # Interactive chat session
 ```
 
