@@ -1,0 +1,300 @@
+name: kitchen-assistant
+description: A culinary expert that recommends top 5 recipes based on cuisine, protein,
+  ingredients, difficulty, and cooking duration using web search.
+model:
+  provider: ollama
+  endpoint: http://truenas.home:11434
+  name: gpt-oss:20b
+  temperature: 0.5
+  max_tokens: 4096
+response_format:
+  type: object
+  properties:
+    query_summary:
+      type: object
+      description: Summary of the user's search criteria
+      properties:
+        cuisine:
+          type: string
+          description: The requested cuisine type
+        protein:
+          type: string
+          description: The requested meat or protein
+        difficulty:
+          type: string
+          enum:
+          - easy
+          - medium
+          - hard
+          - expert
+          description: Requested difficulty level
+        duration:
+          type: string
+          enum:
+          - quick
+          - intermediate
+          - long
+          description: Requested cooking duration
+        available_ingredients:
+          type: array
+          items:
+            type: string
+          description: List of ingredients the user has available
+      required:
+      - cuisine
+      - protein
+    recipes:
+      type: array
+      description: List of 5 recommended recipes
+      items:
+        type: object
+        properties:
+          rank:
+            type: integer
+            minimum: 1
+            maximum: 5
+            description: Recipe ranking (1 = best match)
+          name:
+            type: string
+            description: Name of the recipe
+          description:
+            type: string
+            description: Brief description of the dish
+          prep_time_minutes:
+            type: integer
+            description: Preparation time in minutes
+          cook_time_minutes:
+            type: integer
+            description: Cooking time in minutes
+          total_time_minutes:
+            type: integer
+            description: Total time (prep + cook) in minutes
+          difficulty:
+            type: string
+            enum:
+            - easy
+            - medium
+            - hard
+            - expert
+            description: Difficulty level of the recipe
+          servings:
+            type: integer
+            description: Number of servings
+          ingredients:
+            type: array
+            items:
+              type: object
+              properties:
+                item:
+                  type: string
+                  description: Ingredient name
+                quantity:
+                  type: string
+                  description: Amount needed (e.g., "2 cups", "500g")
+                notes:
+                  type: string
+                  description: Optional notes (e.g., "minced", "optional")
+              required:
+              - item
+              - quantity
+            description: List of ingredients with quantities
+          instructions:
+            type: array
+            items:
+              type: string
+            description: Step-by-step cooking instructions
+          source_url:
+            type: string
+            description: URL to the original recipe
+          tips:
+            type: array
+            items:
+              type: string
+            description: Helpful cooking tips or variations
+          match_score:
+            type: number
+            minimum: 0
+            maximum: 1
+            description: How well this recipe matches the criteria (0-1)
+        required:
+        - rank
+        - name
+        - description
+        - prep_time_minutes
+        - cook_time_minutes
+        - total_time_minutes
+        - difficulty
+        - ingredients
+        - instructions
+        - source_url
+    notes:
+      type: string
+      description: Additional notes or suggestions for the user
+  required:
+  - query_summary
+  - recipes
+  additionalProperties: false
+instructions:
+  file: instructions/system-prompt.md
+tools:
+- name: brave_search_mcp_server
+  description: 'Brave Search MCP Server: web results, images, videos, rich results,
+    AI summaries, and more.'
+  type: mcp
+  transport: stdio
+  command: npx
+  args:
+  - -y
+  - '@brave/brave-search-mcp-server@2.0.68'
+  env:
+    BRAVE_API_KEY: ${BRAVE_API_KEY}
+  load_tools: true
+  load_prompts: true
+  request_timeout: 60
+  is_retrieval: false
+evaluations:
+  model:
+    provider: ollama
+    name: gpt-oss:20b
+    temperature: 0.0
+  metrics:
+  - type: geval
+    name: RecipeRelevance
+    threshold: 0.75
+    criteria: 'Evaluate whether the recommended recipes match the user''s requested
+      criteria.
+      Consider:
+      - Cuisine type matches the request
+      - Protein/meat type matches the request
+      - Difficulty level is appropriate
+      - Cooking duration fits the time constraint
+      - Available ingredients are considered
+      '
+    evaluation_steps:
+    - Check if all 5 recipes match the requested cuisine type
+    - Verify the protein/meat type is correct for each recipe
+    - Assess if difficulty levels match the user's skill preference
+    - Confirm total cooking times fit within the requested duration
+    - Check if recipes utilize the user's available ingredients
+    evaluation_params:
+    - input
+    - actual_output
+  - type: geval
+    name: RecipeCompleteness
+    threshold: 0.8
+    criteria: 'Evaluate whether each recipe contains all required information for
+      cooking.
+
+      Consider:
+
+      - Clear ingredient list with quantities
+
+      - Step-by-step instructions that are easy to follow
+
+      - Accurate prep and cook times
+
+      - Source URL for reference
+
+      '
+    evaluation_steps:
+    - Verify each recipe has a complete ingredient list with quantities
+    - Check that instructions are clear and sequential
+    - Confirm prep time, cook time, and total time are provided
+    - Ensure source URLs are included for verification
+    evaluation_params:
+    - actual_output
+  - type: geval
+    name: RecipePracticality
+    threshold: 0.7
+    criteria: 'Evaluate whether the recipes are practical and achievable for home
+      cooks.
+
+      Consider:
+
+      - Ingredients are commonly available
+
+      - Instructions are clear enough for the stated difficulty level
+
+      - Times are realistic for the described steps
+
+      - No specialized equipment required without mention
+
+      '
+    evaluation_steps:
+    - Check if ingredients are reasonably accessible
+    - Verify instructions match the stated difficulty level
+    - Assess if cooking times are realistic
+    - Look for any hidden complexity not reflected in difficulty rating
+    evaluation_params:
+    - actual_output
+test_cases:
+- name: Chinese chicken quick recipe
+  input: I want to cook Chinese food with chicken. I have soy sauce, garlic, ginger,
+    and rice. Looking for something easy that takes less than 30 minutes.
+  expected_tools:
+  - brave_search
+  ground_truth: Should return 5 easy Chinese chicken recipes under 30 minutes total
+    time, using soy sauce, garlic, ginger as key ingredients
+- name: Japanese beef intermediate difficulty
+  input: Looking for Japanese beef recipes. Medium difficulty, I have about 45 minutes.
+    I have mirin, sake, and dashi.
+  expected_tools:
+  - brave_search
+  ground_truth: Should return 5 medium difficulty Japanese beef recipes around 30-45
+    minutes, potentially including teriyaki, gyudon, or yakiniku style dishes
+- name: Italian seafood expert level
+  input: I want to make an impressive Italian seafood dish for a dinner party. Expert
+    level is fine, I have all day to cook. Have access to fresh shrimp, mussels, and
+    clams.
+  expected_tools:
+  - brave_search
+  ground_truth: Should return 5 expert-level Italian seafood recipes with longer cook
+    times, possibly including cioppino, frutti di mare, or seafood risotto
+- name: Western quick chicken with limited ingredients
+  input: Quick western chicken dish please. I only have chicken breast, butter, lemon,
+    and herbs. Under 15 minutes.
+  expected_tools:
+  - brave_search
+  ground_truth: Should return 5 quick western chicken recipes under 15 minutes using
+    basic ingredients like lemon herb chicken, pan-seared chicken, or chicken piccata
+    variations
+- name: Thai fish easy recipe
+  input: Easy Thai fish recipes. I have fish sauce, coconut milk, lime, and white
+    fish fillets. Intermediate cooking time is fine.
+  expected_tools:
+  - brave_search
+  ground_truth: Should return 5 easy Thai fish recipes with 30-45 minute cook times,
+    potentially including Thai fish curry, steamed fish with lime, or fish cakes
+- name: Korean beef hard difficulty
+  input: Korean beef dishes, hard difficulty. I want something challenging that takes
+    over an hour. Have gochujang, sesame oil, and Korean pear.
+  expected_tools:
+  - brave_search
+  ground_truth: Should return 5 hard difficulty Korean beef recipes over 45 minutes,
+    possibly including galbi jjim, bulgogi variations, or Korean braised short ribs
+- name: Mexican chicken easy quick
+  input: Easy Mexican chicken recipes, quick ones under 15 minutes. I have tortillas,
+    salsa, cheese, and chicken thighs.
+  expected_tools:
+  - brave_search
+  ground_truth: Should return 5 easy quick Mexican chicken recipes under 15 minutes
+    like chicken quesadillas, chicken tacos, or chicken tostadas
+observability:
+  enabled: true
+  service_name: holodeck-kitchen-assistant
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true

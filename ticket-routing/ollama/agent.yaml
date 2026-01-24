@@ -66,6 +66,7 @@ evaluations:
   model:
     provider: ollama
     name: gpt-oss:20b
+    endpoint: http://truenas.home:11434
     temperature: 0.0
   metrics:
     - type: geval
