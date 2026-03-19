@@ -31,6 +31,21 @@ until curl -s http://localhost:8000/api/v2/heartbeat > /dev/null 2>&1; do
 done
 echo "ChromaDB is ready!"
 
+# Wait for OpenSearch to be healthy
+echo ""
+echo "Waiting for OpenSearch to be ready..."
+RETRY_COUNT=0
+until curl -sk https://localhost:9200 -u admin:${OPENSEARCH_PASSWORD:-StrongPassword1!} | grep -q opensearch 2>/dev/null; do
+    RETRY_COUNT=$((RETRY_COUNT + 1))
+    if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+        echo "WARNING: OpenSearch may not be fully ready yet"
+        break
+    fi
+    echo "  Waiting... ($RETRY_COUNT/$MAX_RETRIES)"
+    sleep 2
+done
+echo "OpenSearch is ready!"
+
 # Wait for Aspire Dashboard
 echo ""
 echo "Waiting for Aspire Dashboard to be ready..."
@@ -53,6 +68,7 @@ echo "=========================================="
 echo ""
 echo "Services:"
 echo "  - ChromaDB:         http://localhost:8000"
+echo "  - OpenSearch:       https://localhost:9200"
 echo "  - Aspire Dashboard: http://localhost:18888"
 echo "  - OTLP Endpoint:    http://localhost:4317"
 echo ""

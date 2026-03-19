@@ -25,6 +25,20 @@
     "model": {
       "$ref": "#/$defs/LLMProvider"
     },
+    "embedding_provider": {
+      "oneOf": [
+        { "$ref": "#/$defs/LLMProvider" },
+        { "type": "null" }
+      ],
+      "description": "Provider for embedding generation. Required when provider: anthropic + vectorstore/hierarchical tools. Supports openai and azure_openai only."
+    },
+    "claude": {
+      "oneOf": [
+        { "$ref": "#/$defs/ClaudeConfig" },
+        { "type": "null" }
+      ],
+      "description": "Claude Agent SDK-specific settings. Applicable only when model.provider: anthropic."
+    },
     "instructions": {
       "$ref": "#/$defs/Instructions"
     },
@@ -54,6 +68,10 @@
     "observability": {
       "$ref": "#/$defs/ObservabilityConfig",
       "description": "OpenTelemetry observability configuration"
+    },
+    "deployment": {
+      "$ref": "#/$defs/DeploymentConfig",
+      "description": "Cloud deployment configuration for containerizing and deploying the agent"
     }
   },
   "$defs": {
@@ -61,6 +79,147 @@
       "type": "string",
       "enum": ["openai", "azure_openai", "anthropic", "ollama"],
       "description": "LLM provider type"
+    },
+    "AuthProvider": {
+      "type": "string",
+      "enum": ["api_key", "oauth_token", "bedrock", "vertex", "foundry"],
+      "description": "Authentication provider for Anthropic models"
+    },
+    "PermissionMode": {
+      "type": "string",
+      "enum": ["manual", "acceptEdits", "acceptAll"],
+      "default": "manual",
+      "description": "Permission level for agent autonomy"
+    },
+    "ExtendedThinkingConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable extended thinking (deep reasoning)"
+        },
+        "budget_tokens": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 100000,
+          "default": 10000,
+          "description": "Token budget for extended thinking"
+        }
+      },
+      "description": "Extended reasoning (deep thinking) configuration"
+    },
+    "BashConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable shell command execution"
+        },
+        "excluded_commands": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "List of disallowed commands"
+        },
+        "allow_unsafe": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allow unsafe commands to execute"
+        }
+      },
+      "description": "Shell command execution settings"
+    },
+    "FileSystemConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "read": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable file read access"
+        },
+        "write": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable file write access"
+        },
+        "edit": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable file edit (find-and-replace) access"
+        }
+      },
+      "description": "File read/write/edit access settings"
+    },
+    "SubagentConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable parallel sub-agent execution"
+        },
+        "max_parallel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16,
+          "default": 4,
+          "description": "Maximum parallel sub-agents (1-16)"
+        }
+      },
+      "description": "Parallel sub-agent execution settings"
+    },
+    "ClaudeConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "working_directory": {
+          "type": ["string", "null"],
+          "description": "Scope agent file access to this path. Becomes subprocess cwd."
+        },
+        "permission_mode": {
+          "$ref": "#/$defs/PermissionMode",
+          "default": "manual",
+          "description": "Level of autonomous action: manual (safest), acceptEdits, or acceptAll"
+        },
+        "max_turns": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "description": "Maximum agent loop iterations (null = SDK default)"
+        },
+        "extended_thinking": {
+          "$ref": "#/$defs/ExtendedThinkingConfig",
+          "description": "Extended reasoning (deep thinking) configuration"
+        },
+        "web_search": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable built-in web search capability"
+        },
+        "bash": {
+          "$ref": "#/$defs/BashConfig",
+          "description": "Shell command execution settings"
+        },
+        "file_system": {
+          "$ref": "#/$defs/FileSystemConfig",
+          "description": "File read/write/edit access settings"
+        },
+        "subagents": {
+          "$ref": "#/$defs/SubagentConfig",
+          "description": "Parallel sub-agent execution settings"
+        },
+        "allowed_tools": {
+          "type": ["array", "null"],
+          "items": { "type": "string" },
+          "description": "Explicit tool allowlist (null = all configured tools)"
+        }
+      },
+      "description": "Claude Agent SDK-specific settings. All capabilities default to disabled (least-privilege)."
     },
     "LLMProvider": {
       "type": "object",
@@ -99,6 +258,10 @@
         "api_key": {
           "type": "string",
           "description": "API key for LLM provider"
+        },
+        "auth_provider": {
+          "$ref": "#/$defs/AuthProvider",
+          "description": "Authentication method for Anthropic provider. Defaults to api_key. Ignored for non-Anthropic providers."
         }
       },
       "description": "LLM provider configuration"
@@ -170,6 +333,69 @@
       "additionalProperties": true,
       "description": "Vector database configuration"
     },
+    "KeywordIndexConfig": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": ["in-memory", "opensearch"],
+          "default": "in-memory",
+          "description": "Keyword index backend: 'in-memory' (rank_bm25) or 'opensearch'"
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "OpenSearch endpoint URL (required when provider is 'opensearch')"
+        },
+        "index_name": {
+          "type": "string",
+          "description": "OpenSearch index name (required when provider is 'opensearch')"
+        },
+        "username": {
+          "type": "string",
+          "description": "Basic auth username"
+        },
+        "password": {
+          "type": "string",
+          "description": "Basic auth password"
+        },
+        "api_key": {
+          "type": "string",
+          "description": "API key auth (alternative to basic auth)"
+        },
+        "verify_certs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify TLS certificates"
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120,
+          "default": 10,
+          "description": "Connection timeout in seconds (1-120)"
+        }
+      },
+      "description": "Keyword index configuration for sparse/BM25 search backend"
+    },
+    "SearchMode": {
+      "type": "string",
+      "enum": ["semantic", "keyword", "hybrid"],
+      "default": "hybrid",
+      "description": "Search modality: semantic (embeddings), keyword (BM25), or hybrid (combined)"
+    },
+    "ChunkingStrategy": {
+      "type": "string",
+      "enum": ["structure", "token"],
+      "default": "structure",
+      "description": "Document chunking approach: structure (markdown headings) or token (fixed splitting)"
+    },
+    "DocumentDomain": {
+      "type": "string",
+      "enum": ["none", "us_legislative", "au_legislative", "academic", "technical", "legal_contract"],
+      "default": "none",
+      "description": "Document structure domain for subsection detection"
+    },
     "Tool": {
       "type": "object",
       "required": ["type", "name", "description"],
@@ -197,10 +423,6 @@
               "type": "string",
               "minLength": 1,
               "description": "Path to data file/directory"
-            },
-            "id_field": {
-              "type": "string",
-              "description": "Field to use as unique identifier for records"
             },
             "vector_field": {
               "oneOf": [
@@ -422,9 +644,164 @@
               "description": "Model config override"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "name", "description", "source"],
+          "properties": {
+            "type": {
+              "const": "hierarchical_document",
+              "description": "Hierarchical document search tool"
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[0-9A-Za-z_]+$",
+              "description": "Tool identifier"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Tool description"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Path to markdown document or directory"
+            },
+            "chunking_strategy": {
+              "$ref": "#/$defs/ChunkingStrategy",
+              "description": "Document chunking approach"
+            },
+            "max_chunk_tokens": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 2000,
+              "default": 800,
+              "description": "Maximum tokens per chunk (100-2000)"
+            },
+            "chunk_overlap": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 200,
+              "default": 50,
+              "description": "Token overlap between chunks (0-200)"
+            },
+            "document_domain": {
+              "$ref": "#/$defs/DocumentDomain",
+              "description": "Document structure domain for subsection detection"
+            },
+            "max_subsection_depth": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum subsection nesting depth"
+            },
+            "search_mode": {
+              "$ref": "#/$defs/SearchMode",
+              "description": "Search modality"
+            },
+            "top_k": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "description": "Number of results to return (1-100)"
+            },
+            "min_score": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Minimum similarity score threshold"
+            },
+            "semantic_weight": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "default": 0.5,
+              "description": "Weight for semantic search in hybrid mode"
+            },
+            "keyword_weight": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "default": 0.3,
+              "description": "Weight for keyword search in hybrid mode"
+            },
+            "exact_weight": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "default": 0.2,
+              "description": "Weight for exact search in hybrid mode"
+            },
+            "rrf_k": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 60,
+              "description": "Reciprocal Rank Fusion constant"
+            },
+            "contextual_embeddings": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable contextual embeddings with LLM context"
+            },
+            "context_max_tokens": {
+              "type": "integer",
+              "minimum": 50,
+              "maximum": 200,
+              "default": 100,
+              "description": "Maximum tokens for context summary"
+            },
+            "context_concurrency": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "Concurrent context generation requests"
+            },
+            "extract_definitions": {
+              "type": "boolean",
+              "default": true,
+              "description": "Extract and index term definitions"
+            },
+            "extract_cross_references": {
+              "type": "boolean",
+              "default": true,
+              "description": "Extract and resolve cross-references"
+            },
+            "enable_reranking": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable LLM-based reranking"
+            },
+            "reranker_model": {
+              "$ref": "#/$defs/LLMProvider",
+              "description": "LLM for reranking (required when enable_reranking=true)"
+            },
+            "context_model": {
+              "$ref": "#/$defs/LLMProvider",
+              "description": "LLM for contextual embedding generation. Overrides the default model used by LLMContextGenerator."
+            },
+            "database": {
+              "oneOf": [
+                { "$ref": "#/$defs/DatabaseConfig" },
+                { "type": "string" }
+              ],
+              "description": "Vector DB config or reference name"
+            },
+            "keyword_index": {
+              "$ref": "#/$defs/KeywordIndexConfig",
+              "description": "Keyword index configuration for sparse/BM25 search backend"
+            },
+            "defer_loading": {
+              "type": "boolean",
+              "default": true,
+              "description": "Defer tool loading until needed"
+            }
+          }
         }
       ],
-      "description": "Agent tool (discriminated by 'type' field: vectorstore, function, mcp, or prompt)"
+      "description": "Agent tool (discriminated by 'type' field: vectorstore, function, mcp, prompt, or hierarchical_document)"
     },
     "RAGMetricType": {
       "type": "string",
@@ -986,6 +1363,281 @@
         }
       },
       "description": "Top-level observability configuration for OpenTelemetry"
+    },
+    "TagStrategy": {
+      "type": "string",
+      "enum": ["git_sha", "git_tag", "latest", "custom"],
+      "default": "git_sha",
+      "description": "Strategy for generating container image tags"
+    },
+    "CloudProvider": {
+      "type": "string",
+      "enum": ["aws", "gcp", "azure"],
+      "description": "Supported cloud providers for deployment"
+    },
+    "RuntimeType": {
+      "type": "string",
+      "enum": ["container"],
+      "default": "container",
+      "description": "Container runtime type"
+    },
+    "ProtocolType": {
+      "type": "string",
+      "enum": ["rest", "ag-ui", "both"],
+      "default": "rest",
+      "description": "API protocol type for agent serving"
+    },
+    "RegistryConfig": {
+      "type": "object",
+      "required": ["url", "repository"],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Registry URL (e.g., ghcr.io, docker.io, ECR URL)"
+        },
+        "repository": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9][a-z0-9._/-]*[a-z0-9]$|^[a-z0-9]$",
+          "description": "Repository name (e.g., org/agent-name)"
+        },
+        "tag_strategy": {
+          "$ref": "#/$defs/TagStrategy",
+          "description": "Strategy for generating image tags"
+        },
+        "custom_tag": {
+          "type": "string",
+          "description": "Custom tag when tag_strategy is 'custom'"
+        },
+        "credentials_env_prefix": {
+          "type": "string",
+          "description": "Prefix for credential environment variables"
+        }
+      },
+      "description": "Container registry configuration"
+    },
+    "AWSAppRunnerConfig": {
+      "type": "object",
+      "required": ["region"],
+      "additionalProperties": false,
+      "properties": {
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "description": "AWS region for deployment"
+        },
+        "cpu": {
+          "type": "integer",
+          "enum": [1, 2, 4],
+          "default": 1,
+          "description": "vCPU allocation"
+        },
+        "memory": {
+          "type": "integer",
+          "enum": [2048, 3072, 4096, 8192, 12288],
+          "default": 2048,
+          "description": "Memory allocation in MB"
+        },
+        "ecr_role_arn": {
+          "type": "string",
+          "pattern": "^arn:aws:iam::\\d{12}:role/[\\w+=,.@-]+$",
+          "description": "IAM role ARN for ECR access"
+        },
+        "health_check_path": {
+          "type": "string",
+          "default": "/health",
+          "description": "Path for health checks"
+        },
+        "auto_scaling_min": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25,
+          "default": 1,
+          "description": "Minimum instances"
+        },
+        "auto_scaling_max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25,
+          "default": 5,
+          "description": "Maximum instances"
+        }
+      },
+      "description": "AWS App Runner deployment configuration"
+    },
+    "GCPCloudRunConfig": {
+      "type": "object",
+      "required": ["project_id"],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{4,28}[a-z0-9]$",
+          "description": "GCP project ID"
+        },
+        "region": {
+          "type": "string",
+          "default": "us-central1",
+          "description": "GCP region for deployment"
+        },
+        "memory": {
+          "type": "string",
+          "pattern": "^\\d+(Mi|Gi)$",
+          "default": "512Mi",
+          "description": "Memory allocation (e.g., 512Mi, 1Gi)"
+        },
+        "cpu": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8,
+          "default": 1,
+          "description": "vCPU allocation"
+        },
+        "concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "default": 80,
+          "description": "Maximum concurrent requests per instance"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600,
+          "default": 300,
+          "description": "Request timeout in seconds"
+        },
+        "min_instances": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Minimum instances"
+        },
+        "max_instances": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 100,
+          "description": "Maximum instances"
+        }
+      },
+      "description": "GCP Cloud Run deployment configuration"
+    },
+    "AzureContainerAppsConfig": {
+      "type": "object",
+      "required": ["subscription_id", "resource_group"],
+      "additionalProperties": false,
+      "properties": {
+        "subscription_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "Azure subscription ID (UUID)"
+        },
+        "resource_group": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Azure resource group name"
+        },
+        "environment_name": {
+          "type": "string",
+          "description": "Container Apps environment name"
+        },
+        "location": {
+          "type": "string",
+          "default": "eastus",
+          "description": "Azure region for deployment"
+        },
+        "cpu": {
+          "type": "number",
+          "enum": [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0],
+          "default": 0.5,
+          "description": "vCPU allocation"
+        },
+        "memory": {
+          "type": "string",
+          "default": "1Gi",
+          "description": "Memory allocation (e.g., 2Gi)"
+        },
+        "ingress_external": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether ingress is external"
+        },
+        "min_replicas": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Minimum replicas"
+        },
+        "max_replicas": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 10,
+          "description": "Maximum replicas"
+        }
+      },
+      "description": "Azure Container Apps deployment configuration"
+    },
+    "CloudTargetConfig": {
+      "type": "object",
+      "required": ["provider"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "$ref": "#/$defs/CloudProvider",
+          "description": "Cloud provider"
+        },
+        "aws": {
+          "$ref": "#/$defs/AWSAppRunnerConfig",
+          "description": "AWS App Runner configuration (required when provider is 'aws')"
+        },
+        "gcp": {
+          "$ref": "#/$defs/GCPCloudRunConfig",
+          "description": "GCP Cloud Run configuration (required when provider is 'gcp')"
+        },
+        "azure": {
+          "$ref": "#/$defs/AzureContainerAppsConfig",
+          "description": "Azure Container Apps configuration (required when provider is 'azure')"
+        }
+      },
+      "description": "Cloud deployment target configuration"
+    },
+    "DeploymentConfig": {
+      "type": "object",
+      "required": ["registry", "target"],
+      "additionalProperties": false,
+      "properties": {
+        "runtime": {
+          "$ref": "#/$defs/RuntimeType",
+          "description": "Runtime type (currently only container)"
+        },
+        "registry": {
+          "$ref": "#/$defs/RegistryConfig",
+          "description": "Container registry configuration"
+        },
+        "target": {
+          "$ref": "#/$defs/CloudTargetConfig",
+          "description": "Cloud deployment target configuration"
+        },
+        "protocol": {
+          "$ref": "#/$defs/ProtocolType",
+          "description": "API protocol type"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "default": 8080,
+          "description": "Container port to expose"
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Environment variables for the container"
+        }
+      },
+      "description": "Main deployment configuration for containerizing and deploying agents"
     }
   }
 }

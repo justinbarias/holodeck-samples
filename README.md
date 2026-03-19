@@ -12,6 +12,7 @@ This directory contains 4 production-ready samples demonstrating HoloDeck's feat
 | [Customer Support](./customer-support/) | Context-aware support chatbot | RAG, conversation memory, escalation workflows |
 | [Content Moderation](./content-moderation/) | Filter user-generated content | Multi-category classification, policy enforcement |
 | [Legal Summarization](./legal-summarization/) | Summarize legal documents | Document analysis, clause extraction, risk identification |
+| [Legal Assistant](./legal-assistant/) | Analyze US legislation | Hierarchical document search, hybrid search, structured citations |
 
 Each sample is available for 3 LLM providers:
 - **OpenAI** (gpt-4o) - Cloud-based, highest quality
@@ -56,6 +57,7 @@ cd samples
 
 This starts:
 - **ChromaDB** at http://localhost:8000
+- **OpenSearch** at https://localhost:9200
 - **Aspire Dashboard** at http://localhost:18888 (OTLP at 4317)
 
 ### 2. Choose a Sample and Provider
@@ -93,7 +95,8 @@ Open http://localhost:3000
 
 ```yaml
 services:
-  chromadb:       # Vector store at http://localhost:8000
+  chromadb:          # Vector store at http://localhost:8000
+  opensearch:        # Keyword search index at https://localhost:9200
   aspire-dashboard:  # OpenTelemetry UI at http://localhost:18888
 ```
 
@@ -213,6 +216,17 @@ Classifies user content against community guidelines.
 ```
 
 **Evaluations:** Moderation accuracy, reasoning quality, consistency
+
+---
+
+### Legal Assistant
+Analyzes US legislation with hierarchical document search and structured citations.
+
+**Tools:**
+- `legislation_search` - Hybrid search (semantic + keyword) over PDF legislation
+- `filesystem` - MCP filesystem access to supplementary data
+
+**Provider:** Claude (Anthropic Claude Sonnet 4.6)
 
 ---
 

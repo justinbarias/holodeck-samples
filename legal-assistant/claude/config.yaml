@@ -1,0 +1,25 @@
+vectorstores:
+    # Optional: For structured data (JSON/CSV)
+    # vector_field: content               # Field to vectorize
+    # meta_fields:                        # Fields to include as metadata
+    #   - title
+    #   - source
+    #   - created_at
+    # record_path: "$.items"              # JSONPath for array extraction
+    # record_prefix: "item_"              # Prefix for record fields
+    # meta_prefix: "meta_"                # Prefix for metadata fields
+  chromadb:
+    provider: chromadb
+    connection_string: http://localhost:8000
+
+providers:
+ openai:
+  provider: openai
+  name: gpt-5-nano
+  temperature: 0.7
+  max_tokens: 2048
+  api_key: ${OPENAI_API_KEY}
+ ollama:
+  provider: ollama
+  name: gpt-oss:20b
+  endpoint: http://truenas.home:11434

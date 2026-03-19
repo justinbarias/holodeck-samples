@@ -1,0 +1,96 @@
+name: legal_assistant
+description: AI assistant for analyzing and answering questions about US legislation
+
+model:
+  provider: anthropic
+  name: claude-sonnet-4-6
+  temperature: 0.1  # Low temperature for consistent moderation decisions
+  max_tokens: 20000
+  auth_provider: oauth_token  # Change to api_key if using ANTHROPIC_API_KEY
+
+embedding_provider:
+  provider: azure_openai
+  name: text-embedding-3-small
+  endpoint: ${AZURE_OPENAI_ENDPOINT}
+  api_key: ${AZURE_OPENAI_API_KEY}
+
+# Claude Agent SDK-specific settings
+claude:
+  permission_mode: acceptAll  # Auto-approve tool calls in test/moderation
+  max_turns: 10
+  web_search: true
+execution:
+  llm_timeout: 3600
+instructions:
+  file: instructions/system-prompt.md
+
+observability:
+  enabled: true
+  service_name: holodeck-legal-assistant
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: false  # Legal documents may be confidential
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: http://localhost:4317
+      protocol: grpc
+      insecure: true
+tools:
+  - name: legislation_search
+    type: hierarchical_document
+    description: Search HR8847 legislation for relevant sections and provisions
+    source: ./data/HR8847_CNIMDT_AIGCE_STD_Act.pdf
+    document_domain: us_legislative
+    search_mode: hybrid
+    semantic_weight: 0.5
+    keyword_weight: 0.5
+    exact_weight: 0.0
+    top_k: 5
+    contextual_embeddings: true
+    context_model:     
+      provider: azure_openai
+      name: ${AZURE_OPENAI_DEPLOYMENT_NAME}
+      endpoint: ${AZURE_OPENAI_ENDPOINT}
+      api_key: ${AZURE_OPENAI_API_KEY}
+      temperature: 1
+      max_tokens: 20000
+    database:
+      provider: chromadb
+      connection_string: http://localhost:8000
+    keyword_index:
+      provider: opensearch
+      endpoint: "https://localhost:9200"
+      index_name: "legal-assistant-keywords"
+      username: admin
+      password: ${OPENSEARCH_PASSWORD}
+      verify_certs: false
+      timeout_seconds: 10
+  - type: mcp
+    name: filesystem
+    description: 'Model Context Protocol (MCP) for filesystem operations'
+    command: npx
+    args:
+    - -y
+    - '@modelcontextprotocol/server-filesystem'
+    - './data'
+    request_timeout: 60
+
+
+test_cases:
+  - name: "Find definitions"
+    input: "What is the definition of 'covered AI system' in this legislation?"
+    expected_tools: [legislation_search]
+  - name: "Section lookup"
+    input: "What does Section 3 of the act cover?"
+    expected_tools: [legislation_search]
+  - name: "Requirements query"
+    input: "What are the reporting requirements for federal agencies?"
+    expected_tools: [legislation_search]

@@ -20,6 +20,25 @@ services:
       timeout: 10s
       retries: 3
 
+  # OpenSearch - Keyword Search Index
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    container_name: holodeck-opensearch
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_PASSWORD:-StrongPassword1!}
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sk https://localhost:9200 -u admin:${OPENSEARCH_PASSWORD:-StrongPassword1!} | grep -q opensearch"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   # .NET Aspire Dashboard - OpenTelemetry UI
   aspire-dashboard:
     image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
@@ -31,3 +50,4 @@ services:
 
 volumes:
   chroma-data:
+  opensearch-data:
