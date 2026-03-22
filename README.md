@@ -81,8 +81,12 @@ holodeck serve agent.yaml --port 8001
 
 ### 5. Start the Frontend
 
+The repository includes a single, shared [CopilotKit frontend](./copilotkit/) that works with any sample via environment variables:
+
 ```bash
 cd copilotkit
+cp .env.example .env.local
+# Edit .env.local — set NEXT_PUBLIC_AGENT_ID to match your agent.yaml name
 npm install
 npm run dev
 ```
@@ -119,13 +123,21 @@ Each sample follows this structure:
 ├── README.md               # Sample documentation
 ├── instructions/
 │   └── system-prompt.md    # Agent instructions
-├── data/
-│   └── *.json, *.md        # Knowledge base data
-└── copilotkit/             # Next.js frontend
-    ├── src/app/
-    ├── package.json
-    └── ...
+└── data/
+    └── *.json, *.md        # Knowledge base data
 ```
+
+The frontend lives in a single shared directory at the repository root:
+
+```
+copilotkit/                 # Shared Next.js frontend (env-driven)
+├── .env.example            # Configure NEXT_PUBLIC_AGENT_ID, title, etc.
+├── src/app/
+├── package.json
+└── ...
+```
+
+See the [CopilotKit README](./copilotkit/README.md) for full documentation.
 
 ## Provider Comparison
 

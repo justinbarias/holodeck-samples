@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background, var(--color-background));
+  color: var(--foreground, var(--color-foreground));
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+/* Header styling */
+.holodeck-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e4e4e7;
+  padding: 1rem 1.5rem;
+}
+
+.holodeck-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #18181b;
+}
+
+.holodeck-header p {
+  font-size: 0.875rem;
+  color: #71717a;
+}
+
+/* File upload preview bar */
+.holodeck-file-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fafafa;
+}
+
+.holodeck-main {
+  background: #f9fafb;
+}
+
+/*
+ * Override CopilotKit v2 theme variables.
+ * CopilotKit bundles its own Tailwind + shadcn/ui theme that sets
+ * --background etc. via @layer theme.  We override at :root level
+ * with !important so the chat widget picks up our palette.
+ */
+:root {
+  --background: #ffffff !important;
+  --foreground: #09090b !important;
+  --card: #ffffff !important;
+  --card-foreground: #09090b !important;
+  --popover: #ffffff !important;
+  --popover-foreground: #09090b !important;
+  --primary: #6366f1 !important;
+  --primary-foreground: #ffffff !important;
+  --secondary: #f4f4f5 !important;
+  --secondary-foreground: #18181b !important;
+  --muted: #f4f4f5 !important;
+  --muted-foreground: #71717a !important;
+  --accent: #f4f4f5 !important;
+  --accent-foreground: #18181b !important;
+  --destructive: #ef4444 !important;
+  --border: #e4e4e7 !important;
+  --input: #e4e4e7 !important;
+  --ring: #6366f1 !important;
+}
+
+/* Dark mode — controlled by next-themes via .dark class on <html> */
+html.dark {
+  --background: #09090b !important;
+  --foreground: #fafafa !important;
+  --card: #09090b !important;
+  --card-foreground: #fafafa !important;
+  --popover: #09090b !important;
+  --popover-foreground: #fafafa !important;
+  --primary: #818cf8 !important;
+  --primary-foreground: #ffffff !important;
+  --secondary: #27272a !important;
+  --secondary-foreground: #fafafa !important;
+  --muted: #27272a !important;
+  --muted-foreground: #a1a1aa !important;
+  --accent: #27272a !important;
+  --accent-foreground: #fafafa !important;
+  --destructive: #dc2626 !important;
+  --border: #27272a !important;
+  --input: #27272a !important;
+  --ring: #818cf8 !important;
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+}
+
+html.dark body {
+  background: #09090b;
+  color: #fafafa;
+}
+
+html.dark .holodeck-header {
+  background: #18181b;
+  border-bottom-color: #27272a;
+}
+
+html.dark .holodeck-header h1 {
+  color: #fafafa;
+}
+
+html.dark .holodeck-header p {
+  color: #a1a1aa;
+}
+
+html.dark .holodeck-file-bar {
+  border-bottom-color: #27272a;
+  background: #18181b;
+}
+
+html.dark .holodeck-main {
+  background: #09090b;
+}
+
+/* Theme toggle button */
+.holodeck-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e4e4e7;
+  background: transparent;
+  color: #71717a;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.holodeck-theme-toggle:hover {
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+html.dark .holodeck-theme-toggle {
+  border-color: #3f3f46;
+  color: #a1a1aa;
+}
+
+html.dark .holodeck-theme-toggle:hover {
+  background: #27272a;
+  color: #fafafa;
+}
+
+/* Tool call rendering */
+.holodeck-tool-call {
+  margin: 0.5rem 0;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e4e4e7;
+  background: #f9fafb;
+  font-size: 0.875rem;
+}
+
+html.dark .holodeck-tool-call {
+  border-color: #3f3f46;
+  background: #18181b;
+}
+
+.holodeck-tool-badge {
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.holodeck-tool-badge--progress {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+html.dark .holodeck-tool-badge--progress {
+  background: #1e3a5f;
+  color: #93c5fd;
+}
+
+.holodeck-tool-badge--complete {
+  background: #dcfce7;
+  color: #166534;
+}
+
+html.dark .holodeck-tool-badge--complete {
+  background: #14532d;
+  color: #86efac;
+}
+
+.holodeck-tool-details {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  background: #f4f4f5;
+}
+
+.holodeck-tool-details summary {
+  font-size: 0.75rem;
+  color: #71717a;
+  cursor: pointer;
+}
+
+.holodeck-tool-details pre {
+  font-size: 0.75rem;
+  overflow-x: auto;
+  margin: 0.25rem 0 0;
+  color: #3f3f46;
+}
+
+html.dark .holodeck-tool-details {
+  background: #27272a;
+}
+
+html.dark .holodeck-tool-details summary {
+  color: #a1a1aa;
+}
+
+html.dark .holodeck-tool-details pre {
+  color: #d4d4d8;
+}

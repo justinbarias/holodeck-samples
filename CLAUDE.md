@@ -25,7 +25,8 @@ holodeck chat agent.yaml                # Interactive chat session
 
 ### Frontend (CopilotKit)
 ```bash
-cd <sample>/copilotkit
+cd copilotkit
+cp .env.example .env.local   # Set NEXT_PUBLIC_AGENT_ID to match agent.yaml name
 npm install
 npm run dev    # Starts at http://localhost:3000
 ```
@@ -39,9 +40,13 @@ npm run dev    # Starts at http://localhost:3000
 ├── .env.example            # Environment variables template
 ├── instructions/
 │   └── system-prompt.md    # Agent system prompt
-├── data/
-│   └── *.json, *.md        # Knowledge base and grounding data
-└── copilotkit/             # Next.js frontend application
+└── data/
+    └── *.json, *.md        # Knowledge base and grounding data
+
+copilotkit/                 # Shared Next.js frontend (env-driven, at repo root)
+├── .env.example
+├── src/
+└── package.json
 ```
 
 **Use cases:** ticket-routing, customer-support, content-moderation, legal-summarization
