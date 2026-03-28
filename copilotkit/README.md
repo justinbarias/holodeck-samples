@@ -1,92 +1,77 @@
 # HoloDeck CopilotKit Frontend
 
-A generic chat frontend for any [HoloDeck](https://github.com/justinbarias/holodeck) agent. Built with Next.js 16, CopilotKit v2, and the AG-UI protocol.
+A generic, reusable chat frontend for any HoloDeck agent. Built with Next.js 16, CopilotKit v2, and AG-UI protocol.
 
 ## Quick Start
 
 ```bash
-# 1. Install dependencies
+# Install dependencies
 npm install
 
-# 2. Configure your agent (copy and edit)
+# Configure environment
 cp .env.example .env.local
+# Edit .env.local — set AGENT_ID to match your agent.yaml name
 
-# 3. Start the HoloDeck backend (from the agentlab root)
-holodeck serve path/to/agent.yaml
-
-# 4. Start the frontend
+# Start dev server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000
 
 ## Configuration
 
-All configuration is driven by environment variables. Create a `.env.local` file:
+All configuration is via environment variables in `.env.local` (dev) or container environment (Docker):
 
-```env
-# Required — must match the `name` field in your agent.yaml
-NEXT_PUBLIC_AGENT_ID=my_agent
+| Variable | Required | Description | Default |
+|----------|----------|-------------|---------|
+| `AGENT_ID` | Yes | Must match `name` in agent.yaml | `my_agent` |
+| `AGENT_TITLE` | Yes | Header and browser tab title | `My Agent` |
+| `AGENT_DESCRIPTION` | Yes | Subtitle below title | `What my agent does` |
+| `HOLODECK_BACKEND_URL` | No | HoloDeck serve endpoint | `http://127.0.0.1:8000/awp` |
+| `FILE_ACCEPT` | No | MIME types for uploads | `image/*,application/pdf,.doc,.docx,.txt` |
 
-# Required — displayed in the header and browser tab
-NEXT_PUBLIC_AGENT_TITLE=My Agent
-NEXT_PUBLIC_AGENT_DESCRIPTION=What my agent does
+**Note:** These variables do NOT use the `NEXT_PUBLIC_` prefix. They are injected at runtime via server-side rendering, making them compatible with Docker containers.
 
-# Optional — defaults shown
-NEXT_PUBLIC_HOLODECK_BACKEND_URL=http://127.0.0.1:8000/awp
-NEXT_PUBLIC_FILE_ACCEPT=image/*,application/pdf,.doc,.docx,.txt
+## Docker
+
+Build and run as a Docker container:
+
+```bash
+# Build the image
+docker build -t holodeck-copilotkit .
+
+# Run with environment variables
+docker run -p 3000:3000 \
+  -e AGENT_ID=my_agent \
+  -e AGENT_TITLE="My Agent" \
+  -e AGENT_DESCRIPTION="What my agent does" \
+  -e HOLODECK_BACKEND_URL=http://holodeck-agent:8080/awp \
+  holodeck-copilotkit
 ```
 
-No code changes needed to switch agents.
+Or use docker-compose (see root `docker-compose.yml`).
 
 ## Features
 
-- Real-time streaming via AG-UI protocol (SSE)
-- Tool call visualization with per-tool-call cards
-- Multimodal file uploads (images, PDFs, Office documents)
-- Clipboard paste support for images
-- Dark/light mode toggle (system preference by default)
-- Fully themeable via CSS variables (shadcn/ui compatible)
+- **Streaming responses** — Real-time token streaming via AG-UI protocol
+- **Tool call visualization** — See tool names, arguments, and results inline
+- **Multimodal uploads** — Attach images, PDFs, and documents (also supports clipboard paste)
+- **Dark/light mode** — System-aware theme toggle
+- **Generic** — Works with any HoloDeck agent via environment variables
 
-## Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router) |
-| Chat UI | CopilotKit v2 (`@copilotkit/react-core/v2`) |
-| Protocol | AG-UI (SSE event stream) |
-| Styling | Tailwind CSS v4 + CSS variables |
-| Theming | next-themes |
-| Language | TypeScript 5 |
-
-## Project Structure
+## How It Works
 
 ```
-src/
-├── config.ts                 # All env-driven configuration
-├── app/
-│   ├── layout.tsx            # Root layout — CopilotKit + ThemeProvider
-│   ├── page.tsx              # Chat page — CopilotChat.View (v2 API)
-│   ├── globals.css           # Theme variables + component styles
-│   └── api/copilotkit/
-│       └── route.ts          # API route — proxies to HoloDeck backend
-└── components/
-    ├── ThemeProvider.tsx      # next-themes wrapper
-    ├── ThemeToggle.tsx        # Dark/light mode button
-    └── ToolCallRenderer.tsx   # Wildcard tool call renderer (v2 API)
+Browser → /api/copilotkit (Next.js route) → HoloDeck backend (holodeck serve)
 ```
+
+The Next.js API route acts as a proxy, forwarding CopilotKit requests to the HoloDeck backend via the AG-UI `HttpAgent`.
 
 ## Commands
 
 ```bash
 npm run dev     # Development server (port 3000)
-npm run build   # Production build
-npm run lint    # ESLint
+npm run build   # Production build (standalone output)
+npm run start   # Start production server
+npm run lint    # Run ESLint
 ```
-
-## How It Works
-
-1. The Next.js API route (`/api/copilotkit`) proxies requests to the HoloDeck backend via `HttpAgent`
-2. HoloDeck executes the agent and streams AG-UI events (tool calls, text) back as SSE
-3. CopilotKit v2's `CopilotChat.View` renders messages, and `useRenderToolCall` renders tool call cards
-4. Each tool invocation gets its own card showing name, arguments, status, and result

@@ -1,6 +1,48 @@
-version: "3.9"
-
 services:
+  # HoloDeck Agent — uncomment and configure for your agent
+  # Build your image first: holodeck deploy build agent.yaml --tag latest
+  # See: https://docs.useholodeck.ai/guides/deployment/
+  #
+  # holodeck-agent:
+  #   image: ghcr.io/<your-org>/<your-agent>:latest
+  #   container_name: holodeck-agent
+  #   ports:
+  #     - "8080:8080"
+  #   env_file: .env.docker
+  #   volumes:
+  #     - ./<sample>/<provider>/agent.yaml:/app/agent.yaml:ro
+  #     - ./<sample>/<provider>/instructions:/app/instructions:ro
+  #     - ./<sample>/<provider>/data:/app/data:ro
+  #   environment:
+  #     CHROMADB_HOST: http://chromadb:8000
+  #     OPENSEARCH_HOST: https://opensearch:9200
+  #     OPENSEARCH_PASSWORD: ${OPENSEARCH_PASSWORD:-StrongPassword1!}
+  #   depends_on:
+  #     chromadb:
+  #       condition: service_healthy
+  #     opensearch:
+  #       condition: service_healthy
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+  #   restart: unless-stopped
+
+  # CopilotKit Frontend — chat UI for any HoloDeck agent
+  copilotkit:
+    build:
+      context: ./copilotkit
+    container_name: holodeck-copilotkit
+    ports:
+      - "3000:3000"
+    environment:
+      AGENT_ID: ${AGENT_ID:-my_agent}
+      AGENT_TITLE: ${AGENT_TITLE:-HoloDeck Assistant}
+      AGENT_DESCRIPTION: ${AGENT_DESCRIPTION:-AI-powered assistant}
+      HOLODECK_BACKEND_URL: ${HOLODECK_BACKEND_URL:-http://holodeck-agent:8080/awp}
+    # depends_on:
+    #   holodeck-agent:
+    #     condition: service_started
+    restart: unless-stopped
+
   # ChromaDB - Vector Store for RAG
   chromadb:
     image: chromadb/chroma:latest
@@ -10,9 +52,9 @@ services:
     volumes:
       - chroma-data:/chroma/chroma
     environment:
-      - IS_PERSISTENT=TRUE
-      - PERSIST_DIRECTORY=/chroma/chroma
-      - ANONYMIZED_TELEMETRY=FALSE
+      IS_PERSISTENT: "TRUE"
+      PERSIST_DIRECTORY: /chroma/chroma
+      ANONYMIZED_TELEMETRY: "FALSE"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/heartbeat"]
@@ -28,8 +70,8 @@ services:
       - "9200:9200"
       - "9600:9600"
     environment:
-      - discovery.type=single-node
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_PASSWORD:-StrongPassword1!}
+      discovery.type: single-node
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${OPENSEARCH_PASSWORD:-StrongPassword1!}
     volumes:
       - opensearch-data:/usr/share/opensearch/data
     restart: unless-stopped
@@ -46,6 +88,8 @@ services:
     ports:
       - "18888:18888"   # Dashboard UI
       - "4317:18889"    # OTLP gRPC endpoint
+    environment:
+      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: "true"
     restart: unless-stopped
 
 volumes:
