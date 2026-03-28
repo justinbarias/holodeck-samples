@@ -5,11 +5,11 @@ import {
   copilotRuntimeNextJSAppRouterEndpoint,
 } from "@copilotkit/runtime";
 import { NextRequest } from "next/server";
-import {
-  AGENT_ID,
-  COPILOTKIT_ENDPOINT,
-  HOLODECK_BACKEND_URL,
-} from "@/config";
+
+const AGENT_ID = process.env.AGENT_ID ?? "legal_assistant";
+const HOLODECK_BACKEND_URL =
+  process.env.HOLODECK_BACKEND_URL ?? "http://127.0.0.1:8000/awp";
+const COPILOTKIT_ENDPOINT = "/api/copilotkit";
 
 const serviceAdapter = new ExperimentalEmptyAdapter();
 

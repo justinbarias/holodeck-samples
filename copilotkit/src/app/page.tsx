@@ -9,7 +9,7 @@ import {
 import "@copilotkit/react-core/v2/styles.css";
 import { ToolCallRenderer } from "@/components/ToolCallRenderer";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { AGENT_ID, HEADER_TITLE, HEADER_SUBTITLE, FILE_ACCEPT } from "@/config";
+import { getClientRuntimeConfig } from "@/lib/runtime-config";
 
 /**
  * Content part types for AG-UI multimodal messages
@@ -35,13 +35,14 @@ type FileUpload = {
 };
 
 export default function Page() {
+  const config = getClientRuntimeConfig();
   const [selectedFiles, setSelectedFiles] = useState<FileUpload[]>([]);
   const [inputValue, setInputValue] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const selectedFilesRef = useRef<FileUpload[]>([]);
   const { copilotkit } = useCopilotKit();
 
-  const { agent } = useAgent({ agentId: AGENT_ID });
+  const { agent } = useAgent({ agentId: config.agentId });
 
   // Keep ref in sync with state for use in callbacks
   useEffect(() => {
@@ -182,7 +183,7 @@ export default function Page() {
 
       // Create and send message
       const message = {
-        id: crypto.randomUUID(),
+        id: globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`,
         role: "user" as const,
         content,
       };
@@ -211,8 +212,8 @@ export default function Page() {
       <header className="holodeck-header">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
-            <h1>{HEADER_TITLE}</h1>
-            <p>{HEADER_SUBTITLE}</p>
+            <h1>{config.agentTitle}</h1>
+            <p>{config.agentDescription}</p>
           </div>
           <ThemeToggle />
         </div>
@@ -259,7 +260,7 @@ export default function Page() {
           multiple
           ref={fileInputRef}
           onChange={handleFileSelect}
-          accept={FILE_ACCEPT}
+          accept={config.fileAccept}
           style={{ display: "none" }}
         />
 

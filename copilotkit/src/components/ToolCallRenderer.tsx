@@ -19,7 +19,8 @@ export function ToolCallRenderer() {
   useRenderToolCall({
     name: "*",
     render: (props) => {
-      const { name, args, status, result } = props as unknown as WildcardRenderProps;
+      const { name, status, result } = props as unknown as WildcardRenderProps;
+      const args = (props as unknown as WildcardRenderProps).args as Record<string, unknown> | undefined;
       const isInProgress = status === "inProgress";
       const isComplete = status === "complete";
 
@@ -49,15 +50,15 @@ export function ToolCallRenderer() {
           </div>
 
           {/* Show arguments (open while in progress, collapsed when complete) */}
-          {args && Object.keys(args).length > 0 && (
+          {args && Object.keys(args).length > 0 ? (
             <details className="holodeck-tool-details" open={isInProgress}>
               <summary>Arguments</summary>
               <pre>{JSON.stringify(args, null, 2)}</pre>
             </details>
-          )}
+          ) : null}
 
           {/* Show result when complete */}
-          {isComplete && result && (
+          {isComplete && result ? (
             <details className="holodeck-tool-details">
               <summary>Result</summary>
               <pre>
@@ -66,7 +67,7 @@ export function ToolCallRenderer() {
                   : JSON.stringify(result, null, 2)}
               </pre>
             </details>
-          )}
+          ) : null}
         </div>
       );
     },
