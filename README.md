@@ -86,12 +86,124 @@ The repository includes a single, shared [CopilotKit frontend](./copilotkit/) th
 ```bash
 cd copilotkit
 cp .env.example .env.local
-# Edit .env.local — set NEXT_PUBLIC_AGENT_ID to match your agent.yaml name
+# Edit .env.local — set AGENT_ID to match your agent.yaml name
 npm install
 npm run dev
 ```
 
 Open http://localhost:3000
+
+## Docker Deployment
+
+The entire stack (agent, frontend, infrastructure) can run in Docker containers.
+
+### 1. Build a HoloDeck Agent Image
+
+Use `holodeck deploy build` to create a Docker image for your agent. See the [Deployment Guide](https://docs.useholodeck.ai/guides/deployment/) for full details.
+
+First, add a `deployment` section to your `agent.yaml`:
+
+```yaml
+deployment:
+  registry:
+    url: ghcr.io
+    repository: your-org/your-agent
+    tag_strategy: git_sha   # or git_tag, latest, custom
+  target:
+    provider: aws            # aws, gcp, or azure
+  protocol: rest             # rest, ag-ui, or both
+  port: 8080
+```
+
+Then build the image:
+
+```bash
+# Basic build
+holodeck deploy build agent.yaml
+
+# Custom tag
+holodeck deploy build agent.yaml --tag v1.0.0
+
+# Preview Dockerfile without building
+holodeck deploy build agent.yaml --dry-run
+
+# Force fresh build (no cache)
+holodeck deploy build agent.yaml --no-cache
+```
+
+> **Note:** Container deployment currently supports Semantic Kernel backends only (OpenAI, Azure OpenAI, Ollama). Agents configured with `provider: anthropic` cannot be deployed as containers yet.
+
+### 2. Configure Docker Compose
+
+The root `docker-compose.yml` includes all services. Uncomment and configure the `holodeck-agent` service:
+
+```yaml
+holodeck-agent:
+  image: ghcr.io/your-org/your-agent:latest
+  container_name: holodeck-agent
+  ports:
+    - "8080:8080"
+  env_file: .env.docker
+  volumes:
+    - ./ticket-routing/openai/agent.yaml:/app/agent.yaml:ro
+    - ./ticket-routing/openai/instructions:/app/instructions:ro
+    - ./ticket-routing/openai/data:/app/data:ro
+  environment:
+    CHROMADB_HOST: http://chromadb:8000
+    OPENSEARCH_HOST: https://opensearch:9200
+    OPENSEARCH_PASSWORD: ${OPENSEARCH_PASSWORD:-StrongPassword1!}
+```
+
+Also uncomment the `depends_on` block in the `copilotkit` service to link it to the agent.
+
+### 3. CopilotKit Environment Variables
+
+The CopilotKit frontend is configured via environment variables (passed at runtime, not build time):
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `AGENT_ID` | Must match `name` in agent.yaml | `my_agent` |
+| `AGENT_TITLE` | Header and browser tab title | `HoloDeck Assistant` |
+| `AGENT_DESCRIPTION` | Agent description subtitle | `AI-powered assistant` |
+| `HOLODECK_BACKEND_URL` | Agent backend URL | `http://holodeck-agent:8080/awp` |
+
+Set these in a `.env` file at the repo root or pass them directly:
+
+```bash
+# .env file (read by docker compose)
+AGENT_ID=ticket_routing
+AGENT_TITLE=Ticket Routing Agent
+AGENT_DESCRIPTION=Classify and route support tickets
+```
+
+### 4. Start the Full Stack
+
+```bash
+# Start everything
+docker compose up -d
+
+# Or build CopilotKit image first (if not cached)
+docker compose up -d --build
+```
+
+Services will be available at:
+- **CopilotKit Frontend** at http://localhost:3000
+- **HoloDeck Agent** at http://localhost:8080
+- **ChromaDB** at http://localhost:8000
+- **OpenSearch** at https://localhost:9200
+- **Aspire Dashboard** at http://localhost:18888
+
+### HoloDeck Agent Container Environment
+
+When running in Docker, the agent container needs connectivity to infrastructure services. Key environment variables:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `CHROMADB_HOST` | ChromaDB endpoint (use Docker service name) | `http://chromadb:8000` |
+| `OPENSEARCH_HOST` | OpenSearch endpoint (use Docker service name) | `https://opensearch:9200` |
+| `OPENSEARCH_PASSWORD` | OpenSearch admin password | `StrongPassword1!` |
+| `HOLODECK_PORT` | Server port inside container | `8080` |
+| `HOLODECK_PROTOCOL` | Protocol type | `rest` |
 
 ## Infrastructure
 
@@ -99,6 +211,8 @@ Open http://localhost:3000
 
 ```yaml
 services:
+  holodeck-agent:    # HoloDeck agent at http://localhost:8080 (uncomment to enable)
+  copilotkit:        # Chat frontend at http://localhost:3000
   chromadb:          # Vector store at http://localhost:8000
   opensearch:        # Keyword search index at https://localhost:9200
   aspire-dashboard:  # OpenTelemetry UI at http://localhost:18888
@@ -131,7 +245,7 @@ The frontend lives in a single shared directory at the repository root:
 
 ```
 copilotkit/                 # Shared Next.js frontend (env-driven)
-├── .env.example            # Configure NEXT_PUBLIC_AGENT_ID, title, etc.
+├── .env.example            # Configure AGENT_ID, title, etc.
 ├── src/app/
 ├── package.json
 └── ...

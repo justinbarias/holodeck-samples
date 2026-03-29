@@ -18,7 +18,7 @@ A Next.js 16 generic frontend for any HoloDeck agent. It uses **CopilotKit v2** 
 ```
 src/
 ├── app/
-│   ├── layout.tsx          # Root layout — wraps app in <CopilotKit> provider
+│   ├── layout.tsx          # Root layout — wraps app in <CopilotKit> provider, injects runtime config
 │   ├── page.tsx            # Main chat page — uses CopilotChat.View (v2 API)
 │   ├── globals.css         # Theme variables + CopilotKit CSS overrides
 │   └── api/copilotkit/
@@ -26,16 +26,37 @@ src/
 ├── components/
 │   ├── ThemeProvider.tsx    # next-themes wrapper
 │   ├── ThemeToggle.tsx      # Dark/light mode toggle button
-│   └── ToolCallRenderer.tsx # Wildcard tool call renderer (useCopilotAction)
+│   └── ToolCallRenderer.tsx # Wildcard tool call renderer (useRenderToolCall)
+└── lib/
+    └── runtime-config.ts   # Runtime environment configuration (server + client)
 ```
 
 ## Key Architecture Decisions
+
+### Runtime Configuration (Docker-compatible)
+
+Environment variables use **no `NEXT_PUBLIC_` prefix** — they are read server-side via `process.env` and injected into the client via `window.__RUNTIME_CONFIG__` in a `<script>` tag in `layout.tsx`.
+
+This enables true runtime configuration in Docker containers (values don't need to be known at build time).
+
+- **Server components**: Call `getServerRuntimeConfig()` from `@/lib/runtime-config`
+- **Client components**: Call `getClientRuntimeConfig()` from `@/lib/runtime-config`
+- **Layout**: Uses `export const dynamic = "force-dynamic"` + `generateMetadata()` for dynamic metadata
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `AGENT_ID` | Must match `name` field in agent.yaml | `legal_assistant` |
+| `AGENT_TITLE` | Displayed in header and browser tab | `HoloDeck Assistant` |
+| `AGENT_DESCRIPTION` | Agent description subtitle | `AI-powered assistant` |
+| `HOLODECK_BACKEND_URL` | HoloDeck serve endpoint | `http://127.0.0.1:8000/awp` |
+| `FILE_ACCEPT` | MIME types for file upload | `image/*,application/pdf,.doc,.docx,.txt` |
 
 ### CopilotKit v2 API
 - Uses `CopilotChat.View` (not the v1 `<CopilotChat>` component)
 - Imports from `@copilotkit/react-core/v2`
 - CSS imported via `@copilotkit/react-core/v2/styles.css` in `page.tsx`
-- The v1 CSS (`@copilotkit/react-ui/styles.css`) was **removed** from `layout.tsx` — it conflicts with v2
 
 ### CopilotChat.View API (v1.54.0)
 The v2 `CopilotChat.View` uses **flat props**, not `inputProps`:
@@ -55,40 +76,20 @@ CopilotKit v1.54 uses a **shadcn/ui-style theming system** with CSS variables. T
 
 CopilotKit's CSS bundles its own **full Tailwind v4 build** which sets theme variables via `@layer theme`. This means:
 
-1. **Tailwind utility classes from the app can conflict** — CopilotKit's bundled Tailwind may override app utilities. Use inline styles or custom CSS classes (e.g. `.holodeck-header`) instead of Tailwind utilities for elements outside the CopilotKit widget.
+1. **Theme variables must use `!important`** to override CopilotKit's `@layer theme` defaults.
+2. **Dark mode** uses `html.dark` class selector (controlled by next-themes).
+3. Use custom CSS classes (`.holodeck-*`) instead of Tailwind utilities for elements outside CopilotKit.
 
-2. **Theme variables must use `!important`** to override CopilotKit's `@layer theme` defaults. The current approach in `globals.css` sets these on `:root`:
-   ```css
-   :root {
-     --background: #ffffff !important;
-     --foreground: #09090b !important;
-     --primary: #6366f1 !important;
-     /* ... etc */
-   }
-   ```
-
-3. **Dark mode** uses `html.dark` class selector (controlled by next-themes) to override these same variables with dark values.
-
-### Theme Variables (shadcn/ui style)
-These are the variables CopilotKit reads:
-```
---background, --foreground
---card, --card-foreground
---popover, --popover-foreground
---primary, --primary-foreground
---secondary, --secondary-foreground
---muted, --muted-foreground
---accent, --accent-foreground
---destructive
---border, --input, --ring
---radius
-```
+### Docker Support
+- `next.config.ts` has `output: "standalone"` for optimized Docker builds
+- Multi-stage `Dockerfile` (node:22-alpine): deps → build → standalone runner
+- `.dockerignore` excludes node_modules, .next, .env files
 
 ## Commands
 
 ```bash
 npm run dev     # Start dev server (port 3000)
-npm run build   # Production build
+npm run build   # Production build (standalone)
 npm run lint    # ESLint
 ```
 
@@ -102,4 +103,4 @@ holodeck serve path/to/agent.yaml
 
 The agent ID must match across:
 1. `agent.yaml` → `name: my_agent`
-2. `.env.local` → `NEXT_PUBLIC_AGENT_ID=my_agent`
+2. `.env.local` → `AGENT_ID=my_agent`

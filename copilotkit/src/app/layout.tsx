@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CopilotKit } from "@copilotkit/react-core";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import {
-  AGENT_ID,
-  COPILOTKIT_ENDPOINT,
-  PAGE_TITLE,
-  PAGE_DESCRIPTION,
-} from "@/config";
+import { getServerRuntimeConfig } from "@/lib/runtime-config";
 import "./globals.css";
+
+export const dynamic = "force-dynamic";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,23 +17,40 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: PAGE_TITLE,
-  description: PAGE_DESCRIPTION,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = getServerRuntimeConfig();
+  return {
+    title: config.agentTitle,
+    description: config.agentDescription,
+  };
+}
+
+const COPILOTKIT_ENDPOINT = "/api/copilotkit";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const config = getServerRuntimeConfig();
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__RUNTIME_CONFIG__=${JSON.stringify(config)}`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <CopilotKit runtimeUrl={COPILOTKIT_ENDPOINT} agent={AGENT_ID}>
+          <CopilotKit
+            runtimeUrl={COPILOTKIT_ENDPOINT}
+            agent={config.agentId}
+          >
             {children}
           </CopilotKit>
         </ThemeProvider>

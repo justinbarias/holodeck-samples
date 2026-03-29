@@ -26,7 +26,7 @@ holodeck chat agent.yaml                # Interactive chat session
 ### Frontend (CopilotKit)
 ```bash
 cd copilotkit
-cp .env.example .env.local   # Set NEXT_PUBLIC_AGENT_ID to match agent.yaml name
+cp .env.example .env.local   # Set AGENT_ID to match agent.yaml name
 npm install
 npm run dev    # Starts at http://localhost:3000
 ```
