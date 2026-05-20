@@ -47,22 +47,161 @@ If the agent returns structured output (`response_format`), grade the leaf with 
 
 When the right-answer check involves *logic* (e.g. "the agent's first tool call's `program` must be equivalent to `divide(a, b)` regardless of variable naming"), write a Python predicate:
 
+### YAML wiring
+
 ```yaml
-- type: code
-  metric: my-grader-name
-  file: graders/my_grader.py
-  function: grade            # signature: grade(actual, expected, **kwargs) -> dict
+evaluations:
+  metrics:
+    - type: code
+      grader: "graders.my_grader:grade"   # "module.path:callable" — colon-separated
+      threshold: 0.8                      # used when the grader returns a bare float
+      enabled: true                       # default true
+      fail_on_error: false                # if true, a grader exception fails the whole test case
+      name: "tool-program-equivalence"    # optional display name (defaults to the callable name)
 ```
 
-The function returns `{"passed": bool, "score": float, "reason": str}`. See `holodeck-samples/financial-assistant/claude/graders/turn_program_equivalence.py` for a working example that parses tool-call programs and checks mathematical equivalence.
+`grader:` is **one string** of the form `module.path:callable_name` — not the separate `file:` + `function:` fields a `function` *tool* uses. The runner does `importlib.import_module(module_path)` + `getattr(...)` at config-load time, so a bad import path raises `ConfigError` *before* any agent call. That early-fail is intentional — it stops you wasting tokens on a typo'd grader path.
 
-Code graders are perfect for:
-- **Program equivalence** (tool-call traces, generated SQL, generated code).
-- **Structural checks** (the JSON has the right shape; the array has at least N items).
-- **Multi-field correctness** (the answer matches AND it cited the right source).
-- **Domain-specific tolerance** (e.g. financial answers where `0.05995` and `5.995%` should both count).
+The module is resolved against `agent.yaml`'s directory on `sys.path`. So `grader: "graders.turn_program_equivalence:turn_program_equivalence"` resolves to `graders/turn_program_equivalence.py:def turn_program_equivalence(...)` next to `agent.yaml`.
 
-The grader is just Python — debug it with `python -c "from graders.my_grader import grade; print(grade(...))"`, then wire it back into the YAML.
+### Required package import
+
+```python
+from holodeck.lib.test_runner.code_grader import GraderContext, GraderResult
+from holodeck.models.test_result import ToolInvocation   # only if you type-annotate
+```
+
+`holodeck-ai` is the PyPI package — your sample's `pyproject.toml` (or local venv) needs `holodeck-ai` installed. When you run `holodeck test`, the CLI's own venv provides these imports; you only need to add `holodeck-ai` as a dev dependency if you want IDE type-checking on grader files.
+
+### Function signature
+
+```python
+def my_grader(ctx: GraderContext) -> bool | float | GraderResult:
+    ...
+```
+
+One positional arg — the `GraderContext` — and any one of three return shapes (see below).
+
+### What's in the `GraderContext`
+
+Everything the runner knows about the turn that just executed:
+
+| Field | Type | What it carries |
+|---|---|---|
+| `ctx.turn_input` | `str` | The user prompt for *this* turn (multi-turn: the current user message). |
+| `ctx.agent_response` | `str` | The agent's final text response. With `response_format`, this is the raw JSON envelope — parse it inside the grader. |
+| `ctx.ground_truth` | `str \| None` | Whatever you wrote under `ground_truth:` in the test case YAML. None if you didn't set one. |
+| `ctx.tool_invocations` | `tuple[ToolInvocation, ...]` | Every tool call the agent made on this turn, in order. Read-only (frozen tuple). |
+| `ctx.retrieval_context` | `tuple[str, ...] \| None` | Chunks returned by retrieval tools on this turn. Lets you write a *deterministic* groundedness check without invoking an LLM. |
+| `ctx.turn_index` | `int` | Zero-based position in the multi-turn dialogue. Use this to skip graders on the first turn, or to require a specific tool only on turn 0. |
+| `ctx.test_case_name` | `str \| None` | The `name:` of the test case — useful for richer `reason` strings. |
+| `ctx.turn_config` | `dict[str, Any]` | **Free-form dict** from the test case's `turn_config:` block. This is your escape hatch — stash anything the grader needs (`turn_program`, `expected_document`, `expected_schema`, etc.). The runner doesn't interpret any of these keys; the grader reads them directly. |
+
+The dataclass is frozen — `ctx.tool_invocations` and `ctx.retrieval_context` are tuples, not lists, so the grader can't accidentally mutate runner state.
+
+### `ToolInvocation` shape
+
+Each entry in `ctx.tool_invocations`:
+
+```python
+inv.name          # str  — tool name (Claude prefixes function tools with mcp__holodeck_tools__)
+inv.args          # dict — input parameters as the LLM supplied them
+inv.result        # Any  — tool output (scalar / dict / list / str). None if the call raised.
+inv.bytes         # int  — len(json.dumps(result)). Useful for "result must be < N KB" checks.
+inv.duration_ms   # int | None — None on backends that don't report it (rare).
+inv.error         # str | None — error message when the call failed.
+```
+
+Note: when an agent runs through the Claude backend, function tools surface with a `mcp__holodeck_tools__` prefix. Strip it before comparing names:
+
+```python
+import re
+_MCP_PREFIX = re.compile(r"^mcp__[A-Za-z0-9_]+__")
+plain = _MCP_PREFIX.sub("", inv.name)
+```
+
+### Return shapes (all valid)
+
+```python
+# 1. Bare bool — runner treats True as score 1.0 / passed=True.
+return ctx.agent_response.strip().startswith("```sql")
+
+# 2. Bare float — runner derives passed from the metric's `threshold:`
+#    (or default >= 0.5 if no threshold set).
+return overlap_ratio(ctx.retrieval_context, ctx.ground_truth)
+
+# 3. Fully-formed GraderResult — most informative; fills the dashboard.
+return GraderResult(
+    score=0.0,
+    passed=False,
+    reason=f"expected tool {expected!r}, got {actual!r}",
+    details={"expected_tools": expected, "got_tools": actual},
+)
+```
+
+`reason` shows up in the dashboard and in `results/<file>.json` next to the failing assertion — make it actionable. `details` is a free-form dict for structured data the dashboard renders in a collapsible panel.
+
+### What you can actually do with a code grader
+
+The base case is "compare a number" — but the access to `tool_invocations`, `retrieval_context`, and `turn_config` opens a much wider range:
+
+- **Tool-call program equivalence.** Compare the actual `(op, args)` sequence against `ctx.turn_config["turn_program"]`. The financial-assistant sample (`graders/turn_program_equivalence.py`) is the reference implementation — handles back-references (`#N`), `const_<n>` sentinels, and numeric tolerance.
+- **Expected-document check on retrieval.** When a turn says `turn_config: {expected_document: "filing-X.pdf"}`, walk `ctx.tool_invocations`, find the retrieval call, and assert that the returned chunks include filing X. Catches "right answer for wrong reason" — e.g. the agent guessed without grounding.
+- **Deterministic groundedness.** For free-text answers, check that every numeric token in `ctx.agent_response` appears in `ctx.retrieval_context`. Cheap heuristic, catches the common hallucination case without an LLM judge.
+- **Structured-output schema.** Parse `ctx.agent_response` as JSON, validate against a `jsonschema` `Draft202012Validator`, return `(score=0/1, reason=validator.errors)`.
+- **Generated-code correctness.** Extract a fenced code block from `ctx.agent_response`, exec it in a sandboxed namespace, compare its output to `ctx.ground_truth`. Useful for code-gen agents.
+- **Generated-SQL equivalence.** Parse both `ctx.agent_response` and `ctx.ground_truth` with `sqlglot`, normalize, compare AST. Reliable when the agent has freedom in column aliasing / table-ordering.
+- **Per-turn tool budget.** Fail if `len(ctx.tool_invocations) > ctx.turn_config["max_tool_calls"]`. Useful when you want to penalise an agent that grinds through retries.
+- **Compound assertions.** AND the numeric correctness with the right citation, return a single `GraderResult` with both findings in `details`.
+
+The unifying principle: anything you can describe as a Python function over the turn's I/O can be a code grader. Reach for an LLM judge only when the check genuinely needs natural-language reasoning (style, tone, "is this a good explanation"), not when it's just *tedious* to express in code.
+
+### Wiring the turn-side metadata
+
+The grader reads from `ctx.turn_config`, but you put data *there* in the test case YAML:
+
+```yaml
+# data/convfinqa_subset.yaml
+- name: ALXN-2007-rental-payments
+  turns:
+    - input: For ALXN in 2007, what were total rental payments?
+      ground_truth: "27141"
+      turn_config:
+        turn_program: "add(4935, 3144), add(#0, 3160), add(#1, 3200), add(#2, 2768), add(#3, 9934)"
+        expected_document: "Single_ALXN/2007/page_104.pdf"
+        max_tool_calls: 8
+      expected_tools: [convfinqa_archive]
+```
+
+Whatever you put under `turn_config:` lands verbatim in `ctx.turn_config` — keys are arbitrary. Treat it like a per-turn dataclass you defined yourself.
+
+### Debug a grader without running the LLM
+
+The grader is pure Python — exercise it directly with a hand-built context:
+
+```python
+from holodeck.lib.test_runner.code_grader import GraderContext
+from holodeck.models.test_result import ToolInvocation
+from graders.my_grader import my_grader
+
+ctx = GraderContext(
+    turn_input="what's 2+2?",
+    agent_response='{"answer": 4}',
+    ground_truth="4",
+    tool_invocations=(
+        ToolInvocation(name="add", args={"a": "2", "b": "2"}, result="4", bytes=1),
+    ),
+    retrieval_context=None,
+    turn_index=0,
+    test_case_name="trivial-add",
+    turn_config={"turn_program": "add(2, 2)"},
+)
+print(my_grader(ctx))
+```
+
+Runs in milliseconds, no API key required. Iterate on the grader logic here, *then* wire it back into `agent.yaml`.
+
+See `sample/financial-assistant/claude/graders/turn_program_equivalence.py` for a fully-worked example using `tool_invocations` + `turn_config` together.
 
 ## LLM-as-judge — use sparingly
 
