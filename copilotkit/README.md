@@ -24,7 +24,7 @@ All configuration is via environment variables in `.env.local` (dev) or containe
 
 | Variable | Required | Description | Default |
 |----------|----------|-------------|---------|
-| `AGENT_ID` | Yes | Must match `name` in agent.yaml | `my_agent` |
+| `AGENT_ID` | Yes | Must match `name` in agent.yaml | `my_agent_replace_me` |
 | `AGENT_TITLE` | Yes | Header and browser tab title | `My Agent` |
 | `AGENT_DESCRIPTION` | Yes | Subtitle below title | `What my agent does` |
 | `HOLODECK_BACKEND_URL` | No | HoloDeck serve endpoint | `http://127.0.0.1:8000/awp` |
@@ -42,7 +42,7 @@ docker build -t holodeck-copilotkit .
 
 # Run with environment variables
 docker run -p 3000:3000 \
-  -e AGENT_ID=my_agent \
+  -e AGENT_ID=my_agent \  # use the actual `name` from your agent.yaml
   -e AGENT_TITLE="My Agent" \
   -e AGENT_DESCRIPTION="What my agent does" \
   -e HOLODECK_BACKEND_URL=http://holodeck-agent:8080/awp \

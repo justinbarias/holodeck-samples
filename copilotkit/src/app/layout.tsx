@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CopilotKit } from "@copilotkit/react-core";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { getServerRuntimeConfig } from "@/lib/runtime-config";
+import {
+  getServerRuntimeConfig,
+  toClientRuntimeConfig,
+} from "@/lib/runtime-config";
+import { RuntimeConfigProvider } from "@/lib/runtime-config-provider";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -32,27 +36,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const config = getServerRuntimeConfig();
+  const clientConfig = toClientRuntimeConfig(getServerRuntimeConfig());
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.__RUNTIME_CONFIG__=${JSON.stringify(config)}`,
-          }}
-        />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <CopilotKit
-            runtimeUrl={COPILOTKIT_ENDPOINT}
-            agent={config.agentId}
-          >
-            {children}
-          </CopilotKit>
+          <RuntimeConfigProvider value={clientConfig}>
+            <CopilotKit
+              runtimeUrl={COPILOTKIT_ENDPOINT}
+              agent={clientConfig.agentId}
+            >
+              {children}
+            </CopilotKit>
+          </RuntimeConfigProvider>
         </ThemeProvider>
       </body>
     </html>

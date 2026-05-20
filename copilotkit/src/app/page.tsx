@@ -9,7 +9,7 @@ import {
 import "@copilotkit/react-core/v2/styles.css";
 import { ToolCallRenderer } from "@/components/ToolCallRenderer";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { getClientRuntimeConfig } from "@/lib/runtime-config";
+import { useRuntimeConfig } from "@/lib/runtime-config-provider";
 
 /**
  * Content part types for AG-UI multimodal messages
@@ -35,7 +35,7 @@ type FileUpload = {
 };
 
 export default function Page() {
-  const config = getClientRuntimeConfig();
+  const config = useRuntimeConfig();
   const [selectedFiles, setSelectedFiles] = useState<FileUpload[]>([]);
   const [inputValue, setInputValue] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);

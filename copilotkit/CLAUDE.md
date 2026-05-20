@@ -35,19 +35,19 @@ src/
 
 ### Runtime Configuration (Docker-compatible)
 
-Environment variables use **no `NEXT_PUBLIC_` prefix** — they are read server-side via `process.env` and injected into the client via `window.__RUNTIME_CONFIG__` in a `<script>` tag in `layout.tsx`.
+Environment variables use **no `NEXT_PUBLIC_` prefix** — they are read server-side via `process.env` in `layout.tsx` and passed into the client tree via a React context provider.
 
 This enables true runtime configuration in Docker containers (values don't need to be known at build time).
 
 - **Server components**: Call `getServerRuntimeConfig()` from `@/lib/runtime-config`
-- **Client components**: Call `getClientRuntimeConfig()` from `@/lib/runtime-config`
-- **Layout**: Uses `export const dynamic = "force-dynamic"` + `generateMetadata()` for dynamic metadata
+- **Client components**: Call `useRuntimeConfig()` from `@/lib/runtime-config-provider`
+- **Layout**: Reads server config, strips the backend URL via `toClientRuntimeConfig()`, and wraps children in `<RuntimeConfigProvider>`. Uses `export const dynamic = "force-dynamic"` + `generateMetadata()` for dynamic metadata.
 
 ### Environment Variables
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `AGENT_ID` | Must match `name` field in agent.yaml | `legal_assistant` |
+| `AGENT_ID` | Must match `name` field in agent.yaml | `my_agent_replace_me` |
 | `AGENT_TITLE` | Displayed in header and browser tab | `HoloDeck Assistant` |
 | `AGENT_DESCRIPTION` | Agent description subtitle | `AI-powered assistant` |
 | `HOLODECK_BACKEND_URL` | HoloDeck serve endpoint | `http://127.0.0.1:8000/awp` |
@@ -103,4 +103,4 @@ holodeck serve path/to/agent.yaml
 
 The agent ID must match across:
 1. `agent.yaml` → `name: my_agent`
-2. `.env.local` → `AGENT_ID=my_agent`
+2. `.env.local` → `AGENT_ID=my_agent` (the placeholder default `my_agent_replace_me` will not match any real agent)

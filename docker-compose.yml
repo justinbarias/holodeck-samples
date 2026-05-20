@@ -34,7 +34,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      AGENT_ID: ${AGENT_ID:-my_agent}
+      AGENT_ID: ${AGENT_ID:-my_agent_replace_me}
       AGENT_TITLE: ${AGENT_TITLE:-HoloDeck Assistant}
       AGENT_DESCRIPTION: ${AGENT_DESCRIPTION:-AI-powered assistant}
       HOLODECK_BACKEND_URL: ${HOLODECK_BACKEND_URL:-http://holodeck-agent:8080/awp}

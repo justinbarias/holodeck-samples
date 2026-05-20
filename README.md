@@ -163,10 +163,11 @@ The CopilotKit frontend is configured via environment variables (passed at runti
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `AGENT_ID` | Must match `name` in agent.yaml | `my_agent` |
+| `AGENT_ID` | Must match `name` in agent.yaml | `my_agent_replace_me` |
 | `AGENT_TITLE` | Header and browser tab title | `HoloDeck Assistant` |
 | `AGENT_DESCRIPTION` | Agent description subtitle | `AI-powered assistant` |
 | `HOLODECK_BACKEND_URL` | Agent backend URL | `http://holodeck-agent:8080/awp` |
+| `FILE_ACCEPT` | MIME types for the file upload input | `image/*,application/pdf,.doc,.docx,.txt` |
 
 Set these in a `.env` file at the repo root or pass them directly:
 
