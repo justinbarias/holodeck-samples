@@ -20,6 +20,23 @@ services:
       timeout: 10s
       retries: 3
 
+  # Qdrant - Vector Store with native dense+sparse hybrid search
+  # Used by the financial-assistant sample's hierarchical_document tool.
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: holodeck-qdrant
+    ports:
+      - "6333:6333"   # REST + gRPC over HTTP
+      - "6334:6334"   # gRPC
+    volumes:
+      - qdrant-data:/qdrant/storage
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/6333'"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
   # OpenSearch - Keyword Search Index
   opensearch:
     image: opensearchproject/opensearch:latest
@@ -50,4 +67,5 @@ services:
 
 volumes:
   chroma-data:
+  qdrant-data:
   opensearch-data:
