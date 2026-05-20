@@ -13,6 +13,7 @@ This directory contains 4 production-ready samples demonstrating HoloDeck's feat
 | [Content Moderation](./content-moderation/) | Filter user-generated content | Multi-category classification, policy enforcement |
 | [Legal Summarization](./legal-summarization/) | Summarize legal documents | Document analysis, clause extraction, risk identification |
 | [Legal Assistant](./legal-assistant/) | Analyze US legislation | Hierarchical document search, hybrid search, structured citations |
+| [Financial Assistant](./financial-assistant/) | ConvFinQA multi-turn financial Q&A | Hierarchical document search, Qdrant native hybrid search, code graders, multi-turn test cases |
 
 Each sample is available for 3 LLM providers:
 - **OpenAI** (gpt-4o) - Cloud-based, highest quality
@@ -309,126 +310,47 @@ curl http://localhost:11434/api/version  # Verify connection
 3. **Build your own** - Use these samples as templates for new use cases
 4. **Deploy** - Use `holodeck deploy` for production deployment
 
-## Claude Code Integration
+## Agent skill: `holodeck`
 
-This repository includes slash commands for [Claude Code](https://claude.ai/code) to streamline agent development. These commands provide guided, conversational workflows for creating and optimizing HoloDeck agents.
+This repo ships a unified `holodeck` skill that covers the full agent-development lifecycle in three modes — **bootstrap → refine → ship**. It works with any coding agent that supports the open agent-skills convention (Claude Code, Cursor, Codex, OpenCode, and [~50 others](https://github.com/vercel-labs/skills)).
 
-### Available Slash Commands
+### Install with `npx skills add`
 
-| Command | Description |
-|---------|-------------|
-| `/holodeck.create` | Conversational wizard to scaffold and configure a new agent |
-| `/holodeck.tune` | Iteratively tune an existing agent to improve test performance |
+```bash
+# Install into the current project (or pass -g for user-global)
+npx skills add justinbarias/holodeck-samples
 
-### /holodeck.create
-
-A step-by-step wizard that guides you through creating a new HoloDeck agent:
-
-1. **Basic Information** - Agent name, description, use case category, LLM provider
-2. **Model Configuration** - Temperature, max tokens based on use case
-3. **System Prompt Design** - Role, guidelines, process, output format
-4. **Response Format** - JSON schema for structured output (if needed)
-5. **Tools Configuration** - Vectorstore (RAG), MCP servers
-6. **Evaluation Metrics** - RAG metrics, GEval custom criteria
-7. **Test Cases** - Comprehensive test scenarios
-8. **Observability** - OpenTelemetry configuration
-9. **Finalization** - Validation and next steps
-
-**Usage:**
-```
-/holodeck.create
+# Or pin to a specific agent
+npx skills add justinbarias/holodeck-samples -a claude-code
 ```
 
-The wizard will ask clarifying questions at each phase before proceeding.
+The CLI symlinks the canonical skill at `skills/holodeck/` into your agent's expected directory (e.g. `.claude/skills/holodeck/`, `.codex/skills/holodeck/`, etc.). Pass `--copy` if you want independent copies instead of symlinks.
 
-### /holodeck.tune
+### What each mode does
 
-An iterative tuning assistant that improves agent test performance:
+| Mode | When it triggers | What it does |
+|---|---|---|
+| **bootstrap** | "scaffold an agent", "create an `agent.yaml`", "set up an experiment" | Picks provider + tool type, writes `agent.yaml` + `.env.sample`, validates with `holodeck config validate` and a one-turn `holodeck chat`. |
+| **refine** | "write graders / evaluations / test cases", "analyze test results", "open the dashboard" | Walks you down the testing pyramid (standard graders → code graders → LLM-as-judge only at the apex). Covers `GraderContext`, `turn_config` per-turn metadata, dashboard background-launch, results-JSON triage. |
+| **ship** | "deploy this agent", "`holodeck deploy build/run`", "ship to Azure/Cloud Run" | Pre-flight checks, deployment-block scaffold, build/push/run sequence, `/health` wait loop + protocol smoke test, Claude-backend concurrency tuning (`session_memory_estimate_mib`). |
 
-1. **Initial Assessment** - Runs baseline tests, records pass/fail rates
-2. **Diagnosis** - Analyzes failures and identifies root causes
-3. **Tuning Loop** - Proposes changes, applies them, measures improvement
-4. **Changelog Tracking** - Records all modifications in `changelog.md`
+The skill always cross-references the live docsite at <https://docs.useholodeck.ai/llms.txt> so the workflow stays current even if the CLI surface changes.
 
-**What it CAN modify:**
-- System prompt content
-- Model settings (temperature, max_tokens)
-- Tool configuration (top_k, chunk_size, min_similarity_score)
-- Evaluation thresholds
+### Layout in this repo
 
-**What it CANNOT modify:**
-- Test cases (inputs, ground_truth, expected_tools)
-- Agent name and description
-
-**Usage:**
 ```
-/holodeck.tune path/to/agent.yaml
-```
+skills/holodeck/          # ← canonical skill (what `npx skills add` discovers)
+├── SKILL.md
+└── references/
+    ├── bootstrap.md
+    ├── refine.md
+    └── ship.md
 
-The tuner will ask for maximum iterations and priority tests before starting.
-
-### Command Files Location
-
-The slash commands are defined in:
-```
-.claude/commands/
-├── holodeck.create.md    # Agent creation wizard
-└── holodeck.tune.md      # Agent tuning assistant
+.claude/skills/holodeck   # → symlink → ../../skills/holodeck (for in-tree Claude Code use)
+.agents/skills/holodeck   # → symlink → ../../skills/holodeck (for in-tree .agents-aware tools)
 ```
 
-## GitHub Copilot Integration
-
-This repository also includes prompt files for [GitHub Copilot](https://github.com/features/copilot) in VS Code, Visual Studio, and JetBrains IDEs. These prompts provide the same guided workflows as the Claude Code commands.
-
-### Available Prompts
-
-| Prompt | Description |
-|--------|-------------|
-| `holodeck-create` | Conversational wizard to scaffold and configure a new agent |
-| `holodeck-tune` | Iteratively tune an existing agent to improve test performance |
-
-### How to Use
-
-1. Open the repository in VS Code (or supported IDE) with GitHub Copilot Chat
-2. Type `/` in the chat input to see available prompts
-3. Select `holodeck-create` or `holodeck-tune`
-4. Follow the conversational wizard
-
-Alternatively, type `#prompt:` and select the prompt from the dropdown.
-
-### holodeck-create
-
-A step-by-step wizard that guides you through creating a new HoloDeck agent:
-
-1. **Basic Information** - Agent name, description, use case category, LLM provider
-2. **Model Configuration** - Temperature, max tokens based on use case
-3. **System Prompt Design** - Role, guidelines, process, output format
-4. **Response Format** - JSON schema for structured output (if needed)
-5. **Tools Configuration** - Vectorstore (RAG), MCP servers
-6. **Evaluation Metrics** - RAG metrics, GEval custom criteria
-7. **Test Cases** - Comprehensive test scenarios
-8. **Observability** - OpenTelemetry configuration
-9. **Finalization** - Validation and next steps
-
-### holodeck-tune
-
-An iterative tuning assistant that improves agent test performance:
-
-1. **Initial Assessment** - Analyzes baseline test results
-2. **Diagnosis** - Identifies failure patterns and root causes
-3. **Tuning Loop** - Proposes changes, guides you through applying them
-4. **Changelog Tracking** - Helps maintain `changelog.md` with all modifications
-
-### Prompt Files Location
-
-The GitHub Copilot prompts are defined in:
-```
-.github/prompts/
-├── holodeck-create.prompt.md    # Agent creation wizard
-└── holodeck-tune.prompt.md      # Agent tuning assistant
-```
-
-> **Note:** GitHub Copilot prompts provide guidance-focused workflows. Unlike Claude Code commands which can execute tools directly, Copilot prompts suggest commands for you to run manually.
+One source of truth, three discovery points. Editing the canonical copy is the only thing you need to do — both symlinks resolve through it.
 
 ## Resources
 
