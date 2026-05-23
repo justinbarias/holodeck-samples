@@ -44,7 +44,7 @@ holodeck init <name> --template <template-name>
 When no template fits, write the file directly. Keep it short — *runnable first, polished later*. A minimal Anthropic agent:
 
 ```yaml
-# yaml-language-server: $schema=https://docs.useholodeck.ai/schemas/agent.schema.json
+# yaml-language-server: $schema=https://docs.useholodeck.ai/schemas/schema.json
 name: my-agent
 description: One-sentence purpose.
 model:
@@ -110,4 +110,4 @@ Hand off to `refine` mode by recommending the next step explicitly: "You have a 
 - `https://docs.useholodeck.ai/guides/llm-providers/`
 - `https://docs.useholodeck.ai/guides/tools/`
 - `https://docs.useholodeck.ai/guides/file-references/` (for file path resolution rules)
-- `schemas/agent.schema.json` (in the agentlab repo or holodeck-samples)
+- `https://docs.useholodeck.ai/schemas/schema.json` (canonical JSON Schema — also at `/schemas/agent.schema.json`)
