@@ -30,8 +30,8 @@ export function ToolCallRenderer() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "0.5rem",
-              marginBottom: isComplete && result ? "0.5rem" : 0,
+              gap: "0.2rem",
+              marginBottom: isComplete && result ? "0.2rem" : 0,
             }}
           >
             <span style={{ fontSize: "1rem" }}>

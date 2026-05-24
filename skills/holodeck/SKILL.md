@@ -59,10 +59,51 @@ These apply regardless of mode:
 
 4. **Use `${VAR_NAME}` for anything tenant-specific.** Subscription IDs, registry URLs, model deployment names — anything another developer would need to change should be an env var with a placeholder in `.env.sample`.
 
-5. **Pin to the canonical schema.** `schemas/agent.schema.json` (also published in the `holodeck-samples` repo) is the authoritative shape. If the user's editor isn't validating against it, suggest setting up a `yaml-language-server` modeline:
+5. **Pin to the canonical schema.** The authoritative `agent.yaml` shape is published as a raw JSON Schema on the docsite — **always link to the live URL, not a local copy**, so the editor stays in sync with whatever HoloDeck CLI is installed:
+
+   - Canonical: `https://docs.useholodeck.ai/schemas/schema.json`
+   - Legacy alias (same file): `https://docs.useholodeck.ai/schemas/agent.schema.json`
+
+   The fastest setup for any agent.yaml is a `yaml-language-server` modeline at the top of the file — every modern YAML LSP (VS Code, Neovim, Helix, Sublime LSP, JetBrains IDEs with the YAML plugin) honors it:
+
    ```yaml
-   # yaml-language-server: $schema=https://docs.useholodeck.ai/schemas/agent.schema.json
+   # yaml-language-server: $schema=https://docs.useholodeck.ai/schemas/schema.json
    ```
+
+   When the user wants editor-wide validation (so new files don't need the modeline), give the right recipe for their editor:
+
+   - **VS Code** (via the [Red Hat YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)) — add to `.vscode/settings.json` or user `settings.json`:
+     ```json
+     {
+       "yaml.schemas": {
+         "https://docs.useholodeck.ai/schemas/schema.json": [
+           "agent.yaml",
+           "**/agent.yaml",
+           "**/holodeck/**/*.yaml"
+         ]
+       }
+     }
+     ```
+   - **JetBrains IDEs** (IntelliJ, PyCharm, WebStorm) — `Settings → Languages & Frameworks → Schemas and DTDs → JSON Schema Mappings → +`. Schema URL: `https://docs.useholodeck.ai/schemas/schema.json`. File pattern: `agent.yaml`. Schema version: `JSON Schema version 7`.
+   - **Neovim / Helix / any LSP-based editor** — configure the `yaml-language-server` settings block:
+     ```lua
+     -- lspconfig example for Neovim
+     require('lspconfig').yamlls.setup({
+       settings = {
+         yaml = {
+           schemas = {
+             ["https://docs.useholodeck.ai/schemas/schema.json"] = {
+               "agent.yaml",
+               "**/agent.yaml",
+             },
+           },
+         },
+       },
+     })
+     ```
+   - **SchemaStore-compatible tools (Zed, Sublime LSP, etc.)** — same URL, register under `yaml.schemas`.
+
+   If the user is offline or behind a strict proxy, fall back to a local copy: `curl -o agent.schema.json https://docs.useholodeck.ai/schemas/schema.json` and point the modeline at `./agent.schema.json`.
 
 6. **Stop early when context is unclear.** Don't generate a 200-line `agent.yaml` from one sentence — ask one targeted question (provider? task domain? data source?) and then proceed. The user fixing one wrong assumption is cheaper than rewriting half the file.
 
