@@ -30,13 +30,24 @@ export function ToolCallRenderer() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "0.2rem",
+              gap: "0.5rem",
               marginBottom: isComplete && result ? "0.2rem" : 0,
             }}
           >
-            <span style={{ fontSize: "1rem" }}>
-              {isInProgress ? "\u23F3" : isComplete ? "\u2705" : "\uD83D\uDD27"}
-            </span>
+            <span
+              aria-hidden
+              style={{
+                width: 8,
+                height: 8,
+                flexShrink: 0,
+                borderRadius: 999,
+                background: isComplete
+                  ? "var(--hd-primary)"
+                  : "var(--hd-primary-soft)",
+                boxShadow: isComplete ? "0 0 8px var(--hd-tint-border)" : "none",
+                animation: isInProgress ? "hd-pulse 1.2s ease-in-out infinite" : "none",
+              }}
+            />
             <span style={{ fontWeight: 600 }}>{formatToolName(name)}</span>
             <span
               className={

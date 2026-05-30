@@ -1,229 +1,339 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #171717;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/*
+ * HoloDeck CopilotKit Frontend — Global Styles
+ *
+ * Visual identity per DESIGN.md: dark-first, near-black surfaces, a single
+ * plasma-green accent, Inter + JetBrains Mono. A companion "Clean Room" light
+ * theme lives under `html.light` (next-themes, attribute="class").
+ *
+ * CopilotKit v2 is themed through its `--copilot-kit-*` override hooks
+ * (plain hex values, consumed with fallbacks inside its bundled Tailwind
+ * build) — no !important needed for those.
+ */
+
+/* ============================================================
+   THEME TOKENS — dark is the default (DESIGN.md is dark-first)
+   ============================================================ */
+
+:root {
+  /* HoloDeck brand palette — dark */
+  --hd-primary: #7bff5a; /* plasma green — sole accent */
+  --hd-primary-bright: #9bff5f; /* lime */
+  --hd-primary-mint: #53ff9c; /* mint */
+  --hd-primary-soft: #5ae0a6; /* desaturated mint */
+  --hd-on-primary: #041208;
+  --hd-surface: #050b09;
+  --hd-surface-deep: #030807;
+  --hd-surface-container: #0a110f;
+  --hd-surface-container-high: #0c1412;
+  --hd-outline: #1c2b25;
+  --hd-on-surface: #e8f5ec;
+  --hd-on-surface-variant: #9bb3a5;
+  --hd-code-on-surface: #e5e7eb;
+
+  /* Semi-transparent accents (need black around them) */
+  --hd-badge-bg: rgba(123, 255, 90, 0.12);
+  --hd-badge-bg-strong: rgba(123, 255, 90, 0.18);
+  --hd-tint-border: rgba(123, 255, 90, 0.22);
+
+  /* Fonts (variables injected by next/font in layout.tsx) */
+  --hd-font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --hd-font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono",
+    "JetBrains Mono", Menlo, monospace;
+
+  /* Legacy aliases consumed by existing markup / inline styles */
+  --holodeck-bg: var(--hd-surface);
+  --holodeck-surface: var(--hd-surface-container);
+  --holodeck-border: var(--hd-outline);
+  --holodeck-text: var(--hd-on-surface);
+  --holodeck-text-muted: var(--hd-on-surface-variant);
+  --holodeck-accent: var(--hd-primary);
+  --holodeck-accent-hover: var(--hd-primary-bright);
+
+  /* Generic aliases used by inline styles (page.tsx / FinancialTools.tsx) */
+  --background: var(--hd-surface);
+  --foreground: var(--hd-on-surface);
+  --border: var(--hd-outline);
+
+  /* CopilotKit v2 override hooks — dark */
+  --copilot-kit-background: var(--hd-surface);
+  --copilot-kit-foreground: var(--hd-on-surface);
+  --copilot-kit-primary: var(--hd-primary-mint);
+  --copilot-kit-primary-foreground: var(--hd-on-primary);
+  --copilot-kit-secondary: var(--hd-surface-container-high);
+  --copilot-kit-secondary-foreground: var(--hd-on-surface);
+  --copilot-kit-muted: var(--hd-surface-container);
+  --copilot-kit-muted-foreground: var(--hd-on-surface-variant);
+  --copilot-kit-accent: var(--hd-surface-container-high);
+  --copilot-kit-accent-foreground: var(--hd-on-surface);
+  --copilot-kit-border: var(--hd-outline);
+  --copilot-kit-input: var(--hd-surface-container);
+  --copilot-kit-card: var(--hd-surface-container);
+  --copilot-kit-card-foreground: var(--hd-on-surface);
+  --copilot-kit-popover: var(--hd-surface-container);
+  --copilot-kit-popover-foreground: var(--hd-on-surface);
+  --copilot-kit-ring: var(--hd-primary);
 }
+
+/* ============================================================
+   CLEAN ROOM — light theme overrides (html.light)
+   ============================================================ */
+
+html.light {
+  --hd-primary: #16a34a; /* AA-readable green on light */
+  --hd-primary-bright: #22c55e;
+  --hd-primary-mint: #2ea043;
+  --hd-primary-soft: #15803d;
+  --hd-on-primary: #ffffff;
+  --hd-surface: #f3f6f4;
+  --hd-surface-deep: #eef2ee;
+  --hd-surface-container: #ffffff;
+  --hd-surface-container-high: #f8faf8;
+  --hd-outline: #e1e7e3;
+  --hd-on-surface: #0c1412;
+  --hd-on-surface-variant: #54645a;
+  /* code/terminal surfaces stay dark — keep --hd-code-on-surface */
+
+  --hd-badge-bg: rgba(22, 163, 74, 0.12);
+  --hd-badge-bg-strong: rgba(22, 163, 74, 0.18);
+  --hd-tint-border: rgba(22, 163, 74, 0.3);
+
+  /* CopilotKit v2 override hooks — light */
+  --copilot-kit-primary: var(--hd-primary);
+  --copilot-kit-primary-foreground: #ffffff;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
 
 body {
-  background: var(--background, var(--color-background));
-  color: var(--foreground, var(--color-foreground));
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
+  background-color: var(--hd-surface);
+  color: var(--hd-on-surface);
+  font-family: var(--hd-font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Header styling */
+/*
+ * Dark-first signature (DESIGN.md): the page is a deep space-black canvas lit
+ * by soft green radial spotlights — never a linear banner. Two spotlights pin
+ * the top corners (per the brand), a third low-center glow gives the chat body
+ * atmosphere instead of flat black, and a deepest-surface wash at the bottom
+ * edge adds tonal depth.
+ */
+:root body,
+html.dark body {
+  background-image:
+    radial-gradient(
+      60% 50% at 22% 16%,
+      rgba(123, 255, 90, 0.1),
+      transparent 72%
+    ),
+    radial-gradient(
+      55% 45% at 80% 10%,
+      rgba(83, 255, 156, 0.07),
+      transparent 70%
+    ),
+    radial-gradient(
+      70% 55% at 50% 78%,
+      rgba(123, 255, 90, 0.05),
+      transparent 75%
+    ),
+    radial-gradient(
+      120% 80% at 50% 120%,
+      var(--hd-surface-deep),
+      transparent 60%
+    );
+  background-attachment: fixed;
+}
+
+/* Clean Room: no green glows (they need black around them). */
+html.light body {
+  background-image: none;
+}
+
+::selection {
+  background: var(--hd-badge-bg-strong);
+  color: var(--hd-on-surface);
+}
+
+/* Subtle status pulse (opacity only — no scale/bounce, per DESIGN.md). */
+@keyframes hd-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+  }
+}
+
+a {
+  color: var(--hd-primary);
+}
+
+/*
+ * Accessibility focus ring for the HoloDeck shell (buttons, links, panel).
+ * Scoped OUT of the CopilotKit chat — its textarea is borderless by design,
+ * and a hard 2px plasma-green outline on it reads as a harsh box. The chat
+ * input gets its own soft treatment below.
+ */
+:focus-visible:not(.copilotKitChat *) {
+  outline: 2px solid var(--hd-primary);
+  outline-offset: 2px;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--hd-font-mono);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
 .holodeck-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e4e4e7;
   padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--hd-outline);
+  background: var(--hd-surface-container);
 }
 
 .holodeck-header h1 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #18181b;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--hd-on-surface);
 }
 
 .holodeck-header p {
   font-size: 0.875rem;
-  color: #71717a;
+  margin: 0.25rem 0 0;
+  color: var(--hd-on-surface-variant);
 }
 
-/* File upload preview bar */
-.holodeck-file-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
-  background: #fafafa;
-}
+/* ============================================================
+   TOOL CALL DISPLAY
+   ============================================================ */
 
-.holodeck-main {
-  background: #f9fafb;
-}
-
-/*
- * Override CopilotKit v2 theme variables.
- * CopilotKit bundles its own Tailwind + shadcn/ui theme that sets
- * --background etc. via @layer theme.  We override at :root level
- * with !important so the chat widget picks up our palette.
- */
-:root {
-  --background: #ffffff !important;
-  --foreground: #09090b !important;
-  --card: #ffffff !important;
-  --card-foreground: #09090b !important;
-  --popover: #ffffff !important;
-  --popover-foreground: #09090b !important;
-  --primary: #6366f1 !important;
-  --primary-foreground: #ffffff !important;
-  --secondary: #f4f4f5 !important;
-  --secondary-foreground: #18181b !important;
-  --muted: #f4f4f5 !important;
-  --muted-foreground: #71717a !important;
-  --accent: #f4f4f5 !important;
-  --accent-foreground: #18181b !important;
-  --destructive: #ef4444 !important;
-  --border: #e4e4e7 !important;
-  --input: #e4e4e7 !important;
-  --ring: #6366f1 !important;
-}
-
-/* Dark mode — controlled by next-themes via .dark class on <html> */
-html.dark {
-  --background: #09090b !important;
-  --foreground: #fafafa !important;
-  --card: #09090b !important;
-  --card-foreground: #fafafa !important;
-  --popover: #09090b !important;
-  --popover-foreground: #fafafa !important;
-  --primary: #818cf8 !important;
-  --primary-foreground: #ffffff !important;
-  --secondary: #27272a !important;
-  --secondary-foreground: #fafafa !important;
-  --muted: #27272a !important;
-  --muted-foreground: #a1a1aa !important;
-  --accent: #27272a !important;
-  --accent-foreground: #fafafa !important;
-  --destructive: #dc2626 !important;
-  --border: #27272a !important;
-  --input: #27272a !important;
-  --ring: #818cf8 !important;
-  --color-background: #09090b;
-  --color-foreground: #fafafa;
-}
-
-html.dark body {
-  background: #09090b;
-  color: #fafafa;
-}
-
-html.dark .holodeck-header {
-  background: #18181b;
-  border-bottom-color: #27272a;
-}
-
-html.dark .holodeck-header h1 {
-  color: #fafafa;
-}
-
-html.dark .holodeck-header p {
-  color: #a1a1aa;
-}
-
-html.dark .holodeck-file-bar {
-  border-bottom-color: #27272a;
-  background: #18181b;
-}
-
-html.dark .holodeck-main {
-  background: #09090b;
-}
-
-/* Theme toggle button */
-.holodeck-theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid #e4e4e7;
-  background: transparent;
-  color: #71717a;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-
-.holodeck-theme-toggle:hover {
-  background: #f4f4f5;
-  color: #18181b;
-}
-
-html.dark .holodeck-theme-toggle {
-  border-color: #3f3f46;
-  color: #a1a1aa;
-}
-
-html.dark .holodeck-theme-toggle:hover {
-  background: #27272a;
-  color: #fafafa;
-}
-
-/* Tool call rendering */
 .holodeck-tool-call {
-  margin: 0.2rem 0;
-  padding: 0.3rem;
-  border-radius: 0.2rem;
-  border: 1px solid #e4e4e7;
-  background: #f9fafb;
-  font-size: 0.875rem;
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--hd-outline);
+  border-radius: 10px;
+  background: var(--hd-surface-container);
 }
 
-html.dark .holodeck-tool-call {
-  border-color: #3f3f46;
-  background: #18181b;
+.holodeck-tool-call pre {
+  font-family: var(--hd-font-mono);
+  font-size: 0.8rem;
 }
 
 .holodeck-tool-badge {
-  margin-left: auto;
-  font-size: 0.75rem;
-  padding: 0.05rem 0.2rem;
-  border-radius: 9999px;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--hd-tint-border);
 }
 
 .holodeck-tool-badge--progress {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-html.dark .holodeck-tool-badge--progress {
-  background: #1e3a5f;
-  color: #93c5fd;
+  background: var(--hd-badge-bg);
+  color: var(--hd-primary-soft);
 }
 
 .holodeck-tool-badge--complete {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--hd-badge-bg-strong);
+  color: var(--hd-primary);
 }
 
-html.dark .holodeck-tool-badge--complete {
-  background: #14532d;
-  color: #86efac;
+.holodeck-file-bar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--hd-outline);
+  background: var(--hd-surface-container);
+  flex-wrap: wrap;
 }
 
-.holodeck-tool-details {
-  margin-top: 0.2rem;
-  padding: 0.2rem;
-  border-radius: 0.15rem;
-  background: #f4f4f5;
+/* ============================================================
+   CHAT CONTAINER
+   ============================================================ */
+
+.holodeck-main {
+  background: transparent;
 }
 
-.holodeck-tool-details summary {
-  font-size: 0.75rem;
-  color: #71717a;
-  cursor: pointer;
+/*
+ * CopilotKit v2's chat (`.copilotKitChat` + its `cpk:`-prefixed Tailwind
+ * utilities) inherits its bundled `ui-sans-serif / system-ui` stack. Force
+ * the HoloDeck type stack onto the widget and everything inside it so the
+ * chat greeting, messages, and input render in Inter — matching the shell.
+ */
+.copilotKitChat,
+.copilotKitChat * {
+  font-family: var(--hd-font-sans);
 }
 
-.holodeck-tool-details pre {
-  font-size: 0.75rem;
-  overflow-x: auto;
-  margin: 0.1rem 0 0;
-  color: #3f3f46;
+/* Code / preformatted text inside chat keeps the mono face (DESIGN.md). */
+.copilotKitChat code,
+.copilotKitChat pre,
+.copilotKitChat kbd,
+.copilotKitChat samp {
+  font-family: var(--hd-font-mono);
 }
 
-html.dark .holodeck-tool-details {
-  background: #27272a;
+.copilotKitChat {
+  height: 100%;
+  /* Transparent so the body's green spotlight atmosphere reads through the
+     chat area instead of being covered by an opaque near-black fill. The
+     input shell and message bubbles keep their own surfaces below. */
+  background: transparent;
 }
 
-html.dark .holodeck-tool-details summary {
-  color: #a1a1aa;
+.copilotKitMessages {
+  background: transparent;
 }
 
-html.dark .holodeck-tool-details pre {
-  color: #d4d4d8;
+/*
+ * Message rows render on CopilotKit's opaque near-black `--copilot-kit-background`,
+ * which hides the green spotlight atmosphere behind them. Make the row
+ * containers transparent so the canvas shows through. The user message keeps
+ * its own `bg-muted` chat bubble (a nested element), so it stays visible.
+ */
+.copilotKitMessage,
+.copilotKitAssistantMessage,
+.copilotKitUserMessage {
+  background: transparent;
+}
+
+html.dark .copilotKitInput,
+html.light .copilotKitInput {
+  background: var(--hd-surface-container);
+  border: 1px solid var(--hd-outline);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Soft focus: the textarea stays borderless; the input shell lifts gently. */
+.copilotKitChat textarea:focus,
+.copilotKitChat textarea:focus-visible {
+  outline: none;
+}
+
+.copilotKitInput:focus-within {
+  border-color: var(--hd-tint-border);
+  box-shadow: 0 0 0 3px var(--hd-badge-bg);
 }

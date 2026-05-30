@@ -8,6 +8,7 @@ import {
 } from "@copilotkit/react-core/v2";
 import "@copilotkit/react-core/v2/styles.css";
 import { ToolCallRenderer } from "@/components/ToolCallRenderer";
+import { FinancialTools } from "@/components/FinancialTools";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useRuntimeConfig } from "@/lib/runtime-config-provider";
 
@@ -207,7 +208,7 @@ export default function Page() {
   const isRunning = agent?.isRunning ?? false;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: "var(--background)" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: "transparent" }}>
       <ToolCallRenderer />
       <header className="holodeck-header">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -219,7 +220,8 @@ export default function Page() {
         </div>
       </header>
 
-      <main className="holodeck-main" style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+      <main className="holodeck-main" style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "row" }}>
+        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {/* File upload queue */}
         {selectedFiles.length > 0 && (
           <div className="holodeck-file-bar">
@@ -274,6 +276,10 @@ export default function Page() {
           onSubmitMessage={handleSubmitMessage}
           onStop={handleStop}
         />
+        </div>
+
+        {/* SPIKE: CopilotKit v2 frontend tools (useFrontendTool) */}
+        <FinancialTools />
       </main>
     </div>
   );
