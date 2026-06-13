@@ -1,0 +1,3226 @@
+- name: Double_AAL/2014/page_18.pdf
+  turns:
+  - input: In American Airlines Group (AAL)'s 2014 annual report, what was the total
+      mainline operating expenses in millions in 2014?
+    ground_truth: '31903.61446'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(10592, 33.2%)
+      expected_document: Double_AAL/2014/page_18.pdf
+  - input: what was the anticipated percentage increase in aircraft fuel expense from
+      2014 to 2015?
+    ground_truth: '0.00406'
+    turn_config:
+      turn_program: divide(43, 10592)
+      expected_document: Double_AAL/2014/page_18.pdf
+- name: Double_AAP/2006/page_85.pdf
+  turns:
+  - input: In Advance Auto Parts (AAP)'s 2006 annual report, what was the change in
+      the total of inventories due to the adoption of lifo during 2006?
+    ground_truth: '82767.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '82767'
+      expected_document: Double_AAP/2006/page_85.pdf
+  - input: and what was that total in the beginning of the year?
+    ground_truth: '1380573.0'
+    turn_config:
+      turn_program: '1380573'
+      expected_document: Double_AAP/2006/page_85.pdf
+  - input: how much, then, does that change represent in relation to this total, in
+      percentage?
+    ground_truth: '0.05995'
+    turn_config:
+      turn_program: divide(82767, 1380573)
+      expected_document: Double_AAP/2006/page_85.pdf
+  - input: and for the year of 2005, how much does the change in the total of inventories
+      represent in relation to that in the beginning of the year, in percentage?
+    ground_truth: '0.05624'
+    turn_config:
+      turn_program: divide(72789, 1294310)
+      expected_document: Double_AAP/2006/page_85.pdf
+- name: Double_AAPL/2002/page_63.pdf
+  turns:
+  - input: In Apple (AAPL)'s 2002 annual report, what is the minimum lease payments
+      due in 2004?
+    ground_truth: '78.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '78'
+      expected_document: Double_AAPL/2002/page_63.pdf
+  - input: what about in 2003?
+    ground_truth: '83.0'
+    turn_config:
+      turn_program: '83'
+      expected_document: Double_AAPL/2002/page_63.pdf
+  - input: what is the difference between 2003 and 2004?
+    ground_truth: '-5.0'
+    turn_config:
+      turn_program: subtract(78, 83)
+      expected_document: Double_AAPL/2002/page_63.pdf
+  - input: what portion of total minimum lease payments is due in 2004?
+    ground_truth: '0.1681'
+    turn_config:
+      turn_program: divide(78, 464)
+      expected_document: Double_AAPL/2002/page_63.pdf
+- name: Single_ABMD/2003/page_27.pdf-4
+  turns:
+  - input: In Abiomed (ABMD)'s 2003 annual report, what is the minimum future lease
+      payments due in 2004?
+    ground_truth: '781.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '781'
+      expected_document: Single_ABMD/2003/page_27.pdf-4
+  - input: what is the value for those due in 2005?
+    ground_truth: '776.0'
+    turn_config:
+      turn_program: '776'
+      expected_document: Single_ABMD/2003/page_27.pdf-4
+  - input: what is the sum?
+    ground_truth: '1557.0'
+    turn_config:
+      turn_program: add(781, 776)
+      expected_document: Single_ABMD/2003/page_27.pdf-4
+  - input: what is the total future minimum lease payments?
+    ground_truth: '5354.0'
+    turn_config:
+      turn_program: '5354'
+      expected_document: Single_ABMD/2003/page_27.pdf-4
+  - input: what is the sum over the total future minimum lease payments?
+    ground_truth: '0.29081'
+    turn_config:
+      turn_program: add(781, 776), divide(#0, 5354)
+      expected_document: Single_ABMD/2003/page_27.pdf-4
+- name: Double_ADBE/2003/page_90.pdf
+  turns:
+  - input: "In Adobe (ADBE)'s 2003 annual report, what is the amount of non-cancelable\
+      \ operating leases net of sublease income\tdue in less than 1 year?"
+    ground_truth: '23.6'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '23.6'
+      expected_document: Double_ADBE/2003/page_90.pdf
+  - input: what about the total non-cancelable operating leases net of sublease income?
+    ground_truth: '83.9'
+    turn_config:
+      turn_program: '83.9'
+      expected_document: Double_ADBE/2003/page_90.pdf
+  - input: what portion is due in less than 1 year?
+    ground_truth: '0.28129'
+    turn_config:
+      turn_program: divide(23.6, 83.9)
+      expected_document: Double_ADBE/2003/page_90.pdf
+- name: Single_ADI/2007/page_82.pdf-1
+  turns:
+  - input: In Analog Devices (ADI)'s 2007 annual report, what was the total rent expense
+      under operating leases in 2007?
+    ground_truth: '43.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '43'
+      expected_document: Single_ADI/2007/page_82.pdf-1
+  - input: and in 2006?
+    ground_truth: '45.0'
+    turn_config:
+      turn_program: '45'
+      expected_document: Single_ADI/2007/page_82.pdf-1
+  - input: so what was the difference between these two years?
+    ground_truth: '-2.0'
+    turn_config:
+      turn_program: subtract(43, 45)
+      expected_document: Single_ADI/2007/page_82.pdf-1
+  - input: and the specific value for 2006 again?
+    ground_truth: '45.0'
+    turn_config:
+      turn_program: '45'
+      expected_document: Single_ADI/2007/page_82.pdf-1
+  - input: so what was the growth rate during this time?
+    ground_truth: '-0.04444'
+    turn_config:
+      turn_program: subtract(43, 45), divide(#0, 45)
+      expected_document: Single_ADI/2007/page_82.pdf-1
+- name: Double_AES/2000/page_111.pdf
+  turns:
+  - input: In AES Corporation (AES)'s 2000 annual report, in january of 2000, what
+      was the full price of the acquisition of the preferred non-voting shares at
+      auction from bndes, in billions?
+    ground_truth: '1.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '1'
+      expected_document: Double_AES/2000/page_111.pdf
+  - input: what percentage of the total preferred non-voting shares were acquired
+      in that transaction?
+    ground_truth: '0.59'
+    turn_config:
+      turn_program: 59%
+      expected_document: Double_AES/2000/page_111.pdf
+  - input: what, then, can be concluded to have been the total value of all preferred
+      non-voting shares, in billions?
+    ground_truth: '1.69492'
+    turn_config:
+      turn_program: divide(1, 59%)
+      expected_document: Double_AES/2000/page_111.pdf
+  - input: in that same year, what was the revenue for the company 2019s investments
+      in 50% ( 50 % ) or less owned investments accounted for using the equity method?
+    ground_truth: '6241.0'
+    turn_config:
+      turn_program: '6241'
+      expected_document: Double_AES/2000/page_111.pdf
+  - input: and what was that revenue in the previous year?
+    ground_truth: '5960.0'
+    turn_config:
+      turn_program: '5960'
+      expected_document: Double_AES/2000/page_111.pdf
+  - input: by how much, then, did it increase over the year?
+    ground_truth: '281.0'
+    turn_config:
+      turn_program: subtract(6241, 5960)
+      expected_document: Double_AES/2000/page_111.pdf
+  - input: and what is this increase as a portion of the 1999 revenue?
+    ground_truth: '0.04715'
+    turn_config:
+      turn_program: subtract(6241, 5960), divide(#0, 5960)
+      expected_document: Double_AES/2000/page_111.pdf
+- name: Single_ALLE/2015/page_81.pdf-1
+  turns:
+  - input: In Allegion (ALLE)'s 2015 annual report, what is the sum of years for customer
+      relationships and trademarks?
+    ground_truth: '50.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(25, 25)
+      expected_document: Single_ALLE/2015/page_81.pdf-1
+  - input: what is the number of years for other intangible assets?
+    ground_truth: '25.0'
+    turn_config:
+      turn_program: '25'
+      expected_document: Single_ALLE/2015/page_81.pdf-1
+  - input: what is the number of years for completed technology/patents?
+    ground_truth: '10.0'
+    turn_config:
+      turn_program: '10'
+      expected_document: Single_ALLE/2015/page_81.pdf-1
+  - input: what is the sum number of years?
+    ground_truth: '35.0'
+    turn_config:
+      turn_program: add(25, 25), add(25, 10)
+      expected_document: Single_ALLE/2015/page_81.pdf-1
+  - input: what is the total sum number of years?
+    ground_truth: '85.0'
+    turn_config:
+      turn_program: 'add(25, 25), add(25, 10), add(#0, #1)'
+      expected_document: Single_ALLE/2015/page_81.pdf-1
+  - input: what is the total sum divided by 4?
+    ground_truth: '21.25'
+    turn_config:
+      turn_program: 'add(25, 25), add(25, 10), add(#0, #1), divide(#2, const_4)'
+      expected_document: Single_ALLE/2015/page_81.pdf-1
+- name: Single_ALXN/2007/page_104.pdf-2
+  turns:
+  - input: In Alexion Pharmaceuticals (ALXN)'s 2007 annual report, what was the minimum
+      annual rental payment in 2011?
+    ground_truth: '3200.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '3200'
+      expected_document: Single_ALXN/2007/page_104.pdf-2
+  - input: what was it in 2010?
+    ground_truth: '3160.0'
+    turn_config:
+      turn_program: '3160'
+      expected_document: Single_ALXN/2007/page_104.pdf-2
+  - input: what is the difference?
+    ground_truth: '40.0'
+    turn_config:
+      turn_program: subtract(3200, 3160)
+      expected_document: Single_ALXN/2007/page_104.pdf-2
+  - input: what is the percent change?
+    ground_truth: '0.01266'
+    turn_config:
+      turn_program: subtract(3200, 3160), divide(#0, 3160)
+      expected_document: Single_ALXN/2007/page_104.pdf-2
+- name: Double_AMAT/2012/page_37.pdf
+  turns:
+  - input: In Applied Materials (AMAT)'s 2012 annual report, what is the net change
+      of a $100 investment in s&p500 index from 2007 to 2010?
+    ground_truth: '-18.24'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(81.76, 100)
+      expected_document: Double_AMAT/2012/page_37.pdf
+  - input: what roi does this represent?
+    ground_truth: '-0.1824'
+    turn_config:
+      turn_program: subtract(81.76, 100), divide(#0, 100)
+      expected_document: Double_AMAT/2012/page_37.pdf
+  - input: what is the total cash dividend per share for the first three quarters
+      of 2012?
+    ground_truth: '0.27'
+    turn_config:
+      turn_program: multiply(0.09, const_3)
+      expected_document: Double_AMAT/2012/page_37.pdf
+  - input: what about the cash dividend per share in the fourth quarter?
+    ground_truth: '0.08'
+    turn_config:
+      turn_program: '0.08'
+      expected_document: Double_AMAT/2012/page_37.pdf
+  - input: what about the yearly dividend per share?
+    ground_truth: '0.35'
+    turn_config:
+      turn_program: multiply(0.09, const_3), add(#0, 0.08)
+      expected_document: Double_AMAT/2012/page_37.pdf
+  - input: what is the total amount used for cash dividends in 2012?
+    ground_truth: '438.0'
+    turn_config:
+      turn_program: '438'
+      expected_document: Double_AMAT/2012/page_37.pdf
+  - input: on average, how many shares received the yearly dividend in 2012?
+    ground_truth: '1251.42857'
+    turn_config:
+      turn_program: 'multiply(0.09, const_3), add(#0, 0.08), divide(438, #1)'
+      expected_document: Double_AMAT/2012/page_37.pdf
+- name: Double_AMT/2002/page_74.pdf
+  turns:
+  - input: In American Tower (AMT)'s 2002 annual report, what was the total of 401
+      ( k ) contributions in 2001?
+    ground_truth: '1540000.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '1540000'
+      expected_document: Double_AMT/2002/page_74.pdf
+  - input: and what was it in 2000?
+    ground_truth: '1593000.0'
+    turn_config:
+      turn_program: '1593000'
+      expected_document: Double_AMT/2002/page_74.pdf
+  - input: what was, then, the change over the year?
+    ground_truth: '-53000.0'
+    turn_config:
+      turn_program: subtract(1540000, 1593000)
+      expected_document: Double_AMT/2002/page_74.pdf
+  - input: and what is this change as a percentage of the 2000 contributions?
+    ground_truth: '-0.03327'
+    turn_config:
+      turn_program: subtract(1540000, 1593000), divide(#0, 1593000)
+      expected_document: Double_AMT/2002/page_74.pdf
+  - input: and for 2001 and the subsequent year, what was the total of 401 (k) contributions?
+    ground_truth: '2519000.0'
+    turn_config:
+      turn_program: add(979000, 1540000)
+      expected_document: Double_AMT/2002/page_74.pdf
+  - input: including 2000, what becomes this total?
+    ground_truth: '4112000.0'
+    turn_config:
+      turn_program: add(979000, 1540000), add(#0, 1593000)
+      expected_document: Double_AMT/2002/page_74.pdf
+  - input: and what is the average between the three years?
+    ground_truth: '1370666.66667'
+    turn_config:
+      turn_program: add(979000, 1540000), add(#0, 1593000), divide(#1, const_3)
+      expected_document: Double_AMT/2002/page_74.pdf
+- name: Double_ANET/2015/page_155.pdf
+  turns:
+  - input: In Arista Networks (ANET)'s 2015 annual report, as of december 31, 2015,
+      what percentage did the 2016 non-cancelable operating leases represent in relation
+      to the total minimum future lease payments?
+    ground_truth: '0.12108'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(6306, 52083)
+      expected_document: Double_ANET/2015/page_155.pdf
+  - input: and throughout that same year, what was the change in those operating leases,
+      counted in millions?
+    ground_truth: '3.4'
+    turn_config:
+      turn_program: subtract(6.7, 3.3)
+      expected_document: Double_ANET/2015/page_155.pdf
+  - input: what is this change as a portion of those leases in the beginning of 2015?
+    ground_truth: '1.0303'
+    turn_config:
+      turn_program: subtract(6.7, 3.3), divide(#0, 3.3)
+      expected_document: Double_ANET/2015/page_155.pdf
+- name: Double_ANSS/2008/page_85.pdf
+  turns:
+  - input: In Ansys (ANSS)'s 2008 annual report, what was the change in unrecognized
+      tax benefits
+    ground_truth: '4488.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(12416, 7928)
+      expected_document: Double_ANSS/2008/page_85.pdf
+  - input: and the percentage change?
+    ground_truth: '0.56609'
+    turn_config:
+      turn_program: subtract(12416, 7928), divide(#0, 7928)
+      expected_document: Double_ANSS/2008/page_85.pdf
+  - input: what was the expenses related to the company 2019s retirement programs
+      in 2007 and 2008?
+    ground_truth: '8.4'
+    turn_config:
+      turn_program: add(3.7, 4.7)
+      expected_document: Double_ANSS/2008/page_85.pdf
+  - input: and including 2006?
+    ground_truth: '12.5'
+    turn_config:
+      turn_program: add(3.7, 4.7), add(#0, 4.1)
+      expected_document: Double_ANSS/2008/page_85.pdf
+  - input: so what was the average over this time?
+    ground_truth: '4.16667'
+    turn_config:
+      turn_program: add(3.7, 4.7), add(#0, 4.1), divide(#1, const_3)
+      expected_document: Double_ANSS/2008/page_85.pdf
+- name: Double_AON/2007/page_184.pdf
+  turns:
+  - input: In Aon (AON)'s 2007 annual report, what amount of the letter of credit
+      remains available as of december 31 , 2007?
+    ground_truth: '130.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(150, 20)
+      expected_document: Double_AON/2007/page_184.pdf
+  - input: what is the total amount of letter of credit that can be issued?
+    ground_truth: '150.0'
+    turn_config:
+      turn_program: '150'
+      expected_document: Double_AON/2007/page_184.pdf
+  - input: what percentage does this represent?
+    ground_truth: '0.86667'
+    turn_config:
+      turn_program: subtract(150, 20), divide(#0, 150)
+      expected_document: Double_AON/2007/page_184.pdf
+  - input: what is the total gross rent in 2007?
+    ground_truth: '408.0'
+    turn_config:
+      turn_program: add(368, 40)
+      expected_document: Double_AON/2007/page_184.pdf
+- name: Single_AOS/2003/page_23.pdf-1
+  turns:
+  - input: In A. O. Smith (AOS)'s 2003 annual report, what were research and developments
+      costs in 2002?
+    ground_truth: '30.4'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '30.4'
+      expected_document: Single_AOS/2003/page_23.pdf-1
+  - input: what were they in 2001?
+    ground_truth: '27.6'
+    turn_config:
+      turn_program: '27.6'
+      expected_document: Single_AOS/2003/page_23.pdf-1
+  - input: what is the net change?
+    ground_truth: '2.8'
+    turn_config:
+      turn_program: subtract(30.4, 27.6)
+      expected_document: Single_AOS/2003/page_23.pdf-1
+  - input: what is the percent change?
+    ground_truth: '0.10145'
+    turn_config:
+      turn_program: subtract(30.4, 27.6), divide(#0, 27.6)
+      expected_document: Single_AOS/2003/page_23.pdf-1
+- name: Double_APD/2013/page_36.pdf
+  turns:
+  - input: In Air Products and Chemicals (APD)'s 2013 annual report, in 2013, what
+      was the ratio of sales to operating income?
+    ground_truth: '6.88702'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(451.1, 65.5)
+      expected_document: Double_APD/2013/page_36.pdf
+  - input: and in 2012?
+    ground_truth: '9.41928'
+    turn_config:
+      turn_program: divide(420.1, 44.6)
+      expected_document: Double_APD/2013/page_36.pdf
+- name: Single_APTV/2013/page_48.pdf-1
+  turns:
+  - input: In Aptiv (APTV)'s 2013 annual report, what was the regular quarterly cash
+      dividend per ordinary share declared by the board of directors and payable on
+      february 27 , 2014?
+    ground_truth: '0.25'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '0.25'
+      expected_document: Single_APTV/2013/page_48.pdf-1
+  - input: and what was that regular quarterly cash dividend payable in each quarter
+      of 2013?
+    ground_truth: '0.17'
+    turn_config:
+      turn_program: '0.17'
+      expected_document: Single_APTV/2013/page_48.pdf-1
+  - input: what was, then, the change in this regular quarterly cash dividend from
+      2013 to 2014?
+    ground_truth: '0.08'
+    turn_config:
+      turn_program: subtract(0.25, 0.17)
+      expected_document: Single_APTV/2013/page_48.pdf-1
+  - input: and what becomes this change when considering the entire year, or four
+      quarters?
+    ground_truth: '0.32'
+    turn_config:
+      turn_program: subtract(0.25, 0.17), multiply(#0, const_4)
+      expected_document: Single_APTV/2013/page_48.pdf-1
+- name: Double_AWK/2012/page_118.pdf
+  turns:
+  - input: In American Water Works (AWK)'s 2012 annual report, what was the net change
+      in tax positions throughout 2010?
+    ground_truth: '-1833.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(907, -2740)
+      expected_document: Double_AWK/2012/page_118.pdf
+  - input: and what was it from 2011 to 2012?
+    ground_truth: '-2059.0'
+    turn_config:
+      turn_program: subtract(19520, 21579)
+      expected_document: Double_AWK/2012/page_118.pdf
+  - input: how much does this previous change represent in relation to those tax positions
+      or the valuation allowance in 2011?
+    ground_truth: '-0.09542'
+    turn_config:
+      turn_program: subtract(19520, 21579), divide(#0, 21579)
+      expected_document: Double_AWK/2012/page_118.pdf
+- name: Single_BDX/2009/page_80.pdf-1
+  turns:
+  - input: In Becton Dickinson (BDX)'s 2009 annual report, what is the total fair
+      value of performance-based restricted stock units vested during 2009 and 2008?
+    ground_truth: '83099.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(33712, 49387)
+      expected_document: Single_BDX/2009/page_80.pdf-1
+  - input: what about during 2007?
+    ground_truth: '9181.0'
+    turn_config:
+      turn_program: '9181'
+      expected_document: Single_BDX/2009/page_80.pdf-1
+  - input: what is the total fair value for three years?
+    ground_truth: '92280.0'
+    turn_config:
+      turn_program: add(33712, 49387), add(#0, 9181)
+      expected_document: Single_BDX/2009/page_80.pdf-1
+  - input: what is the average of these three years?
+    ground_truth: '30760.0'
+    turn_config:
+      turn_program: add(33712, 49387), add(#0, 9181), divide(#1, const_3)
+      expected_document: Single_BDX/2009/page_80.pdf-1
+- name: Single_BKNG/2015/page_38.pdf-2
+  turns:
+  - input: In Booking Holdings (BKNG)'s 2015 annual report, what was the difference
+      in the priceline group inc. between 2014 and 2015?
+    ground_truth: '33.73'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(319.10, 285.37)
+      expected_document: Single_BKNG/2015/page_38.pdf-2
+  - input: and the percentage change?
+    ground_truth: '0.1182'
+    turn_config:
+      turn_program: subtract(319.10, 285.37), divide(#0, 285.37)
+      expected_document: Single_BKNG/2015/page_38.pdf-2
+- name: Double_BKR/2017/page_105.pdf
+  turns:
+  - input: In Baker Hughes (BKR)'s 2017 annual report, as of december 31, 2017, how
+      much did the balance of class a common stock represent in relation to the one
+      of class b common stock?
+    ground_truth: '0.5972'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(422208, 706985)
+      expected_document: Double_BKR/2017/page_105.pdf
+  - input: and what is this class b balance as a percentage of the total number of
+      authorized shares of that stock, in that same date?
+    ground_truth: '0.5656'
+    turn_config:
+      turn_program: 'multiply(1.25, const_1000), divide(707, #0)'
+      expected_document: Double_BKR/2017/page_105.pdf
+- name: Single_BLK/2008/page_75.pdf-2
+  turns:
+  - input: In BlackRock (BLK)'s 2008 annual report, what is the sum between the absolute
+      number of the realized and unrealized losses of 2008 and the investments at
+      the end of 2008?
+    ground_truth: '1222.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(409, 813)
+      expected_document: Single_BLK/2008/page_75.pdf-2
+  - input: how much does the absolute number of the realized and unrealized losses
+      of 2008 represents in relation to that sum?
+    ground_truth: '0.3347'
+    turn_config:
+      turn_program: 'add(409, 813), divide(409, #0)'
+      expected_document: Single_BLK/2008/page_75.pdf-2
+- name: Double_BLL/2006/page_108.pdf
+  turns:
+  - input: 'In Ball Corporation (BLL)''s 2006 annual report, in the equity plans for
+      2006, which one was bigger: the number of shares issued or the ones remaining
+      in the plan?'
+    ground_truth: 'yes'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: greater(5941210, 4852978)
+      expected_document: Double_BLL/2006/page_108.pdf
+  - input: and what was the total value of those issued shares?
+    ground_truth: '129525982.82'
+    turn_config:
+      turn_program: multiply(4852978, 26.69)
+      expected_document: Double_BLL/2006/page_108.pdf
+- name: Double_C/2008/page_102.pdf
+  turns:
+  - input: In Citigroup (C)'s 2008 annual report, what was the tier 2 capital in 2008?
+    ground_truth: '37.4'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(108.4, 71.0)
+      expected_document: Double_C/2008/page_102.pdf
+  - input: and what was it in 2007?
+    ground_truth: '39.6'
+    turn_config:
+      turn_program: subtract(108.4, 71.0), subtract(121.6, 82.0)
+      expected_document: Double_C/2008/page_102.pdf
+  - input: how much, then, did the 2008 amount represent in relation to this 2007
+      one?
+    ground_truth: '0.94444'
+    turn_config:
+      turn_program: 'subtract(108.4, 71.0), subtract(121.6, 82.0), divide(#0, #1)'
+      expected_document: Double_C/2008/page_102.pdf
+  - input: and in that last year of the period, what was the total capital?
+    ground_truth: '108.4'
+    turn_config:
+      turn_program: '108.4'
+      expected_document: Double_C/2008/page_102.pdf
+  - input: what was it in 2007?
+    ground_truth: '121.6'
+    turn_config:
+      turn_program: '121.6'
+      expected_document: Double_C/2008/page_102.pdf
+  - input: by how much, then, did it increase over the year?
+    ground_truth: '-13.2'
+    turn_config:
+      turn_program: subtract(108.4, 121.6)
+      expected_document: Double_C/2008/page_102.pdf
+- name: Double_CAG/2007/page_41.pdf
+  turns:
+  - input: In Conagra Brands (CAG)'s 2007 annual report, in 2005, what was the percentage
+      of total net sales that were food and ingredients?
+    ground_truth: '0.2623'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(2986, 11384)
+      expected_document: Double_CAG/2007/page_41.pdf
+  - input: and the percentage of this value for 2006?
+    ground_truth: '0.27774'
+    turn_config:
+      turn_program: divide(3189, 11482)
+      expected_document: Double_CAG/2007/page_41.pdf
+- name: Double_CAT/2017/page_103.pdf
+  turns:
+  - input: In Caterpillar (CAT)'s 2017 annual report, in the years of 2017 and 2016,
+      combined, what was the total provision for interest and penalties?
+    ground_truth: '72.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(38, 34)
+      expected_document: Double_CAT/2017/page_103.pdf
+  - input: including to that period 2015, what becomes this total?
+    ground_truth: '92.0'
+    turn_config:
+      turn_program: 'add(38, 34), add(20, #0)'
+      expected_document: Double_CAT/2017/page_103.pdf
+  - input: and what is the average between those three years?
+    ground_truth: '30.66667'
+    turn_config:
+      turn_program: 'add(38, 34), add(20, #0), divide(#1, const_3)'
+      expected_document: Double_CAT/2017/page_103.pdf
+  - input: and in the two last years of this period, what was the proportional increase
+      in the total amount of interest and penalties accrued, or how much did the 2017
+      amount represent in relation to the 2016 one?
+    ground_truth: '1.30833'
+    turn_config:
+      turn_program: divide(157, 120)
+      expected_document: Double_CAT/2017/page_103.pdf
+  - input: assuming this proportional increase continues through 2017 to 2018, what
+      will be, in 2018, that amount of interest and penalties accrued, in millions?
+    ground_truth: '205.40833'
+    turn_config:
+      turn_program: divide(157, 120), multiply(#0, 157)
+      expected_document: Double_CAT/2017/page_103.pdf
+- name: Double_CB/2008/page_144.pdf
+  turns:
+  - input: In Chubb (CB)'s 2008 annual report, how much did the pre-tax impact on
+      equity of hypothetical 10 percent strengthening of the u.s . dollar in 2007
+      represent in relation to the one in 2008?
+    ground_truth: '1.78571'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(150, 84)
+      expected_document: Double_CB/2008/page_144.pdf
+  - input: in this same period, what was the change in the fair value of net assets
+      denominated in foreign currencies?
+    ground_truth: '-524.0'
+    turn_config:
+      turn_program: subtract(1127, 1651)
+      expected_document: Double_CB/2008/page_144.pdf
+  - input: and what is this change as a percentage of that fair value in 2007?
+    ground_truth: '-0.31738'
+    turn_config:
+      turn_program: subtract(1127, 1651), divide(#0, 1651)
+      expected_document: Double_CB/2008/page_144.pdf
+- name: Double_CDNS/2006/page_30.pdf
+  turns:
+  - input: In Cadence Design Systems (CDNS)'s 2006 annual report, what was the change
+      in the value of the cadence design systems inc . from 2001 to 2006?
+    ground_truth: '-20.04'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(79.96, const_100)
+      expected_document: Double_CDNS/2006/page_30.pdf
+  - input: and what is this change as a percent of that value in 2001?
+    ground_truth: '-0.2004'
+    turn_config:
+      turn_program: subtract(79.96, const_100), divide(#0, const_100)
+      expected_document: Double_CDNS/2006/page_30.pdf
+  - input: and only from 2001 to 2005, what was that change for the s&p500 stock?
+    ground_truth: '11.15'
+    turn_config:
+      turn_program: subtract(111.15, const_100)
+      expected_document: Double_CDNS/2006/page_30.pdf
+  - input: what is this s&p500 change as a portion of its value in 2001?
+    ground_truth: '0.1115'
+    turn_config:
+      turn_program: subtract(111.15, const_100), divide(#0, const_100)
+      expected_document: Double_CDNS/2006/page_30.pdf
+- name: Double_CDW/2013/page_103.pdf
+  turns:
+  - input: In CDW Corporation (CDW)'s 2013 annual report, how many common units were
+      not vested at the time fo distribution?
+    ground_truth: '5931.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '5931'
+      expected_document: Double_CDW/2013/page_103.pdf
+  - input: what about the number of shares of restricted stock vested/settled?
+    ground_truth: '1200544.0'
+    turn_config:
+      turn_program: '1200544'
+      expected_document: Double_CDW/2013/page_103.pdf
+  - input: what is the total of these two?
+    ground_truth: '1206475.0'
+    turn_config:
+      turn_program: add(5931, 1200544)
+      expected_document: Double_CDW/2013/page_103.pdf
+  - input: what proportion of total restricted stock does this represent?
+    ground_truth: '0.31762'
+    turn_config:
+      turn_program: add(5931, 1200544), divide(#0, 3798508)
+      expected_document: Double_CDW/2013/page_103.pdf
+- name: Double_CE/2005/page_167.pdf
+  turns:
+  - input: In Celanese (CE)'s 2005 annual report, what percentage of the maturation
+      of the company 2019s debt, including short-term borrowings that will occur after
+      2010?
+    ground_truth: '0.92028'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(3163, 3437)
+      expected_document: Double_CE/2005/page_167.pdf
+  - input: what was the change in the liability for pension plan resulting from the
+      acquisition of vinamul and acetex?
+    ground_truth: '43.0'
+    turn_config:
+      turn_program: subtract(128, 85)
+      expected_document: Double_CE/2005/page_167.pdf
+- name: Double_CMCSA/2004/page_30.pdf
+  turns:
+  - input: In Comcast (CMCSA)'s 2004 annual report, what portion of total capital
+      expenditures are related to upgrading of cable systems in 2004?
+    ground_truth: '0.24903'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(902, 3622)
+      expected_document: Double_CMCSA/2004/page_30.pdf
+  - input: what about in 2005?
+    ground_truth: '0.06667'
+    turn_config:
+      turn_program: divide(200, 3000)
+      expected_document: Double_CMCSA/2004/page_30.pdf
+- name: Double_CME/2010/page_71.pdf
+  turns:
+  - input: In CME Group (CME)'s 2010 annual report, what was the percentage of cash
+      performance bonds and guaranty fund contributions from cash performance bonds?
+    ground_truth: '0.92039'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(3717.0, 4038.5)
+      expected_document: Double_CME/2010/page_71.pdf
+  - input: what was the ratio of net long-term deferred tax liabilities in 2010 compared
+      to 2009?
+    ground_truth: '1.02632'
+    turn_config:
+      turn_program: divide(7.8, 7.6)
+      expected_document: Double_CME/2010/page_71.pdf
+- name: Double_CNC/2003/page_41.pdf
+  turns:
+  - input: In Centene (CNC)'s 2003 annual report, what is the revenue in 2002?
+    ground_truth: '567048.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '567048'
+      expected_document: Double_CNC/2003/page_41.pdf
+  - input: what about in 2001?
+    ground_truth: '395155.0'
+    turn_config:
+      turn_program: '395155'
+      expected_document: Double_CNC/2003/page_41.pdf
+  - input: what is the net change?
+    ground_truth: '171893.0'
+    turn_config:
+      turn_program: subtract(567048, 395155)
+      expected_document: Double_CNC/2003/page_41.pdf
+  - input: what growth rate does this represent?
+    ground_truth: '0.435'
+    turn_config:
+      turn_program: subtract(567048, 395155), divide(#0, 395155)
+      expected_document: Double_CNC/2003/page_41.pdf
+- name: Single_D/2002/page_39.pdf-1
+  turns:
+  - input: In Dominion Energy (D)'s 2002 annual report, what was the electricity supplied
+      (in million mwhrs) in the year of 2002?
+    ground_truth: '101.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '101'
+      expected_document: Single_D/2002/page_39.pdf-1
+  - input: and what was that of 2001?
+    ground_truth: '95.0'
+    turn_config:
+      turn_program: '95'
+      expected_document: Single_D/2002/page_39.pdf-1
+  - input: what was, then, the change rate in the electricity supplied from 2001 to
+      2002?
+    ground_truth: '1.06316'
+    turn_config:
+      turn_program: divide(101, 95)
+      expected_document: Single_D/2002/page_39.pdf-1
+  - input: what was the electricity supplied (in million mwhrs) in the year of 2002?
+    ground_truth: '101.0'
+    turn_config:
+      turn_program: '101'
+      expected_document: Single_D/2002/page_39.pdf-1
+  - input: given that same growth pattern from 2002, what would be the electricity
+      supplied (in million mwhrs) in the year of 2003?
+    ground_truth: '107.37895'
+    turn_config:
+      turn_program: 'divide(101, 95), multiply(101, #0)'
+      expected_document: Single_D/2002/page_39.pdf-1
+- name: Single_DG/2006/page_58.pdf-1
+  turns:
+  - input: In Dollar General (DG)'s 2006 annual report, what was the total amount
+      in impairment charges recorded in the year of 2006, in millions?
+    ground_truth: '9.4'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '9.4'
+      expected_document: Single_DG/2006/page_58.pdf-1
+  - input: and what was that of 2005, also in millions??
+    ground_truth: '0.6'
+    turn_config:
+      turn_program: '0.6'
+      expected_document: Single_DG/2006/page_58.pdf-1
+  - input: what was, then, the total impairment charges recorded in both of those
+      years, in millions?
+    ground_truth: '10.0'
+    turn_config:
+      turn_program: add(9.4, 0.6)
+      expected_document: Single_DG/2006/page_58.pdf-1
+  - input: what was the the total amount in impairment charges recorded in the year
+      of 2004, in millions?
+    ground_truth: '0.2'
+    turn_config:
+      turn_program: '0.2'
+      expected_document: Single_DG/2006/page_58.pdf-1
+  - input: including 2004, what would then be the total sum of impairment charges
+      recorded in those three years?
+    ground_truth: '10.2'
+    turn_config:
+      turn_program: add(9.4, 0.6), add(#0, 0.2)
+      expected_document: Single_DG/2006/page_58.pdf-1
+- name: Double_DISCA/2008/page_141.pdf
+  turns:
+  - input: In Discovery Communications (DISCA)'s 2008 annual report, from september
+      30 to december 31 of 2008, what was the decline in the performance price of
+      the s&p 500?
+    ground_truth: '21.68'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(96.54, 74.86)
+      expected_document: Double_DISCA/2008/page_141.pdf
+  - input: and what was that price in december 31?
+    ground_truth: '74.86'
+    turn_config:
+      turn_program: '74.86'
+      expected_document: Double_DISCA/2008/page_141.pdf
+  - input: what is, then, that decline as a portion of this december amount?
+    ground_truth: '0.28961'
+    turn_config:
+      turn_program: subtract(96.54, 74.86), divide(#0, 74.86)
+      expected_document: Double_DISCA/2008/page_141.pdf
+  - input: and as of that same date, what was the performance price of the disck stock?
+    ground_truth: '83.69'
+    turn_config:
+      turn_program: '83.69'
+      expected_document: Double_DISCA/2008/page_141.pdf
+  - input: 'which price, then, was greater at december 31: the s&p 500 or the disck
+      one?'
+    ground_truth: 'yes'
+    turn_config:
+      turn_program: greater(83.69, 74.86)
+      expected_document: Double_DISCA/2008/page_141.pdf
+- name: Single_DISH/2002/page_94.pdf-1
+  turns:
+  - input: In DISH Network (DISH)'s 2002 annual report, what was the rent expense
+      in 2002?
+    ground_truth: '16.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '16'
+      expected_document: Single_DISH/2002/page_94.pdf-1
+  - input: what was is in 2001?
+    ground_truth: '14.0'
+    turn_config:
+      turn_program: '14'
+      expected_document: Single_DISH/2002/page_94.pdf-1
+  - input: what is the net change?
+    ground_truth: '2.0'
+    turn_config:
+      turn_program: subtract(16, 14)
+      expected_document: Single_DISH/2002/page_94.pdf-1
+  - input: what is the percent change?
+    ground_truth: '0.14286'
+    turn_config:
+      turn_program: subtract(16, 14), divide(#0, 14)
+      expected_document: Single_DISH/2002/page_94.pdf-1
+- name: Double_DRE/2002/page_13.pdf
+  turns:
+  - input: In Duke Realty (DRE)'s 2002 annual report, what was the change in the gain
+      on land sales from 2001 to 2002?
+    ground_truth: '-602.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(4478, 5080)
+      expected_document: Double_DRE/2002/page_13.pdf
+  - input: and what was that gain in 2001?
+    ground_truth: '5080.0'
+    turn_config:
+      turn_program: '5080'
+      expected_document: Double_DRE/2002/page_13.pdf
+  - input: how much, then, does that change represent in relation to this 2001 gain?
+    ground_truth: '-0.1185'
+    turn_config:
+      turn_program: subtract(4478, 5080), divide(#0, 5080)
+      expected_document: Double_DRE/2002/page_13.pdf
+  - input: and what is that in percentage?
+    ground_truth: '-11.85039'
+    turn_config:
+      turn_program: subtract(4478, 5080), divide(#0, 5080), multiply(#1, const_100)
+      expected_document: Double_DRE/2002/page_13.pdf
+  - input: in that same two year period, what was the variation in the total of general
+      and administrative expenses?
+    ground_truth: '9.8'
+    turn_config:
+      turn_program: subtract(25.4, 15.6)
+      expected_document: Double_DRE/2002/page_13.pdf
+  - input: and what is this variation as a percentage of that total in 2001?
+    ground_truth: '0.62821'
+    turn_config:
+      turn_program: subtract(25.4, 15.6), divide(#0, 15.6)
+      expected_document: Double_DRE/2002/page_13.pdf
+- name: Double_DVN/2004/page_50.pdf
+  turns:
+  - input: In Devon Energy (DVN)'s 2004 annual report, in the year of 2005, what would
+      have been the equivalent, in us dollars, of 20 canadian dollars?
+    ground_truth: '16.4'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: multiply(0.82, 20)
+      expected_document: Double_DVN/2004/page_50.pdf
+  - input: and in that same year, what percentage of the expected oil production was
+      not estimated to be produced from reserves classified as 201cproved 201d at
+      december 31, 2004?
+    ground_truth: '1.05263'
+    turn_config:
+      turn_program: divide(const_100, 95)
+      expected_document: Double_DVN/2004/page_50.pdf
+  - input: what is this percentage numerically, or as a portion of one?
+    ground_truth: '0.01053'
+    turn_config:
+      turn_program: divide(const_100, 95), divide(#0, const_100)
+      expected_document: Double_DVN/2004/page_50.pdf
+  - input: and what was the amount of that oil production, in mmbbls?
+    ground_truth: '60.0'
+    turn_config:
+      turn_program: '60'
+      expected_document: Double_DVN/2004/page_50.pdf
+  - input: what is, then, the amount, in mmbbls, equivalent to that percentage of
+      this oil production?
+    ground_truth: '0.63158'
+    turn_config:
+      turn_program: 'divide(const_100, 95), divide(#0, const_100), multiply(60, #1)'
+      expected_document: Double_DVN/2004/page_50.pdf
+- name: Single_ECL/2015/page_70.pdf-2
+  turns:
+  - input: In Ecolab (ECL)'s 2015 annual report, what was the percent of lifo inventories
+      as a percent of consolidated inventories as of december 31, 2015?
+    ground_truth: '39.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '39'
+      expected_document: Single_ECL/2015/page_70.pdf-2
+  - input: and what was that in 2014?
+    ground_truth: '37.0'
+    turn_config:
+      turn_program: '37'
+      expected_document: Single_ECL/2015/page_70.pdf-2
+  - input: what was, then, the combined percent of lifo inventories as a percent of
+      consolidated inventories for both years?
+    ground_truth: '76.0'
+    turn_config:
+      turn_program: add(39, 37)
+      expected_document: Single_ECL/2015/page_70.pdf-2
+  - input: and what is the average annual percent for that same period?
+    ground_truth: '38.0'
+    turn_config:
+      turn_program: add(39, 37), divide(#0, const_2)
+      expected_document: Single_ECL/2015/page_70.pdf-2
+- name: Double_EL/2009/page_112.pdf
+  turns:
+  - input: In Estée Lauder Companies (EL)'s 2009 annual report, what was the difference
+      in the average for 2008 and 2009 when considering the foreign exchange contracts?
+    ground_truth: '10.3'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(21.6, 11.3)
+      expected_document: Double_EL/2009/page_112.pdf
+  - input: for 2008, what is the variation between the high of foreign exchange contracts
+      and the high for interest rate contracts?
+    ground_truth: '5.9'
+    turn_config:
+      turn_program: subtract(34.3, 28.4)
+      expected_document: Double_EL/2009/page_112.pdf
+- name: Single_EMN/2006/page_108.pdf-1
+  turns:
+  - input: In Eastman Chemical (EMN)'s 2006 annual report, what was the change in
+      cumulative translation adjustments between 2004 and 2006?
+    ground_truth: '-34.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(121, 155)
+      expected_document: Single_EMN/2006/page_108.pdf-1
+  - input: and the value for 2004 specifically?
+    ground_truth: '155.0'
+    turn_config:
+      turn_program: '155'
+      expected_document: Single_EMN/2006/page_108.pdf-1
+  - input: and the percentage change during this time?
+    ground_truth: '-0.21935'
+    turn_config:
+      turn_program: subtract(121, 155), divide(#0, 155)
+      expected_document: Single_EMN/2006/page_108.pdf-1
+- name: Double_EMR/2017/page_54.pdf
+  turns:
+  - input: In Emerson Electric (EMR)'s 2017 annual report, what is the total obligations
+      for long-term debt?
+    ground_truth: '5342.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '5342'
+      expected_document: Double_EMR/2017/page_54.pdf
+  - input: what about the balance of total obligations as of sep 30, 2017?
+    ground_truth: '6624.0'
+    turn_config:
+      turn_program: '6624'
+      expected_document: Double_EMR/2017/page_54.pdf
+  - input: what proportion is related to long-term debt?
+    ground_truth: '0.80646'
+    turn_config:
+      turn_program: divide(5342, 6624)
+      expected_document: Double_EMR/2017/page_54.pdf
+  - input: what about the proportion of total obligations related to purchase obligations?
+    ground_truth: '0.11262'
+    turn_config:
+      turn_program: divide(746, 6624)
+      expected_document: Double_EMR/2017/page_54.pdf
+- name: Single_EOG/2016/page_80.pdf-1
+  turns:
+  - input: In EOG Resources (EOG)'s 2016 annual report, what is the ratio of interest
+      net of capitalized interest from 2015 to 2016?
+    ground_truth: '1.13482'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(252030, 222088)
+      expected_document: Single_EOG/2016/page_80.pdf-1
+  - input: what is the quotient less 1?
+    ground_truth: '0.13482'
+    turn_config:
+      turn_program: divide(252030, 222088), subtract(#0, const_1)
+      expected_document: Single_EOG/2016/page_80.pdf-1
+- name: Double_ETFC/2007/page_126.pdf
+  turns:
+  - input: In E*TRADE Financial (ETFC)'s 2007 annual report, as of december 31, 2007,
+      what percentage did the future principal payments of corporate debt due in 2011
+      represent in relation to the total ones?
+    ground_truth: '0.13153'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(453815, 3450152)
+      expected_document: Double_ETFC/2007/page_126.pdf
+  - input: and how much did they represent in relation to the payments due after 2012?
+    ground_truth: '0.15146'
+    turn_config:
+      turn_program: divide(453815, 2996337)
+      expected_document: Double_ETFC/2007/page_126.pdf
+- name: Double_ETR/2002/page_24.pdf
+  turns:
+  - input: In Entergy (ETR)'s 2002 annual report, what was the total of non-utility
+      nuclear earnings by the end of 2002?
+    ground_truth: '201.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '201'
+      expected_document: Double_ETR/2002/page_24.pdf
+  - input: and what was it by the beginning of that year?
+    ground_truth: '128.0'
+    turn_config:
+      turn_program: '128'
+      expected_document: Double_ETR/2002/page_24.pdf
+  - input: throughout the year, then, by how much did it increase?
+    ground_truth: '73.0'
+    turn_config:
+      turn_program: subtract(201, 128)
+      expected_document: Double_ETR/2002/page_24.pdf
+  - input: and what was this increase as a percent of the beginning of the year total?
+    ground_truth: '0.57031'
+    turn_config:
+      turn_program: subtract(201, 128), divide(#0, 128)
+      expected_document: Double_ETR/2002/page_24.pdf
+  - input: and in this same year of 2002, how much did the net mw in operation represent
+      in relation to the generation in gwh?
+    ground_truth: '0.13204'
+    turn_config:
+      turn_program: divide(3955, 29953)
+      expected_document: Double_ETR/2002/page_24.pdf
+- name: Single_EW/2004/page_83.pdf-1
+  turns:
+  - input: In Edwards Lifesciences (EW)'s 2004 annual report, what was total expense
+      for all operating leases in 2003?
+    ground_truth: '12.3'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '12.3'
+      expected_document: Single_EW/2004/page_83.pdf-1
+  - input: what was the value in 2002?
+    ground_truth: '6.8'
+    turn_config:
+      turn_program: '6.8'
+      expected_document: Single_EW/2004/page_83.pdf-1
+  - input: what was the net change?
+    ground_truth: '5.5'
+    turn_config:
+      turn_program: subtract(12.3, 6.8)
+      expected_document: Single_EW/2004/page_83.pdf-1
+  - input: what was the 2002 value?
+    ground_truth: '6.8'
+    turn_config:
+      turn_program: '6.8'
+      expected_document: Single_EW/2004/page_83.pdf-1
+  - input: what is the percent change?
+    ground_truth: '0.80882'
+    turn_config:
+      turn_program: subtract(12.3, 6.8), divide(#0, 6.8)
+      expected_document: Single_EW/2004/page_83.pdf-1
+- name: Single_EXPD/2017/page_30.pdf-1
+  turns:
+  - input: In Expeditors International (EXPD)'s 2017 annual report, what was the change
+      in the value of the expeditors international of washington inc . from 2012 to
+      2017?
+    ground_truth: '76.08'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(176.08, const_100)
+      expected_document: Single_EXPD/2017/page_30.pdf-1
+  - input: and what was that change for standard and poor's 500 index during the same
+      period?
+    ground_truth: '108.14'
+    turn_config:
+      turn_program: subtract(176.08, const_100), subtract(208.14, const_100)
+      expected_document: Single_EXPD/2017/page_30.pdf-1
+  - input: how much does the expeditors international of washington inc . change represent
+      in relation to the the value of that stock in 2012, in percentage?
+    ground_truth: '0.7608'
+    turn_config:
+      turn_program: subtract(176.08, const_100), subtract(208.14, const_100), divide(#0,
+        const_100)
+      expected_document: Single_EXPD/2017/page_30.pdf-1
+  - input: and how much does the standard and poor's 500 index change represent in
+      relation to the the value of that stock in 2012, also in percentage?
+    ground_truth: '1.0814'
+    turn_config:
+      turn_program: subtract(176.08, const_100), subtract(208.14, const_100), divide(#0,
+        const_100), divide(#1, const_100)
+      expected_document: Single_EXPD/2017/page_30.pdf-1
+  - input: what is the difference between this percentage representation for expeditors
+      international of washington inc . and for standard and poor's 500 index?
+    ground_truth: '-0.3206'
+    turn_config:
+      turn_program: 'subtract(176.08, const_100), subtract(208.14, const_100), divide(#0,
+        const_100), divide(#1, const_100), subtract(#2, #3)'
+      expected_document: Single_EXPD/2017/page_30.pdf-1
+- name: Single_EXR/2005/page_46.pdf-1
+  turns:
+  - input: In Extra Space Storage (EXR)'s 2005 annual report, what was the net change
+      in value of the high bid price for the quarter ended december 31, 2004 and the
+      quarter ended march 31, 2005?
+    ground_truth: '-0.25'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(14.30, 14.55)
+      expected_document: Single_EXR/2005/page_46.pdf-1
+  - input: what is the percent change?
+    ground_truth: '-0.01718'
+    turn_config:
+      turn_program: subtract(14.30, 14.55), divide(#0, 14.55)
+      expected_document: Single_EXR/2005/page_46.pdf-1
+- name: Double_FBHS/2017/page_23.pdf
+  turns:
+  - input: In Fortune Brands Home & Security (FBHS)'s 2017 annual report, in the year
+      of 2017, what percentage of the net sales were for international markets?
+    ground_truth: '0.25'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: 25%
+      expected_document: Double_FBHS/2017/page_23.pdf
+  - input: and what were those net sales?
+    ground_truth: '5283.3'
+    turn_config:
+      turn_program: '5283.3'
+      expected_document: Double_FBHS/2017/page_23.pdf
+  - input: what, then, was the amount correspondent to that percentage?
+    ground_truth: '1320.825'
+    turn_config:
+      turn_program: multiply(25%, 5283.3)
+      expected_document: Double_FBHS/2017/page_23.pdf
+  - input: and from 2016 to that year, what was the increase in the sales of cabinets?
+    ground_truth: '69.3'
+    turn_config:
+      turn_program: subtract(2467.1, 2397.8)
+      expected_document: Double_FBHS/2017/page_23.pdf
+  - input: what percentage did this increase represent in relation to those sales
+      in 2016?
+    ground_truth: '0.0289'
+    turn_config:
+      turn_program: subtract(2467.1, 2397.8), divide(#0, 2397.8)
+      expected_document: Double_FBHS/2017/page_23.pdf
+- name: Double_FIS/2006/page_48.pdf
+  turns:
+  - input: In Fidelity National Information Services (FIS)'s 2006 annual report, what
+      was the total of net earnings in 2006, in thousands?
+    ground_truth: '259100.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: multiply(259.1, const_1000)
+      expected_document: Double_FIS/2006/page_48.pdf
+  - input: and what was this amount as a portion of the total of processing and services
+      revenues in that year?
+    ground_truth: '0.10538'
+    turn_config:
+      turn_program: multiply(259.1, const_1000), divide(#0, 2458777)
+      expected_document: Double_FIS/2006/page_48.pdf
+  - input: and between that year and the previous, what was the variation in the operating
+      income?
+    ground_truth: '178929.0'
+    turn_config:
+      turn_program: subtract(302644, 123715)
+      expected_document: Double_FIS/2006/page_48.pdf
+  - input: how much did this variation represent in relation to that income in 2005,
+      in percentage?
+    ground_truth: '1.4463'
+    turn_config:
+      turn_program: subtract(302644, 123715), divide(#0, 123715)
+      expected_document: Double_FIS/2006/page_48.pdf
+- name: Double_FITB/2008/page_69.pdf
+  turns:
+  - input: In Fifth Third Bancorp (FITB)'s 2008 annual report, what was the sum of
+      the securitization rates of standby letters of credit from 2007 and 2008?
+    ground_truth: '1.36'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(66%, 70%)
+      expected_document: Double_FITB/2008/page_69.pdf
+  - input: and what is the average between them?
+    ground_truth: '0.68'
+    turn_config:
+      turn_program: add(66%, 70%), divide(#0, const_2)
+      expected_document: Double_FITB/2008/page_69.pdf
+  - input: for that same period, what was the total of unfunded commitments, in millions?
+    ground_truth: '290.0'
+    turn_config:
+      turn_program: add(195, 95)
+      expected_document: Double_FITB/2008/page_69.pdf
+- name: Double_FRT/2004/page_53.pdf
+  turns:
+  - input: In Federal Realty Investment Trust (FRT)'s 2004 annual report, what is
+      the percentage decrease in the balance of cash and cash equivalents during 2004?
+    ground_truth: '0.12849'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(4493, 34968)
+      expected_document: Double_FRT/2004/page_53.pdf
+  - input: what portion of cash used for investing activities was used for acquisition
+      of westgate mall , shaw 2019s plaza and several parcels of land?
+    ground_truth: '0.65911'
+    turn_config:
+      turn_program: divide(101.7, 154.3)
+      expected_document: Double_FRT/2004/page_53.pdf
+- name: Single_FTV/2017/page_45.pdf-1
+  turns:
+  - input: In Fortive (FTV)'s 2017 annual report, what were sales in 2016?
+    ground_truth: '6224.3'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '6224.3'
+      expected_document: Single_FTV/2017/page_45.pdf-1
+  - input: what were sales in 2015?
+    ground_truth: '6178.8'
+    turn_config:
+      turn_program: '6178.8'
+      expected_document: Single_FTV/2017/page_45.pdf-1
+  - input: what was the change in sales?
+    ground_truth: '45.5'
+    turn_config:
+      turn_program: subtract(6224.3, 6178.8)
+      expected_document: Single_FTV/2017/page_45.pdf-1
+  - input: what was the percent change?
+    ground_truth: '0.00736'
+    turn_config:
+      turn_program: subtract(6224.3, 6178.8), divide(#0, 6178.8)
+      expected_document: Single_FTV/2017/page_45.pdf-1
+- name: Double_GIS/2006/page_43.pdf
+  turns:
+  - input: In General Mills (GIS)'s 2006 annual report, in the year of 2006, what
+      was the amount of the current portion of long-term debt?
+    ground_truth: '2131.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '2131'
+      expected_document: Double_GIS/2006/page_43.pdf
+  - input: and what was the total capital structure of total debt?
+    ground_truth: '6049.0'
+    turn_config:
+      turn_program: '6049'
+      expected_document: Double_GIS/2006/page_43.pdf
+  - input: what percentage, then, of the total structure did that amount represent?
+    ground_truth: '0.35229'
+    turn_config:
+      turn_program: divide(2131, 6049)
+      expected_document: Double_GIS/2006/page_43.pdf
+  - input: and in the year before, what was the aggregate purchase price of the repurchased
+      shares of common stock?
+    ground_truth: '771.0'
+    turn_config:
+      turn_program: '771'
+      expected_document: Double_GIS/2006/page_43.pdf
+  - input: what was the individual price of each of those shares?
+    ground_truth: '17.0'
+    turn_config:
+      turn_program: '17'
+      expected_document: Double_GIS/2006/page_43.pdf
+  - input: what, then, can be concluded to have been the total number of those shares
+      in 2005?
+    ground_truth: '45.35294'
+    turn_config:
+      turn_program: divide(771, 17)
+      expected_document: Double_GIS/2006/page_43.pdf
+- name: Double_GPN/2007/page_18.pdf
+  turns:
+  - input: In Global Payments (GPN)'s 2007 annual report, what was the portion of
+      total revenues in 2006 made up of merchant services?
+    ground_truth: '0.86834'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(788500, 908056)
+      expected_document: Double_GPN/2007/page_18.pdf
+  - input: and in 2007?
+    ground_truth: '0.87529'
+    turn_config:
+      turn_program: divide(929142, 1061523)
+      expected_document: Double_GPN/2007/page_18.pdf
+- name: Single_GRMN/2004/page_91.pdf-2
+  turns:
+  - input: In Garmin (GRMN)'s 2004 annual report, what is the ratio of 2003 expense
+      related to the plans to 2002?
+    ground_truth: '1.53849'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(4197, 2728)
+      expected_document: Single_GRMN/2004/page_91.pdf-2
+  - input: what is that less 1?
+    ground_truth: '0.53849'
+    turn_config:
+      turn_program: divide(4197, 2728), subtract(#0, const_1)
+      expected_document: Single_GRMN/2004/page_91.pdf-2
+- name: Double_GS/2012/page_152.pdf
+  turns:
+  - input: In Goldman Sachs (GS)'s 2012 annual report, what was the change in the
+      total gains/ ( losses ) on financial assets and financial liabilities at fair
+      value from 2017 to 2018?
+    ground_truth: '-7761.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(-4063, 3698)
+      expected_document: Double_GS/2012/page_152.pdf
+  - input: and what was that change from 2016 to 2017?
+    ground_truth: '6606.0'
+    turn_config:
+      turn_program: subtract(3698, -2908)
+      expected_document: Double_GS/2012/page_152.pdf
+- name: Double_HFC/2011/page_88.pdf
+  turns:
+  - input: In HollyFrontier (HFC)'s 2011 annual report, in the year of 2009, how much
+      did the income tax expense represent in relation to the gain on sale of discontinued
+      operations before income taxes?
+    ground_truth: '0.13661'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(1978, 14479)
+      expected_document: Double_HFC/2011/page_88.pdf
+  - input: and what was the income from those discontinued operations, excluding that
+      gain on sale after taxes?
+    ground_truth: '4425.0'
+    turn_config:
+      turn_program: subtract(16926, 12501)
+      expected_document: Double_HFC/2011/page_88.pdf
+- name: Double_HIG/2004/page_122.pdf
+  turns:
+  - input: In Hartford Financial Services (HIG)'s 2004 annual report, what percentage
+      do the aggregate contractual obligations due for property and casualty obligations
+      in less than 1 year represent in relation to the total obligations for that
+      segment?
+    ground_truth: '0.26397'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(5777, 21885)
+      expected_document: Double_HIG/2004/page_122.pdf
+  - input: and what is the total of those aggregate contractual obligations that are
+      due in up to three years?
+    ground_truth: '72890.0'
+    turn_config:
+      turn_program: add(27729, 45161)
+      expected_document: Double_HIG/2004/page_122.pdf
+  - input: how much does this total represent in relation to the total of all obligations?
+    ground_truth: '0.22986'
+    turn_config:
+      turn_program: add(27729, 45161), divide(#0, 317105)
+      expected_document: Double_HIG/2004/page_122.pdf
+- name: Double_HII/2011/page_100.pdf
+  turns:
+  - input: In Huntington Ingalls Industries (HII)'s 2011 annual report, what is the
+      value of the long-term debt due after 2016?
+    ground_truth: '1305.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '1305'
+      expected_document: Double_HII/2011/page_100.pdf
+  - input: and what is the total long-term debt?
+    ground_truth: '1859.0'
+    turn_config:
+      turn_program: '1859'
+      expected_document: Double_HII/2011/page_100.pdf
+  - input: how much, then, does that value represent in relation to this total?
+    ground_truth: '0.70199'
+    turn_config:
+      turn_program: divide(1305, 1859)
+      expected_document: Double_HII/2011/page_100.pdf
+  - input: and for the long-term debt due in the years of 2010 and 2011, how much
+      does the 2011 represent in relation to the 2010 one?
+    ground_truth: '14.5625'
+    turn_config:
+      turn_program: divide(1864, 128)
+      expected_document: Double_HII/2011/page_100.pdf
+- name: Double_HOLX/2004/page_87.pdf
+  turns:
+  - input: In Hologic (HOLX)'s 2004 annual report, what was the rental expense in
+      2003?
+    ground_truth: '4963.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '4963'
+      expected_document: Double_HOLX/2004/page_87.pdf
+  - input: and what was it in 2002?
+    ground_truth: '2462.0'
+    turn_config:
+      turn_program: '2462'
+      expected_document: Double_HOLX/2004/page_87.pdf
+  - input: what was, then, the change over the year?
+    ground_truth: '2501.0'
+    turn_config:
+      turn_program: subtract(4963, 2462)
+      expected_document: Double_HOLX/2004/page_87.pdf
+  - input: and what is this change as a percentage of the 2002 expense?
+    ground_truth: '1.01584'
+    turn_config:
+      turn_program: subtract(4963, 2462), divide(#0, 2462)
+      expected_document: Double_HOLX/2004/page_87.pdf
+  - input: and over the subsequent year, what was the change in this expense?
+    ground_truth: '-303.0'
+    turn_config:
+      turn_program: subtract(4660, 4963)
+      expected_document: Double_HOLX/2004/page_87.pdf
+  - input: and how much did it represent in relation to the rental expense in 2003,
+      in percentage?
+    ground_truth: '-0.06105'
+    turn_config:
+      turn_program: subtract(4660, 4963), divide(#0, 4963)
+      expected_document: Double_HOLX/2004/page_87.pdf
+- name: Single_HST/2007/page_62.pdf-1
+  turns:
+  - input: In Host Hotels & Resorts (HST)'s 2007 annual report, what was the net change
+      in the value of amortization of deferred financing costs from 2006 to 2007?
+    ground_truth: '-2.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(13, 15)
+      expected_document: Single_HST/2007/page_62.pdf-1
+  - input: what was the value in 2006?
+    ground_truth: '15.0'
+    turn_config:
+      turn_program: '15'
+      expected_document: Single_HST/2007/page_62.pdf-1
+  - input: what is the net change in value divided by the 2006 value?
+    ground_truth: '-0.13333'
+    turn_config:
+      turn_program: subtract(13, 15), divide(#0, 15)
+      expected_document: Single_HST/2007/page_62.pdf-1
+- name: Double_HUM/2004/page_78.pdf
+  turns:
+  - input: In Humana (HUM)'s 2004 annual report, what was the total value of cash
+      and cash equivalents and investment securities, combined?
+    ground_truth: '99797.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(15270, 84527)
+      expected_document: Double_HUM/2004/page_78.pdf
+  - input: and what is the total value of premiums receivable and other current assets
+      and property and equipment and other assets, also combined?
+    ground_truth: '27463.0'
+    turn_config:
+      turn_program: add(15270, 84527), add(20616, 6847)
+      expected_document: Double_HUM/2004/page_78.pdf
+  - input: what is, then, the total sum of these values, composing the total assets?
+    ground_truth: '127260.0'
+    turn_config:
+      turn_program: 'add(15270, 84527), add(20616, 6847), add(#0, #1)'
+      expected_document: Double_HUM/2004/page_78.pdf
+  - input: and what percentage of these total assets does the property and equipment
+      and other assets represent?
+    ground_truth: '0.0538'
+    turn_config:
+      turn_program: 'add(15270, 84527), add(20616, 6847), add(#0, #1), divide(6847,
+        #2)'
+      expected_document: Double_HUM/2004/page_78.pdf
+  - input: in that same period, what was the amount of the total liabilities?
+    ground_truth: '92749.0'
+    turn_config:
+      turn_program: 'add(71063, 21604), add(82, #0)'
+      expected_document: Double_HUM/2004/page_78.pdf
+  - input: and what percentage of it is from the current ones?
+    ground_truth: '0.23293'
+    turn_config:
+      turn_program: 'add(71063, 21604), add(82, #0), divide(21604, #1)'
+      expected_document: Double_HUM/2004/page_78.pdf
+- name: Double_HWM/2015/page_87.pdf
+  turns:
+  - input: In Howmet Aerospace (HWM)'s 2015 annual report, in the year of 2013, what
+      were the intersegment sales as a percentage of the total sales?
+    ground_truth: '0.40191'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(2235, 5561)
+      expected_document: Double_HWM/2015/page_87.pdf
+  - input: and what was it in 2014?
+    ground_truth: '0.35615'
+    turn_config:
+      turn_program: divide(2235, 5561), divide(1941, 5450)
+      expected_document: Double_HWM/2015/page_87.pdf
+  - input: what was, then, the decline in the percentage representation of the intersegment
+      sales over the year?
+    ground_truth: '0.04576'
+    turn_config:
+      turn_program: 'divide(2235, 5561), divide(1941, 5450), subtract(#0, #1)'
+      expected_document: Double_HWM/2015/page_87.pdf
+  - input: and over the next year, what was the decline in the alumina production,
+      in kmt?
+    ground_truth: '886.0'
+    turn_config:
+      turn_program: subtract(16606, 15720)
+      expected_document: Double_HWM/2015/page_87.pdf
+- name: Single_ILMN/2003/page_79.pdf-1
+  turns:
+  - input: In Illumina (ILMN)'s 2003 annual report, what is the difference between
+      the weighted average risk-free interest rate of 2003 and 2002?
+    ground_truth: '-0.7'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(3.03, 3.73)
+      expected_document: Single_ILMN/2003/page_79.pdf-1
+  - input: what is the weighted average risk-free interest rate of 2002?
+    ground_truth: '3.73'
+    turn_config:
+      turn_program: '3.73'
+      expected_document: Single_ILMN/2003/page_79.pdf-1
+  - input: how much does that difference represents in relation to weighted average
+      risk-free interest rate of 2002?
+    ground_truth: '-0.18767'
+    turn_config:
+      turn_program: subtract(3.03, 3.73), divide(#0, 3.73)
+      expected_document: Single_ILMN/2003/page_79.pdf-1
+- name: Double_INTC/2013/page_29.pdf
+  turns:
+  - input: In Intel (INTC)'s 2013 annual report, as of december 28, 2013, what percentage
+      of the square footage of major facilities was owned?
+    ground_truth: '0.84882'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(46.6, 54.9)
+      expected_document: Double_INTC/2013/page_29.pdf
+  - input: and what percentage was leased?
+    ground_truth: '0.15118'
+    turn_config:
+      turn_program: divide(8.3, 54.9)
+      expected_document: Double_INTC/2013/page_29.pdf
+- name: Double_IP/2005/page_27.pdf
+  turns:
+  - input: In International Paper (IP)'s 2005 annual report, what is the total sales
+      of uncoated papers sales in 2005, in millions?
+    ground_truth: '4800.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: multiply(4.8, const_1000)
+      expected_document: Double_IP/2005/page_27.pdf
+  - input: what portion of total sales is generated by uncoated papers sales in 2005?
+    ground_truth: '0.61069'
+    turn_config:
+      turn_program: multiply(4.8, const_1000), divide(#0, 7860)
+      expected_document: Double_IP/2005/page_27.pdf
+  - input: what is the total sales of uncoated papers sales in 2004, in millions?
+    ground_truth: '5000.0'
+    turn_config:
+      turn_program: multiply(const_5, const_1000)
+      expected_document: Double_IP/2005/page_27.pdf
+  - input: what about the total sales in 2004?
+    ground_truth: '7670.0'
+    turn_config:
+      turn_program: '7670'
+      expected_document: Double_IP/2005/page_27.pdf
+  - input: what portion is generated by uncoated papers sales?
+    ground_truth: '0.65189'
+    turn_config:
+      turn_program: multiply(const_5, const_1000), divide(#0, 7670)
+      expected_document: Double_IP/2005/page_27.pdf
+- name: Single_IPG/2003/page_89.pdf-2
+  turns:
+  - input: In Interpublic Group (IPG)'s 2003 annual report, what was the value of
+      long-term debt in 2004?
+    ground_truth: '244.5'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '244.5'
+      expected_document: Single_IPG/2003/page_89.pdf-2
+  - input: and in 2008?
+    ground_truth: '0.9'
+    turn_config:
+      turn_program: '0.9'
+      expected_document: Single_IPG/2003/page_89.pdf-2
+  - input: by how much did this value go down between these years?
+    ground_truth: '243.6'
+    turn_config:
+      turn_program: subtract(244.5, 0.9)
+      expected_document: Single_IPG/2003/page_89.pdf-2
+  - input: and the specific value for 2004 again?
+    ground_truth: '244.5'
+    turn_config:
+      turn_program: '244.5'
+      expected_document: Single_IPG/2003/page_89.pdf-2
+  - input: and the percentage decrease during this time?
+    ground_truth: '0.99632'
+    turn_config:
+      turn_program: subtract(244.5, 0.9), divide(#0, 244.5)
+      expected_document: Single_IPG/2003/page_89.pdf-2
+- name: Double_IQV/2016/page_57.pdf
+  turns:
+  - input: In IQVIA (IQV)'s 2016 annual report, what was the value of the q stock
+      in 2014?
+    ground_truth: '140.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '140'
+      expected_document: Double_IQV/2016/page_57.pdf
+  - input: and what was the change in this value since may 2013?
+    ground_truth: '40.0'
+    turn_config:
+      turn_program: subtract(140, const_100)
+      expected_document: Double_IQV/2016/page_57.pdf
+  - input: how much did this change represent in relation to that value in may 2013?
+    ground_truth: '0.4'
+    turn_config:
+      turn_program: subtract(140, const_100), divide(#0, const_100)
+      expected_document: Double_IQV/2016/page_57.pdf
+  - input: in that same period, what was that change for the s&p500 stock?
+    ground_truth: '27.0'
+    turn_config:
+      turn_program: subtract(127, 100)
+      expected_document: Double_IQV/2016/page_57.pdf
+  - input: and what was this change as a portion of the value of this stock in may
+      2013?
+    ground_truth: '0.27'
+    turn_config:
+      turn_program: subtract(127, 100), divide(#0, 100)
+      expected_document: Double_IQV/2016/page_57.pdf
+- name: Double_JKHY/2008/page_30.pdf
+  turns:
+  - input: In Jack Henry & Associates (JKHY)'s 2008 annual report, what is the net
+      change in the balance of cash and cash equivalents from 2007 to 2008?
+    ground_truth: '-23052.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(65565, 88617)
+      expected_document: Double_JKHY/2008/page_30.pdf
+  - input: what percentage change does this represent?
+    ground_truth: '-0.26013'
+    turn_config:
+      turn_program: subtract(65565, 88617), divide(#0, 88617)
+      expected_document: Double_JKHY/2008/page_30.pdf
+  - input: what is the value cash used for stock repurchases during 2007?
+    ground_truth: '98413.0'
+    turn_config:
+      turn_program: '98413'
+      expected_document: Double_JKHY/2008/page_30.pdf
+  - input: what about the value for dividend payments?
+    ground_truth: '21685.0'
+    turn_config:
+      turn_program: '21685'
+      expected_document: Double_JKHY/2008/page_30.pdf
+- name: Double_JPM/2003/page_100.pdf
+  turns:
+  - input: In JPMorgan Chase (JPM)'s 2003 annual report, in the year of 2003, how
+      much did the total of securities purchased under resale agreements represent
+      in relation to one of securities borrowed?
+    ground_truth: '1.5012'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(62801, 41834)
+      expected_document: Double_JPM/2003/page_100.pdf
+  - input: and how much did the transactions accounted for as purchases under sfas
+      represent in relation to the ones from 2002?
+    ground_truth: '1.875'
+    turn_config:
+      turn_program: divide(15, 8)
+      expected_document: Double_JPM/2003/page_100.pdf
+- name: Double_K/2012/page_44.pdf
+  turns:
+  - input: In Kellogg (K)'s 2012 annual report, what percentage of net cash from operations
+      is retained as cash flow?
+    ground_truth: '0.69681'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(1225, 1758)
+      expected_document: Double_K/2012/page_44.pdf
+  - input: what was the total cash flow for 2011 and 2012?
+    ground_truth: '2226.0'
+    turn_config:
+      turn_program: add(1225, 1001)
+      expected_document: Double_K/2012/page_44.pdf
+  - input: and including 2010?
+    ground_truth: '2760.0'
+    turn_config:
+      turn_program: 'add(1225, 1001), add(534, #0)'
+      expected_document: Double_K/2012/page_44.pdf
+  - input: so what is the average over this time?
+    ground_truth: '920.0'
+    turn_config:
+      turn_program: 'add(1225, 1001), add(534, #0), divide(#1, const_3)'
+      expected_document: Double_K/2012/page_44.pdf
+- name: Double_KHC/2016/page_23.pdf
+  turns:
+  - input: In Kraft Heinz (KHC)'s 2016 annual report, what portion of the company
+      owned facilities are in europe?
+    ground_truth: '0.13253'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(11, 83)
+      expected_document: Double_KHC/2016/page_23.pdf
+  - input: at 12/31/16 what percentage of manufacturing and processing facilities
+      are leased?
+    ground_truth: '0.04598'
+    turn_config:
+      turn_program: divide(const_4, 87)
+      expected_document: Double_KHC/2016/page_23.pdf
+- name: Double_KIM/2006/page_67.pdf
+  turns:
+  - input: In Kimco Realty (KIM)'s 2006 annual report, as of december 31, 2006, how
+      much did the cad amount of the outstanding balance on the credit facility represent
+      in relation to its equivalent in usd?
+    ground_truth: '1.16129'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(3.6, 3.1)
+      expected_document: Double_KIM/2006/page_67.pdf
+  - input: and during may of that year, what was the amount of the collateralized
+      credit facility provided by the company, in millions of cad?
+    ground_truth: '23.5'
+    turn_config:
+      turn_program: '23.5'
+      expected_document: Double_KIM/2006/page_67.pdf
+  - input: and what was its fixed rate per annum?
+    ground_truth: '0.085'
+    turn_config:
+      turn_program: 8.5%
+      expected_document: Double_KIM/2006/page_67.pdf
+  - input: what was, then, its yearly interest income, in millions of cad?
+    ground_truth: '1.9975'
+    turn_config:
+      turn_program: multiply(23.5, 8.5%)
+      expected_document: Double_KIM/2006/page_67.pdf
+- name: Double_KMI/2010/page_164.pdf
+  turns:
+  - input: In Kinder Morgan (KMI)'s 2010 annual report, what was the amount of the
+      current maturities of long-term debt?
+    ground_truth: '-1263.3'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: multiply(1263.3, const_m1)
+      expected_document: Double_KMI/2010/page_164.pdf
+  - input: and what was the total long-term debt for the first column?
+    ground_truth: '10282.8'
+    turn_config:
+      turn_program: '10282.8'
+      expected_document: Double_KMI/2010/page_164.pdf
+  - input: what was, then, that amount as a portion of this long-term debt?
+    ground_truth: '-0.12286'
+    turn_config:
+      turn_program: multiply(1263.3, const_m1), divide(#0, 10282.8)
+      expected_document: Double_KMI/2010/page_164.pdf
+  - input: and what is that in percentage?
+    ground_truth: '-1263.3'
+    turn_config:
+      turn_program: multiply(1263.3, const_m1), divide(#0, 10282.8), multiply(#0,
+        100%)
+      expected_document: Double_KMI/2010/page_164.pdf
+  - input: and concerning that amount and the total long-term debt, what was the combined
+      total of both, in millions?
+    ground_truth: '11546.1'
+    turn_config:
+      turn_program: add(10282.8, 1263.3)
+      expected_document: Double_KMI/2010/page_164.pdf
+- name: Double_L/2007/page_213.pdf
+  turns:
+  - input: In Loews (L)'s 2007 annual report, based on the reconciliation, what was
+      the change in the balance of unrecognized tax benefits throughout 2007?
+    ground_truth: '-17.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(53, 70)
+      expected_document: Double_L/2007/page_213.pdf
+  - input: and during that same year, considering the total income tax expense and
+      the percentage of the income before tax it represents, what was the total amount
+      of this income before tax?
+    ground_truth: '4574.28571'
+    turn_config:
+      turn_program: divide(1601, 35%)
+      expected_document: Double_L/2007/page_213.pdf
+- name: Double_LKQ/2007/page_76.pdf
+  turns:
+  - input: In LKQ Corporation (LKQ)'s 2007 annual report, what was the change in the
+      rental expense from 2005 to 2006?
+    ground_truth: '6.4'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(18.6, 12.2)
+      expected_document: Double_LKQ/2007/page_76.pdf
+  - input: and what is this change as a percentage of that expense in 2005?
+    ground_truth: '0.52459'
+    turn_config:
+      turn_program: subtract(18.6, 12.2), divide(#0, 12.2)
+      expected_document: Double_LKQ/2007/page_76.pdf
+  - input: and over the subsequent year of that period, what was that change in the
+      rental expense?
+    ground_truth: '8.8'
+    turn_config:
+      turn_program: subtract(27.4, 18.6)
+      expected_document: Double_LKQ/2007/page_76.pdf
+  - input: what percentage did this change represent in relation to the 2006 rental
+      expense?
+    ground_truth: '0.47312'
+    turn_config:
+      turn_program: subtract(27.4, 18.6), divide(#0, 18.6)
+      expected_document: Double_LKQ/2007/page_76.pdf
+- name: Double_LLY/2008/page_39.pdf
+  turns:
+  - input: In Eli Lilly (LLY)'s 2008 annual report, what was the total intangibles
+      2014 net in 2008?
+    ground_truth: '4054.1'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '4054.1'
+      expected_document: Double_LLY/2008/page_39.pdf
+  - input: and what was it in 2007?
+    ground_truth: '2455.4'
+    turn_config:
+      turn_program: '2455.4'
+      expected_document: Double_LLY/2008/page_39.pdf
+  - input: by how much, then, did it change over the year?
+    ground_truth: '1598.7'
+    turn_config:
+      turn_program: subtract(4054.1, 2455.4)
+      expected_document: Double_LLY/2008/page_39.pdf
+  - input: and what is this change as a percentage of the 2007 amount?
+    ground_truth: '0.6511'
+    turn_config:
+      turn_program: subtract(4054.1, 2455.4), divide(#0, 2455.4)
+      expected_document: Double_LLY/2008/page_39.pdf
+  - input: and in this same year, what percent of this amount was comprised of developed
+      product technology-gross?
+    ground_truth: '0.71984'
+    turn_config:
+      turn_program: divide(1767.5, 2455.4)
+      expected_document: Double_LLY/2008/page_39.pdf
+- name: Double_LMT/2002/page_33.pdf
+  turns:
+  - input: In Lockheed Martin (LMT)'s 2002 annual report, what was the profit margin
+      for lockheed martin in 2002?
+    ground_truth: '0.05999'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(443, 7384)
+      expected_document: Double_LMT/2002/page_33.pdf
+  - input: what was the total operating profit in 2002 and 2001?
+    ground_truth: '803.0'
+    turn_config:
+      turn_program: add(443, 360)
+      expected_document: Double_LMT/2002/page_33.pdf
+  - input: and including the value for 2003?
+    ground_truth: '1148.0'
+    turn_config:
+      turn_program: add(443, 360), add(#0, 345)
+      expected_document: Double_LMT/2002/page_33.pdf
+  - input: so what was the average value during this time?
+    ground_truth: '382.66667'
+    turn_config:
+      turn_program: add(443, 360), add(#0, 345), divide(#1, const_3)
+      expected_document: Double_LMT/2002/page_33.pdf
+- name: Double_MA/2008/page_116.pdf
+  turns:
+  - input: In Mastercard (MA)'s 2008 annual report, what is the expected benefit payments
+      in 2010?
+    ground_truth: '3139.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '3139'
+      expected_document: Double_MA/2008/page_116.pdf
+  - input: what about in 2009?
+    ground_truth: '2641.0'
+    turn_config:
+      turn_program: '2641'
+      expected_document: Double_MA/2008/page_116.pdf
+  - input: what is the ratio of 2010 to 2009?
+    ground_truth: '1.18856'
+    turn_config:
+      turn_program: divide(3139, 2641)
+      expected_document: Double_MA/2008/page_116.pdf
+  - input: what percentage change does this represent?
+    ground_truth: '0.18856'
+    turn_config:
+      turn_program: divide(3139, 2641), subtract(#0, const_1)
+      expected_document: Double_MA/2008/page_116.pdf
+  - input: what about the ratio for expected subsidy receipts in 2010 to 2009?
+    ground_truth: '1.18182'
+    turn_config:
+      turn_program: divide(3139, 2641), subtract(#0, const_1), divide(91, 77)
+      expected_document: Double_MA/2008/page_116.pdf
+  - input: what percentage change does this represent?
+    ground_truth: '0.18182'
+    turn_config:
+      turn_program: divide(3139, 2641), subtract(#0, const_1), divide(91, 77), subtract(#2,
+        const_1)
+      expected_document: Double_MA/2008/page_116.pdf
+  - input: what is the change in the growth rates among these two?
+    ground_truth: '0.00675'
+    turn_config:
+      turn_program: 'divide(3139, 2641), subtract(#0, const_1), divide(91, 77), subtract(#2,
+        const_1), subtract(#1, #3)'
+      expected_document: Double_MA/2008/page_116.pdf
+  - input: what is the ratio of accrued liability related to the severance plan and
+      other severance obligations in 2008 to 2007?
+    ground_truth: '1.13692'
+    turn_config:
+      turn_program: divide(63863, 56172)
+      expected_document: Double_MA/2008/page_116.pdf
+- name: Double_MAA/2015/page_56.pdf
+  turns:
+  - input: In Mid-America Apartment Communities (MAA)'s 2015 annual report, in 2015,
+      how much did the depreciation and amortization in the large market same store
+      represent in relation to the one for the secondary market same store?
+    ground_truth: '1.98654'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(168872, 85008)
+      expected_document: Double_MAA/2015/page_56.pdf
+  - input: and between that year and the one before, what was the variation in the
+      percentual decrease of those large market same-store and secondary market same-store?
+    ground_truth: '2.3'
+    turn_config:
+      turn_program: subtract(3.5, 1.2)
+      expected_document: Double_MAA/2015/page_56.pdf
+- name: Double_MAR/2005/page_52.pdf
+  turns:
+  - input: "In Marriott International (MAR)'s 2005 annual report, what is the difference\
+      \ between fair value and carrying amount for notes and other long-term assets\t\
+      in 2005?"
+    ground_truth: '38.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(1412, 1374)
+      expected_document: Double_MAR/2005/page_52.pdf
+  - input: what is the fair value of notes and other long-term assets?
+    ground_truth: '1770.0'
+    turn_config:
+      turn_program: '1770'
+      expected_document: Double_MAR/2005/page_52.pdf
+  - input: what about the carrying amount of notes and other long-term assets?
+    ground_truth: '1702.0'
+    turn_config:
+      turn_program: '1702'
+      expected_document: Double_MAR/2005/page_52.pdf
+  - input: what is the difference?
+    ground_truth: '68.0'
+    turn_config:
+      turn_program: subtract(1770, 1702)
+      expected_document: Double_MAR/2005/page_52.pdf
+- name: Double_MAS/2010/page_29.pdf
+  turns:
+  - input: In Masco (MAS)'s 2010 annual report, what was the change in the performance
+      price of the masco common stock in the five year period ended 2010?
+    ground_truth: '-48.49'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(51.51, 100)
+      expected_document: Double_MAS/2010/page_29.pdf
+  - input: and what is this change as a percentage of that price in 2006?
+    ground_truth: '-0.4849'
+    turn_config:
+      turn_program: subtract(51.51, 100), divide(#0, 100)
+      expected_document: Double_MAS/2010/page_29.pdf
+  - input: in the last year of that period, what percentage of the shares authorized
+      to purchase in open-market transactions or otherwise by the board of directors
+      in 2007 were part of the remaining authorization?
+    ground_truth: '0.54'
+    turn_config:
+      turn_program: divide(27, 50)
+      expected_document: Double_MAS/2010/page_29.pdf
+- name: Double_MKTX/2004/page_24.pdf
+  turns:
+  - input: In MarketAxess (MKTX)'s 2004 annual report, from november 5 to december
+      31 of 2004, what was the numerical range of the share price?
+    ground_truth: '11.66'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(24.41, 12.75)
+      expected_document: Double_MKTX/2004/page_24.pdf
+  - input: and as of march 28 of the next year, what was the last reported closing
+      price of the common stock on the nasdaq national market?
+    ground_truth: '10.26'
+    turn_config:
+      turn_program: '10.26'
+      expected_document: Double_MKTX/2004/page_24.pdf
+  - input: and what was the amount of holders of record of that common stock?
+    ground_truth: '188.0'
+    turn_config:
+      turn_program: '188'
+      expected_document: Double_MKTX/2004/page_24.pdf
+  - input: what was, then, the market cap of that common stock as of that date?
+    ground_truth: '1928.88'
+    turn_config:
+      turn_program: multiply(10.26, 188)
+      expected_document: Double_MKTX/2004/page_24.pdf
+- name: Single_MMM/2005/page_36.pdf-1
+  turns:
+  - input: In 3M (MMM)'s 2005 annual report, in 2005, what was the change in the stock
+      price from the year end low to high?
+    ground_truth: '17.74'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(87.45, 69.71)
+      expected_document: Single_MMM/2005/page_36.pdf-1
+  - input: and how much does this change represent in relation to that stock price
+      in the year end low, in percentage?
+    ground_truth: '0.25448'
+    turn_config:
+      turn_program: subtract(87.45, 69.71), divide(#0, 69.71)
+      expected_document: Single_MMM/2005/page_36.pdf-1
+- name: Double_MO/2012/page_44.pdf
+  turns:
+  - input: In Altria Group (MO)'s 2012 annual report, during 2011, what percentage
+      did the higher charges related to tobacco and health judgments represent in
+      relation to the operating companies income increase?
+    ground_truth: '0.73109'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(87, 119)
+      expected_document: Double_MO/2012/page_44.pdf
+  - input: and what percentage did the cost reduction initiatives represent in relation
+      to them?
+    ground_truth: '1.66387'
+    turn_config:
+      turn_program: divide(198, 119)
+      expected_document: Double_MO/2012/page_44.pdf
+- name: Double_MRK/2013/page_116.pdf
+  turns:
+  - input: In Merck (MRK)'s 2013 annual report, what was the service cost in 2013?
+    ground_truth: '682.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '682'
+      expected_document: Double_MRK/2013/page_116.pdf
+  - input: and what was it in 2012?
+    ground_truth: '555.0'
+    turn_config:
+      turn_program: '555'
+      expected_document: Double_MRK/2013/page_116.pdf
+  - input: how much, then, did the 2013 amount represent in relation to this 2012
+      one?
+    ground_truth: '1.22883'
+    turn_config:
+      turn_program: divide(682, 555)
+      expected_document: Double_MRK/2013/page_116.pdf
+  - input: and what is this value excluding the part equivalent to the 2012 amount?
+    ground_truth: '0.22883'
+    turn_config:
+      turn_program: divide(682, 555), subtract(#0, const_1)
+      expected_document: Double_MRK/2013/page_116.pdf
+  - input: and between those two years, what was the variation in the net amortization?
+    ground_truth: '151.0'
+    turn_config:
+      turn_program: subtract(336, 185)
+      expected_document: Double_MRK/2013/page_116.pdf
+  - input: what is this variation as a percentage of that net amortization in 2012?
+    ground_truth: '0.81622'
+    turn_config:
+      turn_program: subtract(336, 185), divide(#0, 185)
+      expected_document: Double_MRK/2013/page_116.pdf
+- name: Single_MRO/2003/page_65.pdf-4
+  turns:
+  - input: In Marathon Oil (MRO)'s 2003 annual report, what was the state and local
+      income taxes after federal income tax effects in 2003?
+    ground_truth: '2.2'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '2.2'
+      expected_document: Single_MRO/2003/page_65.pdf-4
+  - input: what was the state and local income taxes after federal income tax effects
+      in 2002?
+    ground_truth: '3.9'
+    turn_config:
+      turn_program: '3.9'
+      expected_document: Single_MRO/2003/page_65.pdf-4
+  - input: what is the net change?
+    ground_truth: '-1.7'
+    turn_config:
+      turn_program: subtract(2.2, 3.9)
+      expected_document: Single_MRO/2003/page_65.pdf-4
+  - input: what was the state and local income taxes after federal income tax effects
+      in 2002?
+    ground_truth: '3.9'
+    turn_config:
+      turn_program: '3.9'
+      expected_document: Single_MRO/2003/page_65.pdf-4
+  - input: what was the percent change?
+    ground_truth: '-0.4359'
+    turn_config:
+      turn_program: subtract(2.2, 3.9), divide(#0, 3.9)
+      expected_document: Single_MRO/2003/page_65.pdf-4
+- name: Double_MS/2013/page_223.pdf
+  turns:
+  - input: In Morgan Stanley (MS)'s 2013 annual report, what was the effect in difference
+      of average borrowing rate due to the use of swaps in 2013?
+    ground_truth: '2.2'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(4.4, 2.2)
+      expected_document: Double_MS/2013/page_223.pdf
+  - input: and in 2012?
+    ground_truth: '2.1'
+    turn_config:
+      turn_program: subtract(4.4, 2.3)
+      expected_document: Double_MS/2013/page_223.pdf
+- name: Double_MSI/2005/page_64.pdf
+  turns:
+  - input: In Motorola Solutions (MSI)'s 2005 annual report, what is the net change
+      in the total contractual obligations due from 2006 to 2010?
+    ground_truth: '360.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(975, 615)
+      expected_document: Double_MSI/2005/page_64.pdf
+  - input: what about the amount of total contractual obligations due in 2006?
+    ground_truth: '975.0'
+    turn_config:
+      turn_program: '975'
+      expected_document: Double_MSI/2005/page_64.pdf
+  - input: what percentage change does this represent?
+    ground_truth: '0.36923'
+    turn_config:
+      turn_program: subtract(975, 615), divide(#0, 975)
+      expected_document: Double_MSI/2005/page_64.pdf
+  - input: what portion of total obligations are related to long-term debt obligations?
+    ground_truth: '0.65312'
+    turn_config:
+      turn_program: divide(4033, 6175)
+      expected_document: Double_MSI/2005/page_64.pdf
+- name: Single_NCLH/2016/page_84.pdf-1
+  turns:
+  - input: In Norwegian Cruise Line Holdings (NCLH)'s 2016 annual report, what is
+      the balance of accrued interest liability in 2016?
+    ground_truth: '32.5'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '32.5'
+      expected_document: Single_NCLH/2016/page_84.pdf-1
+  - input: what about in 2015?
+    ground_truth: '34.2'
+    turn_config:
+      turn_program: '34.2'
+      expected_document: Single_NCLH/2016/page_84.pdf-1
+  - input: what is the change in the balance of accrued interest liability?
+    ground_truth: '-1.7'
+    turn_config:
+      turn_program: subtract(32.5, 34.2)
+      expected_document: Single_NCLH/2016/page_84.pdf-1
+  - input: what percentage change does this represent?
+    ground_truth: '-0.04971'
+    turn_config:
+      turn_program: subtract(32.5, 34.2), divide(#0, 34.2)
+      expected_document: Single_NCLH/2016/page_84.pdf-1
+- name: Single_NKE/2009/page_81.pdf-1
+  turns:
+  - input: In Nike (NKE)'s 2009 annual report, what was the value of the sale of the
+      starter brand?
+    ground_truth: '60.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '60.0'
+      expected_document: Single_NKE/2009/page_81.pdf-1
+  - input: what was the gain resulting from the sale?
+    ground_truth: '28.6'
+    turn_config:
+      turn_program: '28.6'
+      expected_document: Single_NKE/2009/page_81.pdf-1
+  - input: what was the change in value?
+    ground_truth: '31.4'
+    turn_config:
+      turn_program: subtract(60.0, 28.6)
+      expected_document: Single_NKE/2009/page_81.pdf-1
+  - input: what is the percent change?
+    ground_truth: '0.91083'
+    turn_config:
+      turn_program: 'subtract(60.0, 28.6), divide(28.6, #0)'
+      expected_document: Single_NKE/2009/page_81.pdf-1
+- name: Single_NTAP/2014/page_33.pdf-1
+  turns:
+  - input: In NetApp (NTAP)'s 2014 annual report, what was the performance value of
+      the netapp inc . in 2014?
+    ground_truth: '197.58'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '197.58'
+      expected_document: Single_NTAP/2014/page_33.pdf-1
+  - input: and what was the change in its performance from 2009 to that year?
+    ground_truth: '97.58'
+    turn_config:
+      turn_program: subtract(197.58, const_100)
+      expected_document: Single_NTAP/2014/page_33.pdf-1
+  - input: how much, then, does this change represent in relation to that performance
+      in 2009, in percentage?
+    ground_truth: '0.9758'
+    turn_config:
+      turn_program: subtract(197.58, const_100), divide(#0, const_100)
+      expected_document: Single_NTAP/2014/page_33.pdf-1
+  - input: and what was the change in the performance of the nasdaq composite from
+      2009 to 2014?
+    ground_truth: '153.22'
+    turn_config:
+      turn_program: subtract(197.58, const_100), divide(#0, const_100), subtract(253.22,
+        const_100)
+      expected_document: Single_NTAP/2014/page_33.pdf-1
+  - input: how much does this change represent in relation to the performance of that
+      stock in 2009, in percentage?
+    ground_truth: '1.5322'
+    turn_config:
+      turn_program: subtract(197.58, const_100), divide(#0, const_100), subtract(253.22,
+        const_100), divide(#2, const_100)
+      expected_document: Single_NTAP/2014/page_33.pdf-1
+  - input: and what is the difference between this percentage representation of the
+      netapp inc . and the nasdaq composite?
+    ground_truth: '-0.5564'
+    turn_config:
+      turn_program: 'subtract(197.58, const_100), divide(#0, const_100), subtract(253.22,
+        const_100), divide(#2, const_100), subtract(#1, #3)'
+      expected_document: Single_NTAP/2014/page_33.pdf-1
+- name: Double_NWS/2016/page_148.pdf
+  turns:
+  - input: In News Corporation (NWS)'s 2016 annual report, what was the change in
+      the company recorded deferred tax asset associated with its nols from 2015 to
+      2016?
+    ground_truth: '40.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(580, 540)
+      expected_document: Double_NWS/2016/page_148.pdf
+  - input: and what is this change as a percent of that tax asset in 2015?
+    ground_truth: '0.07407'
+    turn_config:
+      turn_program: subtract(580, 540), divide(#0, 540)
+      expected_document: Double_NWS/2016/page_148.pdf
+  - input: and as of june 30 of the last year of that period, how much did the u.s
+      . federal net operating loss carry forwards represent in relation to the states
+      one?
+    ground_truth: '1.47676'
+    turn_config:
+      turn_program: divide(858, 581)
+      expected_document: Double_NWS/2016/page_148.pdf
+- name: Double_OKE/2007/page_51.pdf
+  turns:
+  - input: In ONEOK (OKE)'s 2007 annual report, what is the goodwill value from oneok
+      partners?
+    ground_truth: '431418.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '431418'
+      expected_document: Double_OKE/2007/page_51.pdf
+  - input: what about the total goodwill?
+    ground_truth: '600725.0'
+    turn_config:
+      turn_program: '600725'
+      expected_document: Double_OKE/2007/page_51.pdf
+  - input: what proportion of total goodwill is related to oneok partners?
+    ground_truth: '0.71816'
+    turn_config:
+      turn_program: divide(431418, 600725)
+      expected_document: Double_OKE/2007/page_51.pdf
+  - input: what about the goodwill value from energy services?
+    ground_truth: '10255.0'
+    turn_config:
+      turn_program: '10255'
+      expected_document: Double_OKE/2007/page_51.pdf
+  - input: what portion of total goodwill is related to energy services?
+    ground_truth: '0.01707'
+    turn_config:
+      turn_program: divide(10255, 600725)
+      expected_document: Double_OKE/2007/page_51.pdf
+- name: Double_ORLY/2006/page_40.pdf
+  turns:
+  - input: In O'Reilly Automotive (ORLY)'s 2006 annual report, what was the percentage
+      of non-vested restricted stock balance to total shares reserved for future issuance
+      as of 12/31/06?
+    ground_truth: '0.02472'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(16291, 659000)
+      expected_document: Double_ORLY/2006/page_40.pdf
+  - input: what was the amount of cash raised from the issuance of shares in 2015?
+    ground_truth: '4463665.71'
+    turn_config:
+      turn_program: multiply(161903, 27.57)
+      expected_document: Double_ORLY/2006/page_40.pdf
+  - input: and converted to the millions?
+    ground_truth: '4.46367'
+    turn_config:
+      turn_program: multiply(161903, 27.57), divide(#0, const_1000000)
+      expected_document: Double_ORLY/2006/page_40.pdf
+- name: Double_PKG/2001/page_78.pdf
+  turns:
+  - input: In Packaging Corporation of America (PKG)'s 2001 annual report, what was
+      the unrecognized prior service cost as a percentage of prepaid pension cost
+      at 12/31/98?
+    ground_truth: '0.37792'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(13455, 35603)
+      expected_document: Double_PKG/2001/page_78.pdf
+  - input: was the projected benefit obligation bigger than the plan assets at fair
+      value at 9/30/98?
+    ground_truth: 'no'
+    turn_config:
+      turn_program: greater(-108716, 146579)
+      expected_document: Double_PKG/2001/page_78.pdf
+- name: Double_PM/2014/page_67.pdf
+  turns:
+  - input: In Philip Morris International (PM)'s 2014 annual report, what was the
+      total of us dollar notes issued in november of 2014, in millions?
+    ground_truth: '1500.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(750, 750)
+      expected_document: Double_PM/2014/page_67.pdf
+  - input: and what was that total for the entire year?
+    ground_truth: '2000.0'
+    turn_config:
+      turn_program: add(750, 750), add(#0, 500)
+      expected_document: Double_PM/2014/page_67.pdf
+  - input: and concerning the euro notes, what was their full total for 2014, also
+      in millions?
+    ground_truth: '3098.0'
+    turn_config:
+      turn_program: add(1029, 1372), add(#0, 697)
+      expected_document: Double_PM/2014/page_67.pdf
+- name: Double_PNC/2007/page_108.pdf
+  turns:
+  - input: In PNC Financial Services (PNC)'s 2007 annual report, what was the total
+      intrinsic value of options exercised in the years of 2006 and 2007, combined,
+      in millions?
+    ground_truth: '163.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(52, 111)
+      expected_document: Double_PNC/2007/page_108.pdf
+  - input: including 2005, what becomes this total?
+    ground_truth: '194.0'
+    turn_config:
+      turn_program: add(52, 111), add(#0, 31)
+      expected_document: Double_PNC/2007/page_108.pdf
+  - input: and concerning the weighted-average exercise price for options outstanding,
+      what was the total for the first two years of this period?
+    ground_truth: '114.96'
+    turn_config:
+      turn_program: add(58.38, 56.58)
+      expected_document: Double_PNC/2007/page_108.pdf
+  - input: and what is the average between them?
+    ground_truth: '57.48'
+    turn_config:
+      turn_program: add(58.38, 56.58), divide(#0, const_2)
+      expected_document: Double_PNC/2007/page_108.pdf
+- name: Single_PPG/2005/page_24.pdf-2
+  turns:
+  - input: In PPG Industries (PPG)'s 2005 annual report, what is the difference between
+      the number 1 that represents 100% and the sales increase?
+    ground_truth: '0.98'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(const_1, 2%)
+      expected_document: Single_PPG/2005/page_24.pdf-2
+  - input: what is the glass net sales of 2003?
+    ground_truth: '2150.0'
+    turn_config:
+      turn_program: '2150'
+      expected_document: Single_PPG/2005/page_24.pdf-2
+  - input: what is the product between that difference and that glass net sales of
+      2003?
+    ground_truth: '2107.0'
+    turn_config:
+      turn_program: subtract(const_1, 2%), multiply(#0, 2150)
+      expected_document: Single_PPG/2005/page_24.pdf-2
+- name: Double_RCL/2005/page_40.pdf
+  turns:
+  - input: In Royal Caribbean Cruises (RCL)'s 2005 annual report, what was the ratio
+      of the leases for splendour and legend of the seas from 1996 to 1995?
+    ground_truth: '1.01538'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(264.0, 260.0)
+      expected_document: Double_RCL/2005/page_40.pdf
+  - input: what was the portion of debt maturity in 2010 compared to 2006?
+    ground_truth: '1.14394'
+    turn_config:
+      turn_program: divide(687376, 600883)
+      expected_document: Double_RCL/2005/page_40.pdf
+  - input: and as a percentage?
+    ground_truth: '114.39432'
+    turn_config:
+      turn_program: 'divide(687376, 600883), multiply(const_100, #0)'
+      expected_document: Double_RCL/2005/page_40.pdf
+- name: Single_RE/2006/page_122.pdf-1
+  turns:
+  - input: In Everest Re Group (RE)'s 2006 annual report, what was the change in the
+      capital and statutory surplus from 2005 to 2006?
+    ground_truth: '376.5'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(2704.1, 2327.6)
+      expected_document: Single_RE/2006/page_122.pdf-1
+  - input: and how much does this change represent in relation to that capital and
+      statutory surplus in 2005, in percentage?
+    ground_truth: '0.16175'
+    turn_config:
+      turn_program: subtract(2704.1, 2327.6), divide(#0, 2327.6)
+      expected_document: Single_RE/2006/page_122.pdf-1
+- name: Double_REGN/2010/page_68.pdf
+  turns:
+  - input: In Regeneron Pharmaceuticals (REGN)'s 2010 annual report, in 2008, what
+      percentage did bayer healthcare represent in relation to the total revenue?
+    ground_truth: '0.13082'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(31.2, 238.5)
+      expected_document: Double_REGN/2010/page_68.pdf
+  - input: and what was that same percentage representation in 2009?
+    ground_truth: '0.17743'
+    turn_config:
+      turn_program: divide(67.3, 379.3)
+      expected_document: Double_REGN/2010/page_68.pdf
+- name: Double_RL/2008/page_21.pdf
+  turns:
+  - input: In Ralph Lauren (RL)'s 2008 annual report, what portion of the number if
+      doors is sold in europe?
+    ground_truth: '0.19202'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(2075, 10806)
+      expected_document: Double_RL/2008/page_21.pdf
+  - input: what about solid in united states and canada?
+    ground_truth: '0.79687'
+    turn_config:
+      turn_program: divide(8611, 10806)
+      expected_document: Double_RL/2008/page_21.pdf
+- name: Double_RSG/2008/page_114.pdf
+  turns:
+  - input: In Republic Services (RSG)'s 2008 annual report, in the year of 2008, what
+      was the income from continuing operations available to common stockholders?
+    ground_truth: '285.7'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '285.7'
+      expected_document: Double_RSG/2008/page_114.pdf
+  - input: and what were the basic earnings per share?
+    ground_truth: '0.76'
+    turn_config:
+      turn_program: '.76'
+      expected_document: Double_RSG/2008/page_114.pdf
+  - input: what, then, can be concluded to be the number of shares available?
+    ground_truth: '375.92105'
+    turn_config:
+      turn_program: divide(285.7, .76)
+      expected_document: Double_RSG/2008/page_114.pdf
+  - input: in that same year, what was the revenue?
+    ground_truth: '9362.2'
+    turn_config:
+      turn_program: '9362.2'
+      expected_document: Double_RSG/2008/page_114.pdf
+  - input: and what was it in 2007?
+    ground_truth: '9244.9'
+    turn_config:
+      turn_program: '9244.9'
+      expected_document: Double_RSG/2008/page_114.pdf
+  - input: what was, then, the change over the year?
+    ground_truth: '117.3'
+    turn_config:
+      turn_program: subtract(9362.2, 9244.9)
+      expected_document: Double_RSG/2008/page_114.pdf
+  - input: and what is this change as a percentage of the 2007 revenue?
+    ground_truth: '0.01269'
+    turn_config:
+      turn_program: subtract(9362.2, 9244.9), divide(#0, 9244.9)
+      expected_document: Double_RSG/2008/page_114.pdf
+- name: Double_SLB/2003/page_57.pdf
+  turns:
+  - input: In Schlumberger (SLB)'s 2003 annual report, what percentage of the shares
+      outstanding did the the acquisition of technoguide account for?
+    ground_truth: '0.00231'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(1347485, 582173115)
+      expected_document: Double_SLB/2003/page_57.pdf
+  - input: and during this same period, what was the total amount of shares issued
+      to directors?
+    ground_truth: '11800.0'
+    turn_config:
+      turn_program: add(4800, 3500), add(#0, 3500)
+      expected_document: Double_SLB/2003/page_57.pdf
+- name: Double_SLG/2002/page_56.pdf
+  turns:
+  - input: In SL Green Realty (SLG)'s 2002 annual report, what is the minimum payment
+      for capital leases due in 2003?
+    ground_truth: '1290.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '1290'
+      expected_document: Double_SLG/2002/page_56.pdf
+  - input: what about the total minimum lease payments?
+    ground_truth: '63014.0'
+    turn_config:
+      turn_program: '63014'
+      expected_document: Double_SLG/2002/page_56.pdf
+  - input: what portion is due in 2003?
+    ground_truth: '0.02047'
+    turn_config:
+      turn_program: divide(1290, 63014)
+      expected_document: Double_SLG/2002/page_56.pdf
+- name: Double_SNA/2007/page_47.pdf
+  turns:
+  - input: In Snap-on (SNA)'s 2007 annual report, what was the change in the total
+      of current assets from 2006 to 2007?
+    ground_truth: '74.2'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(1187.4, 1113.2)
+      expected_document: Double_SNA/2007/page_47.pdf
+  - input: and what is this change as a percentage of that total in 2006?
+    ground_truth: '0.06665'
+    turn_config:
+      turn_program: subtract(1187.4, 1113.2), divide(#0, 1113.2)
+      expected_document: Double_SNA/2007/page_47.pdf
+  - input: in that same period, what was the change in the total of current liabilities?
+    ground_truth: '-42.8'
+    turn_config:
+      turn_program: subtract(639.2, 682.0)
+      expected_document: Double_SNA/2007/page_47.pdf
+  - input: what was this total in 2006?
+    ground_truth: '682.0'
+    turn_config:
+      turn_program: '682.0'
+      expected_document: Double_SNA/2007/page_47.pdf
+  - input: what percentage, then, did that change represent in relation to this 2006
+      amount?
+    ground_truth: '-0.06276'
+    turn_config:
+      turn_program: subtract(639.2, 682.0), divide(#0, 682.0)
+      expected_document: Double_SNA/2007/page_47.pdf
+- name: Single_SNPS/2003/page_39.pdf-1
+  turns:
+  - input: In Synopsys (SNPS)'s 2003 annual report, what was the estimated future
+      amortization of deferred stock compensation in 2005 less that in 2004?
+    ground_truth: '-1274.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(2403, 3677)
+      expected_document: Single_SNPS/2003/page_39.pdf-1
+  - input: what is that change divided by the 2004 balance?
+    ground_truth: '-0.34648'
+    turn_config:
+      turn_program: subtract(2403, 3677), divide(#0, 3677)
+      expected_document: Single_SNPS/2003/page_39.pdf-1
+- name: Single_SPGI/2018/page_54.pdf-1
+  turns:
+  - input: In S&P Global (SPGI)'s 2018 annual report, what is the difference between
+      the other net income of the years of 2018 and 2016?
+    ground_truth: '-3.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(25, 28)
+      expected_document: Single_SPGI/2018/page_54.pdf-1
+  - input: how much does that difference represent in relation to the other net income
+      of 2016?
+    ground_truth: '-0.10714'
+    turn_config:
+      turn_program: subtract(25, 28), divide(#0, 28)
+      expected_document: Single_SPGI/2018/page_54.pdf-1
+- name: Double_STT/2001/page_36.pdf
+  turns:
+  - input: In State Street (STT)'s 2001 annual report, how much did the servicing
+      fees change between 1999 and 2000?
+    ground_truth: '255.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(1425, 1170)
+      expected_document: Double_STT/2001/page_36.pdf
+  - input: so what was the percentage change during this time?
+    ground_truth: '0.21795'
+    turn_config:
+      turn_program: subtract(1425, 1170), divide(#0, 1170)
+      expected_document: Double_STT/2001/page_36.pdf
+  - input: how much did the fee revenue change between 2000 and 2001?
+    ground_truth: '167.0'
+    turn_config:
+      turn_program: subtract(2832, 2665)
+      expected_document: Double_STT/2001/page_36.pdf
+  - input: so what was the growth rate during this time?
+    ground_truth: '0.06266'
+    turn_config:
+      turn_program: subtract(2832, 2665), divide(#0, 2665)
+      expected_document: Double_STT/2001/page_36.pdf
+- name: Double_STZ/2005/page_57.pdf
+  turns:
+  - input: In Constellation Brands (STZ)'s 2005 annual report, between the two acquisitions,
+      was the purchase price for hardy greater than for mondavi?
+    ground_truth: 'yes'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: greater(1137.4, 1030.7)
+      expected_document: Double_STZ/2005/page_57.pdf
+  - input: what portion of the net asset acquired is from goodwill?
+    ground_truth: '0.56673'
+    turn_config:
+      turn_program: divide(590459, 1041861)
+      expected_document: Double_STZ/2005/page_57.pdf
+- name: Double_SWKS/2007/page_93.pdf
+  turns:
+  - input: In Skyworks Solutions (SWKS)'s 2007 annual report, what is the net change
+      in the balance of pension liability from september 2005 to 2007?
+    ground_truth: '923.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(-214, -1137)
+      expected_document: Double_SWKS/2007/page_93.pdf
+  - input: what is the impact of pension adjustment during 2007?
+    ground_truth: '159.0'
+    turn_config:
+      turn_program: '159'
+      expected_document: Double_SWKS/2007/page_93.pdf
+  - input: what is the impact of adjustment to initially apply sfas 158 during 2007?
+    ground_truth: '226.0'
+    turn_config:
+      turn_program: '226'
+      expected_document: Double_SWKS/2007/page_93.pdf
+  - input: what is the total impact in the balance of pension liability during 2007?
+    ground_truth: '385.0'
+    turn_config:
+      turn_program: add(159, 226)
+      expected_document: Double_SWKS/2007/page_93.pdf
+- name: Double_SYY/2006/page_68.pdf
+  turns:
+  - input: In Sysco (SYY)'s 2006 annual report, what portion of total restricted cash
+      balance is related to funds deposited in insurance trusts in 2005?
+    ground_truth: '0.79042'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(80410000, 101731000)
+      expected_document: Double_SYY/2006/page_68.pdf
+  - input: what about in 2006?
+    ground_truth: '0.80815'
+    turn_config:
+      turn_program: divide(82653000, 102274000)
+      expected_document: Double_SYY/2006/page_68.pdf
+- name: Single_TFX/2006/page_50.pdf-1
+  turns:
+  - input: In Teleflex (TFX)'s 2006 annual report, what was the positive value of
+      united states securities?
+    ground_truth: '114000.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '114000'
+      expected_document: Single_TFX/2006/page_50.pdf-1
+  - input: what is the positive value of euros?
+    ground_truth: '4472.0'
+    turn_config:
+      turn_program: '4472'
+      expected_document: Single_TFX/2006/page_50.pdf-1
+  - input: what is the sum?
+    ground_truth: '118472.0'
+    turn_config:
+      turn_program: add(114000, 4472)
+      expected_document: Single_TFX/2006/page_50.pdf-1
+  - input: what is the sum of singapore and canadian dollars?
+    ground_truth: '118414.0'
+    turn_config:
+      turn_program: add(114000, 4472), add(37180, 81234)
+      expected_document: Single_TFX/2006/page_50.pdf-1
+  - input: what is the total sum including malaysian ringgits?
+    ground_truth: '204377.0'
+    turn_config:
+      turn_program: 'add(114000, 4472), add(37180, 81234), add(85963, #1)'
+      expected_document: Single_TFX/2006/page_50.pdf-1
+  - input: what is the ratio of the sum of us and euro payments to the total?
+    ground_truth: '0.57967'
+    turn_config:
+      turn_program: 'add(114000, 4472), add(37180, 81234), add(85963, #1), divide(#0,
+        #2)'
+      expected_document: Single_TFX/2006/page_50.pdf-1
+- name: Double_TMUS/2016/page_32.pdf
+  turns:
+  - input: In T-Mobile US (TMUS)'s 2016 annual report, for 2016, what was the average
+      size of switching centers?
+    ground_truth: '24561.40351'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(1400000, 57)
+      expected_document: Double_TMUS/2016/page_32.pdf
+  - input: and the average space of warehouses in square feet?
+    ground_truth: '31250.0'
+    turn_config:
+      turn_program: divide(500000, 16)
+      expected_document: Double_TMUS/2016/page_32.pdf
+- name: Double_TROW/2008/page_23.pdf
+  turns:
+  - input: In T. Rowe Price (TROW)'s 2008 annual report, in 2007, considering the
+      percentage increase and the amount equivalent to it of the total of occupancy
+      and facility costs together with depreciation expense from that year to 2008,
+      what can be concluded to have been, in 2007, that total?
+    ground_truth: '150.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(18, 12%)
+      expected_document: Double_TROW/2008/page_23.pdf
+  - input: and between these same two years, what percentage did the change in net
+      gains ( losses ) realized on fund dispositions represent in relation to those
+      net gains in 2007?
+    ground_truth: '-1.81818'
+    turn_config:
+      turn_program: divide(-10.0, 5.5)
+      expected_document: Double_TROW/2008/page_23.pdf
+- name: Double_TSCO/2017/page_68.pdf
+  turns:
+  - input: In Tractor Supply Company (TSCO)'s 2017 annual report, what is the percent
+      of the amount drawn to the amount authorized for the franklin kentucky distribution
+      center?
+    ground_truth: '0.95926'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(51.8, 54.0)
+      expected_document: Double_TSCO/2017/page_68.pdf
+  - input: what is the amount lost from the bond authorization to the withdrawn for
+      brentwood tennessee store support center?
+    ground_truth: '2.7'
+    turn_config:
+      turn_program: subtract(78.0, 75.3)
+      expected_document: Double_TSCO/2017/page_68.pdf
+  - input: what is the bond authorized amount for macon georgia distribution center?
+    ground_truth: '58.0'
+    turn_config:
+      turn_program: '58.0'
+      expected_document: Double_TSCO/2017/page_68.pdf
+  - input: what about the amount drawn?
+    ground_truth: '49.9'
+    turn_config:
+      turn_program: '49.9'
+      expected_document: Double_TSCO/2017/page_68.pdf
+  - input: what is the difference?
+    ground_truth: '8.1'
+    turn_config:
+      turn_program: subtract(78.0, 75.3), subtract(58.0, 49.9)
+      expected_document: Double_TSCO/2017/page_68.pdf
+  - input: what about the difference for franklin kentucky distribution center?
+    ground_truth: '2.2'
+    turn_config:
+      turn_program: subtract(78.0, 75.3), subtract(58.0, 49.9), subtract(54.0, 51.8)
+      expected_document: Double_TSCO/2017/page_68.pdf
+  - input: what is the lost amount from franklin kentucky distribution center and
+      brentwood tennessee store support center?
+    ground_truth: '10.8'
+    turn_config:
+      turn_program: 'subtract(78.0, 75.3), subtract(58.0, 49.9), subtract(54.0, 51.8),
+        add(#0, #1)'
+      expected_document: Double_TSCO/2017/page_68.pdf
+  - input: what about for all three centers?
+    ground_truth: '13.0'
+    turn_config:
+      turn_program: 'subtract(78.0, 75.3), subtract(58.0, 49.9), subtract(54.0, 51.8),
+        add(#0, #1), add(#2, #3)'
+      expected_document: Double_TSCO/2017/page_68.pdf
+- name: Double_TXN/2017/page_55.pdf
+  turns:
+  - input: In Texas Instruments (TXN)'s 2017 annual report, what amount of long-term
+      debt was retired during 2017?
+    ground_truth: '625.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: add(250, 375)
+      expected_document: Double_TXN/2017/page_55.pdf
+  - input: what is the net change in assumed health care cost trend rate from 2016
+      to 2017?
+    ground_truth: '0.75'
+    turn_config:
+      turn_program: subtract(7.50, 6.75)
+      expected_document: Double_TXN/2017/page_55.pdf
+- name: Single_UA/2005/page_33.pdf-2
+  turns:
+  - input: In Under Armour (Class C) (UA)'s 2005 annual report, what is the change
+      in total net revenue from 2004 to 2005?
+    ground_truth: '89762.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(205181, 115419)
+      expected_document: Single_UA/2005/page_33.pdf-2
+  - input: what growth rate does this represent?
+    ground_truth: '0.77771'
+    turn_config:
+      turn_program: subtract(205181, 115419), divide(#0, 115419)
+      expected_document: Single_UA/2005/page_33.pdf-2
+- name: Double_UAA/2016/page_81.pdf
+  turns:
+  - input: In Under Armour (Class A) (UAA)'s 2016 annual report, what percentage do
+      the scheduled maturities of long term debt due in 2019 represent in relation
+      to the total ones?
+    ground_truth: '0.07606'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(63000, 828250)
+      expected_document: Double_UAA/2016/page_81.pdf
+  - input: and what is that percentage representation for the ones due in 2020?
+    ground_truth: '0.03018'
+    turn_config:
+      turn_program: divide(25000, 828250)
+      expected_document: Double_UAA/2016/page_81.pdf
+- name: Double_UNP/2006/page_33.pdf
+  turns:
+  - input: In Union Pacific (UNP)'s 2006 annual report, what is the other income in
+      2006?
+    ground_truth: '118.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '118'
+      expected_document: Double_UNP/2006/page_33.pdf
+  - input: what about in 2005?
+    ground_truth: '145.0'
+    turn_config:
+      turn_program: '145'
+      expected_document: Double_UNP/2006/page_33.pdf
+  - input: what is the sum for these two years?
+    ground_truth: '263.0'
+    turn_config:
+      turn_program: add(118, 145)
+      expected_document: Double_UNP/2006/page_33.pdf
+  - input: what about in 2004?
+    ground_truth: '88.0'
+    turn_config:
+      turn_program: '88'
+      expected_document: Double_UNP/2006/page_33.pdf
+  - input: what is the total for three years?
+    ground_truth: '351.0'
+    turn_config:
+      turn_program: add(118, 145), add(#0, 88)
+      expected_document: Double_UNP/2006/page_33.pdf
+  - input: what is the average for these three years?
+    ground_truth: '117.0'
+    turn_config:
+      turn_program: add(118, 145), add(#0, 88), divide(#1, const_3)
+      expected_document: Double_UNP/2006/page_33.pdf
+  - input: what is the net change in other income from 2004 to 2005?
+    ground_truth: '57.0'
+    turn_config:
+      turn_program: subtract(145, 88)
+      expected_document: Double_UNP/2006/page_33.pdf
+- name: Single_UPS/2006/page_32.pdf-1
+  turns:
+  - input: In United Parcel Service (UPS)'s 2006 annual report, what was the return
+      for united parcel service inc . in 2006?
+    ground_truth: '148.92'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '148.92'
+      expected_document: Single_UPS/2006/page_32.pdf-1
+  - input: and what was the change in that return from 2001 to 2006?
+    ground_truth: '48.92'
+    turn_config:
+      turn_program: subtract(148.92, const_100)
+      expected_document: Single_UPS/2006/page_32.pdf-1
+  - input: how much, then, does that change represent in relation to the return of
+      that stock in 2001, in percentage?
+    ground_truth: '0.4892'
+    turn_config:
+      turn_program: subtract(148.92, const_100), divide(#0, const_100)
+      expected_document: Single_UPS/2006/page_32.pdf-1
+- name: Double_V/2008/page_163.pdf
+  turns:
+  - input: In Visa (V)'s 2008 annual report, what was the amount gained with the issuance
+      of the class a common stock in 2008?
+    ground_truth: '19101082000.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: multiply(446600000, 42.77)
+      expected_document: Double_V/2008/page_163.pdf
+  - input: and as of september of that year, what was the difference in the number
+      of shares of the class usa common stock pre and after true-up?
+    ground_truth: '26138609.0'
+    turn_config:
+      turn_program: subtract(426390481, 400251872)
+      expected_document: Double_V/2008/page_163.pdf
+- name: Single_VLO/2011/page_126.pdf-1
+  turns:
+  - input: In Valero Energy (VLO)'s 2011 annual report, what were the value of futures
+      2013 long?
+    ground_truth: '15398.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '15398'
+      expected_document: Single_VLO/2011/page_126.pdf-1
+  - input: what were the value of futures 2013 short?
+    ground_truth: '35708.0'
+    turn_config:
+      turn_program: '35708'
+      expected_document: Single_VLO/2011/page_126.pdf-1
+  - input: what is the sum?
+    ground_truth: '51106.0'
+    turn_config:
+      turn_program: add(15398, 35708)
+      expected_document: Single_VLO/2011/page_126.pdf-1
+  - input: what was the value of physical contracts 2013 long?
+    ground_truth: '20310.0'
+    turn_config:
+      turn_program: '20310'
+      expected_document: Single_VLO/2011/page_126.pdf-1
+  - input: what is the total sum?
+    ground_truth: '71416.0'
+    turn_config:
+      turn_program: add(15398, 35708), add(#0, 20310)
+      expected_document: Single_VLO/2011/page_126.pdf-1
+- name: Double_VNO/2003/page_102.pdf
+  turns:
+  - input: In Vornado Realty Trust (VNO)'s 2003 annual report, what was the percentage
+      rent in 2002, in thousands?
+    ground_truth: '1832000.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '1832000'
+      expected_document: Double_VNO/2003/page_102.pdf
+  - input: and what was it in 2001?
+    ground_truth: '2157000.0'
+    turn_config:
+      turn_program: '2157000'
+      expected_document: Double_VNO/2003/page_102.pdf
+  - input: what was, then, the total percentage rent in both years combined, in thousands?
+    ground_truth: '3989000.0'
+    turn_config:
+      turn_program: add(1832000, 2157000)
+      expected_document: Double_VNO/2003/page_102.pdf
+  - input: and in the subsequent year of 2002, what was the total of future noncancelable
+      minimum rent amounts for 2004 and 2005, also in thousands?
+    ground_truth: '2053096.0'
+    turn_config:
+      turn_program: add(1084934, 968162)
+      expected_document: Double_VNO/2003/page_102.pdf
+- name: Single_VRTX/2003/page_71.pdf-3
+  turns:
+  - input: In Vertex Pharmaceuticals (VRTX)'s 2003 annual report, what was the difference
+      common stock under stock and option plans and the total number?
+    ground_truth: '374.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(22203, 21829)
+      expected_document: Single_VRTX/2003/page_71.pdf-3
+  - input: so what was the percentage change?
+    ground_truth: '0.01713'
+    turn_config:
+      turn_program: subtract(22203, 21829), divide(#0, 21829)
+      expected_document: Single_VRTX/2003/page_71.pdf-3
+- name: Double_VTR/2003/page_39.pdf
+  turns:
+  - input: In Ventas (VTR)'s 2003 annual report, how much did the net debt represent
+      in relation to the net equity?
+    ground_truth: '0.77273'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(85, 110)
+      expected_document: Double_VTR/2003/page_39.pdf
+  - input: and what percentage did the real estate investments represent in relation
+      to the total assets?
+    ground_truth: '0.83077'
+    turn_config:
+      turn_program: divide(162, 195)
+      expected_document: Double_VTR/2003/page_39.pdf
+- name: Double_WELL/2016/page_61.pdf
+  turns:
+  - input: In Welltower (WELL)'s 2016 annual report, what was the number of properties
+      related to outpatient medical?
+    ground_truth: '262.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '262'
+      expected_document: Double_WELL/2016/page_61.pdf
+  - input: and what was the total number of properties?
+    ground_truth: '1313.0'
+    turn_config:
+      turn_program: '1313'
+      expected_document: Double_WELL/2016/page_61.pdf
+  - input: what percentage, then, of this total, did the properties related to outpatient
+      medical represent?
+    ground_truth: '0.19954'
+    turn_config:
+      turn_program: divide(262, 1313)
+      expected_document: Double_WELL/2016/page_61.pdf
+  - input: and how much did they represent as a portion of the total?
+    ground_truth: '0.19954'
+    turn_config:
+      turn_program: divide(262, 1313)
+      expected_document: Double_WELL/2016/page_61.pdf
+- name: Single_WMT/2018/page_46.pdf-2
+  turns:
+  - input: In Walmart (WMT)'s 2018 annual report, what is the net change in value
+      of u.s. segment sales for walmart from 2017 to 2018?
+    ground_truth: '10644.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: subtract(318477, 307833)
+      expected_document: Single_WMT/2018/page_46.pdf-2
+  - input: what is that over the 2017 value?
+    ground_truth: '0.03458'
+    turn_config:
+      turn_program: subtract(318477, 307833), divide(#0, 307833)
+      expected_document: Single_WMT/2018/page_46.pdf-2
+- name: Double_WRK/2018/page_39.pdf
+  turns:
+  - input: In WestRock (WRK)'s 2018 annual report, what is the segment income in 2018?
+    ground_truth: '1685.0'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: '1685.0'
+      expected_document: Double_WRK/2018/page_39.pdf
+  - input: what about in 2017?
+    ground_truth: '1193.5'
+    turn_config:
+      turn_program: '1193.5'
+      expected_document: Double_WRK/2018/page_39.pdf
+  - input: what is the ratio of 2018 segment income to 2017?
+    ground_truth: '1.41181'
+    turn_config:
+      turn_program: divide(1685.0, 1193.5)
+      expected_document: Double_WRK/2018/page_39.pdf
+  - input: what percentage change does this represent?
+    ground_truth: '0.41181'
+    turn_config:
+      turn_program: divide(1685.0, 1193.5), subtract(#0, const_1)
+      expected_document: Double_WRK/2018/page_39.pdf
+- name: Double_ZBH/2002/page_32.pdf
+  turns:
+  - input: In Zimmer Biomet (ZBH)'s 2002 annual report, what percentage of contractual
+      obligations are due in less than 1 year?
+    ground_truth: '0.86917'
+    expected_tools:
+    - convfinqa_archive
+    turn_config:
+      turn_program: divide(190.0, 218.6)
+      expected_document: Double_ZBH/2002/page_32.pdf
+  - input: and what percentage is comprised of short-term debt?
+    ground_truth: '0.71683'
+    turn_config:
+      turn_program: divide(156.7, 218.6)
+      expected_document: Double_ZBH/2002/page_32.pdf

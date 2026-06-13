@@ -1,0 +1,197 @@
+name: financial-assistant
+description: ConvFinQA-driven financial analyst demonstrating multi-turn test cases
+
+model:
+  provider: azure_openai
+  name: ${AZURE_OPENAI_DEPLOYMENT_NAME}
+  endpoint: ${AZURE_OPENAI_ENDPOINT}
+  api_key: ${AZURE_OPENAI_API_KEY}
+  temperature: 0.0
+
+# OpenAI Agents SDK backend settings (spec 035).
+openai:
+  max_turns: 20
+  # gpt-5.4 is a reasoning model; turn-2 style inferences (deriving a
+  # ratio from a sensitivity disclosure) need reasoning effort requested.
+  effort: high
+
+# Embedding provider for the hierarchical_document tool.
+embedding_provider:
+  provider: azure_openai
+  name: ${AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME}
+  endpoint: ${AZURE_OPENAI_ENDPOINT}
+  api_key: ${AZURE_OPENAI_API_KEY}
+
+instructions:
+  file: instructions/system-prompt.md
+
+# Native structured output — the SDK enforces this schema on every final
+# response, so the prompt doesn't have to police format. The grader pulls
+# `answer` via `response_path` below.
+response_format:
+  type: object
+  additionalProperties: false
+  required:
+    - answer
+  properties:
+    answer:
+      description: >-
+        Numeric answer for the turn. Use a JSON number when possible;
+        use the string "NaN" when the filing genuinely lacks the data.
+        Percentages may be expressed either as a decimal number
+        (0.332) or as a string with a trailing % ("33.2%").
+      # OpenAI structured outputs reject `oneOf` (anyOf is the supported
+      # spelling); semantics are identical here since the branches are
+      # mutually exclusive.
+      anyOf:
+        - type: number
+        - type: string
+          pattern: "^(-?\\d+(\\.\\d+)?%?|NaN)$"
+
+tools:
+  - name: subtract
+    type: function
+    description: 'Compute a - b. Pass a and b as numeric strings (e.g. "206588", "1,234.56"); returns the difference as a string.'
+    file: tools/financial_tools.py
+    function: subtract
+  - name: divide
+    type: function
+    description: "Compute a / b. Pass a and b as numeric strings; returns the quotient as a string. Raises ZeroDivisionError when b is zero."
+    file: tools/financial_tools.py
+    function: divide
+  - name: convfinqa_archive
+    type: hierarchical_document
+    description: >-
+      Search the historical archive of ConvFinQA SEC-filing excerpts (133
+      companies x up to 20 years, organised as Company > Year > Document ID).
+      Use this when a question references a filing or figure that is NOT in
+      the inline excerpt for the current turn — e.g. cross-company comparisons,
+      multi-year history, or follow-ups about a different filing.
+    source: data/convfinqa-source-5.pdf
+    document_domain: none
+    search_mode: hybrid
+    # ConvFinQA filings range ~600–1,100 tokens with the narrative +
+    # table travelling together (e.g. AAL/2014: sensitivity disclosure
+    # "+ $43M per cent" only makes sense alongside the fuel-expense
+    # table). The default 800 splits them apart at the worst boundary.
+    # 1500 keeps every section in one chunk; with ~130 filings, the
+    # total chunk count drops by ~half and retrieval gets simpler.
+    max_chunk_tokens: 1500
+    semantic_weight: 0.2
+    keyword_weight: 0.8
+    exact_weight: 0.0
+    min_score: 0.5
+    top_k: 8
+    contextual_embeddings: false
+    # Use Azure OpenAI for context generation (cheaper/faster than Claude
+    # Haiku for high-volume batch context tasks; reuses the same Azure
+    # credentials already used for embeddings).
+    context_model:
+      provider: azure_openai
+      name: ${AZURE_OPENAI_DEPLOYMENT_NAME}
+      endpoint: ${AZURE_OPENAI_ENDPOINT}
+      api_key: ${AZURE_OPENAI_API_KEY}
+      temperature: 0.0
+      max_tokens: 4000
+    # Qdrant supports native dense+sparse hybrid search via SK's hybrid_search()
+    # API (see holodeck/lib/keyword_search.py:NATIVE_HYBRID_PROVIDERS), so no
+    # keyword_index backend (OpenSearch / BM25) is needed.
+    database:
+      provider: qdrant
+      connection_string: ${QDRANT_URL}
+
+evaluations:
+  metrics:
+    - type: standard
+      metric: numeric
+      # The agent emits a JSON envelope `{"answer": <number|"NaN">}`; the
+      # evaluator grades the `answer` leaf so prose around the field can't
+      # corrupt the numeric parse.
+      response_path: answer
+      # Relative tolerance (1%) is the right shape for ConvFinQA answers,
+      # which mix whole-dollar amounts and small decimal ratios. The
+      # previous `absolute_tolerance: 0.5` let `13.7%` pass against
+      # ground truth `0.05995` (diff 0.077 < 0.5).
+      relative_tolerance: 0.01
+      absolute_tolerance: 1.0e-6
+      accept_percent: true
+      accept_thousands_separators: true
+
+execution:
+  parallel_test_cases: 4
+  # The convfinqa-source.pdf is 3,312 pages; pdfminer's layout pass for
+  # bookmark-based heading extraction takes ~80s on this machine. Default
+  # 30s is too tight; 180s gives slow CI hosts headroom.
+  file_timeout: 180
+  # Multi-turn chat runs hierarchical-doc retrieval (hybrid search over a
+  # ~3,300-page PDF) plus structured-output reasoning per turn. 180s was
+  # tight enough that a single slow turn could exhaust the budget; 600s
+  # gives second-turn cases headroom while still bounding hangs.
+  llm_timeout: 180
+
+# OpenTelemetry → .NET Aspire dashboard.
+# Run the dashboard standalone via:
+#   docker run --rm -it -p 18888:18888 -p 18889:18889 \
+#     mcr.microsoft.com/dotnet/aspire-dashboard:latest
+# UI: http://localhost:18888  · OTLP gRPC receiver: localhost:18889
+observability:
+  enabled: true
+  service_name: holodeck-financial-assistant
+  traces:
+    enabled: true
+    sample_rate: 1.0
+    capture_content: true # ConvFinQA excerpts are public — safe to capture
+  metrics:
+    enabled: true
+    export_interval_ms: 5000
+  logs:
+    enabled: true
+    level: INFO
+  exporters:
+    otlp:
+      enabled: true
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT}
+      protocol: grpc
+      insecure: true
+
+test_cases_file: data/convfinqa_subset_retrieval.yaml
+
+# Deployment — `holodeck deploy build` produces an image published to GitHub
+# Container Registry; `holodeck deploy run` deploys it to Azure Container Apps.
+# Replace the Azure subscription_id / resource_group / environment_name with
+# your tenant's values before running.
+deployment:
+  port: 8080
+  protocol: ag-ui
+  platform: linux/amd64
+  registry:
+    url: ghcr.io
+    repository: justinbarias/holodeck-financial-assistant
+    tag_strategy: git_sha
+  target:
+    provider: azure
+    azure:
+      subscription_id: fbf6c63b-a885-4a65-bb7b-de0f6872d796
+      resource_group: holodeck-rg
+      environment_name: holodeck-env
+      location: eastus
+      # Bumped from 0.5/1Gi per spec 034 P1a — two concurrent AG-UI
+      # sessions were cgroup-OOMing the 1Gi replica. ACA requires
+      # memory_Gi == 2 * cpu_cores.
+      cpu: 1.0
+      memory: 2Gi
+      ingress_external: true # opt back in: spec 034 P1a flips the default to internal
+      min_replicas: 0
+      max_replicas: 3
+  # Runtime secrets / config — resolved from the operator's shell env at
+  # `holodeck deploy run` time, then set as Azure Container App env vars.
+  # The image is shared; only this block changes between deployments.
+  environment:
+    AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY}
+    AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT}
+    AZURE_OPENAI_DEPLOYMENT_NAME: ${AZURE_OPENAI_DEPLOYMENT_NAME}
+    AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME: ${AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME}
+    QDRANT_URL: ${QDRANT_REMOTE_URL}
+    QDRANT_REMOTE_URL: ${QDRANT_REMOTE_URL}
+    OTEL_EXPORTER_OTLP_ENDPOINT: http://aspire-dashboard:18889
+    HOLODECK_PROTOCOL: ag-ui
